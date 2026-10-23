@@ -17,5 +17,10 @@ estar juntos. El archivo incluye `rutas/`, `data/`, `artifacts/`, `.env` y
 de nuevo. `node_modules`, `.venv-gis`, imágenes y volúmenes de Docker se
 reinstalan o reconstruyen; consulte `README.md`.
 
-La base PostGIS local puede contener cambios posteriores a los paquetes GIS.
-Un respaldo de archivos no sustituye un volcado de esa base.
+La base PostGIS tiene un respaldo separado en
+`bagua-postgis-2026-10-22.7z.001`, cifrado con la misma contraseña. Extraerlo
+también con 7-Zip deja el volcado en
+`data/bagua-master/bagua-postgis-2026-10-22.dump`. Para restaurarlo en una
+instalación nueva, primero iniciar solo PostgreSQL/PostGIS, copiar el volcado
+al contenedor y usar `pg_restore` sobre una base vacía antes de levantar el
+backend. El volcado incluye el esquema municipal y `bagua_master`.

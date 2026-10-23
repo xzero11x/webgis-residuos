@@ -1,0 +1,2 @@
+# BAGUA MASTER: consulta de GeoParquet de Overture (además de scripts/gis/requirements.txt).
+duckdb==1.5.6

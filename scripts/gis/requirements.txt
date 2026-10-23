@@ -1,0 +1,5 @@
+ezdxf==1.4.4
+pyproj==3.8.0
+PyMuPDF==1.28.2
+pyogrio==0.13.0
+olefile==0.47

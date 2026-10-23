@@ -1,0 +1,649 @@
+@layer components {
+  .map-info-actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 2px;
+  }
+  .map-info-actions button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--muted-foreground);
+    cursor: pointer;
+  }
+  .map-info-actions button:hover {
+    background: #eff3f1;
+  }
+  .map-info-bubble {
+    position: absolute;
+    right: 64px;
+    top: 18px;
+    z-index: 12;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 2px solid #365f53;
+    border-radius: 50%;
+    background: #fff;
+    color: #294c42;
+    box-shadow: 0 3px 12px #183c2420;
+    cursor: pointer;
+  }
+  .map-info-bubble:hover {
+    background: #f0f6f2;
+  }
+  .map-info-bubble:focus-visible,
+  .map-info-actions button:focus-visible {
+    outline: 3px solid #488879;
+    outline-offset: 3px;
+  }
+  .gis-stage:has(.map-info-bubble) .route-browser,
+  .gis-stage:has(.map-info-bubble) .cartography-legend,
+  .gis-stage:has(.map-info-bubble) .second-pass-legend,
+  .gis-stage:has(.map-info-bubble) .map-view-tabs {
+    display: none;
+  }
+  .municipal-tag {
+    display: inline-block;
+    padding: 4px 7px;
+    border-radius: 6px;
+    background: #edf4ef;
+    color: #426650;
+    border: 1px solid #dce8df;
+    font-size: 8px;
+    font-weight: 650;
+    letter-spacing: 0.45px;
+  }
+  .map-view-tabs {
+    display: flex;
+    padding: 4px;
+    border: 1px solid var(--border);
+    background: #f5f7f5;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #203a2608;
+  }
+  .map-view-tabs button {
+    flex: 1;
+    font-size: 11px;
+    padding: 8px 5px;
+    border-radius: 8px;
+    color: var(--muted-foreground);
+  }
+  .map-view-tabs button[aria-selected='true'] {
+    background: white;
+    color: var(--foreground);
+    font-weight: 600;
+    box-shadow: 0 1px 4px #203a2614;
+  }
+  .route-browser {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 18px #203a2610;
+  }
+  .route-browser-heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 15px 5px;
+    font-size: 12px;
+  }
+  .route-browser-heading span {
+    background: #f3f5f3;
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 10px;
+  }
+  .route-browser-caption {
+    padding: 0 15px 13px;
+    font-size: 10px;
+    color: var(--muted-foreground);
+  }
+  .route-results {
+    max-height: calc(100dvh - 430px);
+    overflow: auto;
+  }
+  .route-result {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 14px;
+    text-align: left;
+    border-top: 1px solid #f0f2f0;
+  }
+  .route-result:hover,
+  .route-result.active {
+    background: #f3f7f3;
+  }
+  .route-result > span:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+  }
+  .route-result strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 550;
+  }
+  .route-result small {
+    display: block;
+    margin-top: 5px;
+    font-size: 9px;
+    color: var(--muted-foreground);
+  }
+  .route-swatch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 34px;
+    background: #f5f7f5;
+    border-radius: 9px;
+    flex-shrink: 0;
+  }
+  .show-review {
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding: 13px;
+    color: #8c6c32;
+    font-size: 10px;
+    text-align: left;
+    background: #fdfbf6;
+  }
+  .municipal-detail .panel-heading h2 {
+    font-size: 21px;
+  }
+  .municipal-detail .panel-scroll {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .municipal-detail .panel-scroll small {
+    display: block;
+    color: var(--muted-foreground);
+    font-size: 10px;
+    margin-top: 7px;
+  }
+  .route-service {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .route-facts {
+    display: flex;
+    gap: 35px;
+    padding: 18px 0;
+  }
+  .route-facts strong {
+    display: block;
+    font-size: 20px;
+    font-weight: 550;
+    letter-spacing: -0.5px;
+  }
+  .route-facts span {
+    display: block;
+    font-size: 10px;
+    color: var(--muted-foreground);
+  }
+  .source-notice {
+    background: #f3f6f4;
+    border: 1px solid #e4ebe5;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 11px;
+    margin: 12px 0;
+  }
+  .source-notice.pending {
+    background: #fcf7ed;
+    border-color: #ecdfc5;
+    color: #86632c;
+  }
+  .source-filename {
+    overflow-wrap: anywhere;
+    font-size: 11px;
+  }
+  .source-details {
+    border-top: 1px solid var(--border);
+    margin-top: 22px;
+    padding-top: 15px;
+    font-size: 10px;
+    color: var(--muted-foreground);
+  }
+  .source-details summary {
+    color: var(--foreground);
+    font-weight: 550;
+    cursor: pointer;
+    font-size: 11px;
+  }
+  .source-details p {
+    margin-top: 12px;
+  }
+  .cad-handles {
+    overflow-wrap: anywhere;
+    max-height: 100px;
+    overflow: auto;
+  }
+}
+@media (max-width: 767px) {
+  .map-info-bubble {
+    top: auto;
+    bottom: calc(38px + env(safe-area-inset-bottom, 0px));
+    right: 16px;
+  }
+  .map-info-actions button {
+    width: 44px;
+    height: 44px;
+  }
+}
+@media (max-width: 767px) {
+  .gis-heading .municipal-tag {
+    font-size: 6px;
+    max-width: 160px;
+    text-align: right;
+  }
+  .route-browser-heading {
+    padding: 10px 12px 4px;
+    font-size: 11px;
+  }
+  .route-browser-caption {
+    padding: 0 12px 9px;
+    font-size: 9px;
+  }
+  .route-results {
+    max-height: 180px;
+  }
+  .route-result {
+    padding: 10px 12px;
+  }
+  .route-result strong {
+    font-size: 11px;
+  }
+  .map-view-tabs button {
+    padding: 6px 4px;
+    font-size: 10px;
+  }
+  .municipal-detail .panel-heading h2 {
+    font-size: 20px;
+  }
+  .layer-menu {
+    max-height: 340px;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .gis-stage.has-feature .route-browser,
+  .gis-stage.has-feature .map-view-tabs {
+    display: none;
+  }
+}
+
+@layer components {
+  .map-mode-switch {
+    display: flex;
+    gap: 3px;
+    padding: 4px;
+    background: #e9eeeb;
+    border-radius: 11px;
+  }
+  .map-mode-switch button {
+    padding: 8px 15px;
+    font-size: 12px;
+    border-radius: 8px;
+    color: #66746d;
+    cursor: pointer;
+  }
+  .map-mode-switch button[aria-pressed='true'] {
+    background: white;
+    color: #233c32;
+    box-shadow: 0 1px 4px #203a2612;
+    font-weight: 600;
+  }
+  .cartography-legend {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 4px 18px #203a260a;
+  }
+  .cartography-legend summary {
+    padding: 13px 15px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .cartography-legend summary span {
+    float: right;
+    color: #728077;
+    font-size: 10px;
+    font-weight: 400;
+  }
+  .legend-items {
+    padding: 0 15px 14px;
+  }
+  .legend-items p {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 11px;
+    margin: 8px 0;
+  }
+  .legend-items b {
+    margin-left: auto;
+    font-weight: 500;
+    color: #62716b;
+  }
+  .legend-items i {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    font-style: normal;
+  }
+  .legend-items .symbol-start {
+    background: #148566;
+    color: white;
+    border-radius: 50%;
+  }
+  .legend-items .symbol-end {
+    background: #b34647;
+    color: white;
+    border-radius: 50%;
+  }
+  .legend-items .symbol-stop {
+    width: 11px;
+    height: 11px;
+    margin: 0 4px;
+    border: 2px solid #324f66;
+    border-radius: 50%;
+  }
+  .legend-items small {
+    display: block;
+    color: #738078;
+    font-size: 10px;
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+  .layer-menu {
+    width: 270px;
+    max-height: min(65dvh, 520px);
+    overflow: auto;
+  }
+}
+@media (max-width: 767px) {
+  .map-mode-switch button {
+    padding: 7px 10px;
+    font-size: 11px;
+  }
+  .gis-stage.has-feature .cartography-legend {
+    display: none;
+  }
+  .cartography-legend[open] .legend-items {
+    max-height: 130px;
+    overflow: auto;
+  }
+  .gis-heading h1 {
+    font-size: 13px;
+  }
+}
+
+/* Second-pass DWG review layers (Técnico only). */
+@layer components {
+  .second-pass-menu {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .cad-inspector select {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin-top: 5px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 7px;
+    background: var(--background);
+    font-size: 11px;
+  }
+  .cad-inspector label:has(select) {
+    display: block;
+  }
+  .cad-inspector small,
+  .cad-inspector p {
+    display: block;
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 7px 0;
+    color: var(--muted-foreground);
+  }
+  .second-pass-menu legend {
+    padding-top: 6px;
+    color: var(--muted-foreground);
+    font-size: 10px;
+  }
+  .second-pass-swatch {
+    margin-left: auto;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 12px;
+    font-size: 8px;
+    font-style: normal;
+    line-height: 1;
+  }
+  .legend-items .second-pass-swatch {
+    margin-left: 0;
+    width: 18px;
+  }
+  .swatch-rutas-bloques {
+    height: 0;
+    border-top: 2px dashed #7c3aed;
+  }
+  .swatch-puntos-topograficos::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #1d6fa5;
+  }
+  .swatch-manzanas {
+    border: 1px solid #8a6a45;
+    background: #d08a2e2e;
+  }
+  .swatch-hojas-planos {
+    border: 1.5px dashed #5a5f7a;
+  }
+  .swatch-toponimia::before {
+    content: 'Aa';
+    color: #a1452f;
+  }
+  .swatch-cotas::before {
+    content: '↔';
+    color: #7a5c2e;
+    font-size: 11px;
+  }
+  .swatch-etiquetas-lote::before {
+    content: '12';
+    color: #4b5157;
+  }
+  .second-pass-legend .legend-items small > span {
+    display: block;
+  }
+  .second-pass-legend .legend-items small > .second-pass-class {
+    display: inline;
+    margin-right: 8px;
+    font-weight: 600;
+  }
+  .second-pass-block i {
+    display: inline-block;
+    width: 10px;
+    height: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .second-pass-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a3a9ae;
+    vertical-align: middle;
+  }
+  .second-pass-dot.usable {
+    background: #1d6fa5;
+  }
+  .second-pass-detail .panel-heading small {
+    display: block;
+    margin-top: 4px;
+    color: #738078;
+    font-size: 10px;
+  }
+  .second-pass-fact,
+  .second-pass-crs {
+    margin: 7px 0;
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  .second-pass-fact span,
+  .second-pass-crs span {
+    display: block;
+    color: #738078;
+    font-size: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .gis-stage.has-feature .second-pass-legend {
+    display: none;
+  }
+}
+
+/* Territorio unificado: menú de capas, distintivos y ficha consolidada. */
+@layer components {
+  .territorio-menu {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .territorio-menu legend {
+    padding-top: 6px;
+    color: var(--muted-foreground);
+    font-size: 10px;
+  }
+  .territorio-swatch {
+    margin-left: auto;
+    flex: none;
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+  }
+  .territorio-swatch.swatch-manzanas {
+    background: #e8d6b4;
+    border: 1px solid #8a6a3a;
+  }
+  .territorio-swatch.swatch-calles {
+    background: transparent;
+  }
+  .territorio-swatch.swatch-sectores {
+    background: #cfe3d7;
+    border: 1px dashed #4f7a64;
+  }
+  .territorio-swatch.swatch-lotes {
+    background: #f3e6b8;
+    border: 1px solid #9c7a22;
+  }
+  .territorio-swatch.swatch-puntos {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #1d6fa5;
+  }
+  .territorio-swatch.swatch-sombreados {
+    background: #e6e6e6;
+    border: 1px dashed #6d6d6d;
+  }
+  .territorio-swatch.swatch-candidatos {
+    background: transparent;
+    border-top: 2px dashed #7c3aed;
+    height: 0;
+  }
+  .territorio-swatch.swatch-plano {
+    background: transparent;
+    border-top: 1px dotted #4b6f5c;
+    height: 0;
+  }
+  .territorio-swatch.swatch-toponimia {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #a1452f;
+  }
+  .territorial-facts {
+    display: grid;
+    gap: 10px;
+  }
+  .territorial-fact dt {
+    color: #738078;
+    font-size: 10px;
+  }
+  .territorial-fact dd {
+    margin: 2px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  .territorial-source-toggle {
+    margin-left: 8px;
+    color: #2f6b4f;
+    font-size: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .territorial-source {
+    display: block;
+    margin-top: 4px;
+    color: #5a6862;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .territorial-sources,
+  .territorial-relations,
+  .territorial-rules {
+    display: grid;
+    gap: 8px;
+    padding-left: 16px;
+    font-size: 12px;
+  }
+  .territorial-sources small,
+  .territorial-relations small {
+    display: block;
+    color: #738078;
+    font-size: 10px;
+  }
+  .territorial-empty {
+    color: #738078;
+    font-size: 12px;
+  }
+  .territorial-criterion {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #4a5b53;
+  }
+}
+
+.map-data-note {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #fff8ec;
+  color: #7a5517;
+  font-size: 11px;
+  line-height: 1.45;
+}

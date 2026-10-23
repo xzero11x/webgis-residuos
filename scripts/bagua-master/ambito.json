@@ -1,0 +1,43 @@
+{
+  "modulo": "BAGUA MASTER",
+  "ciudad": "Bagua Capital, provincia de Bagua, Amazonas, Perú",
+  "overture": {
+    "version": "2026-09-23.1",
+    "esquema": "v2.0.0",
+    "s3": "s3://overturemaps-us-west-2/release/2026-09-23.1",
+    "region_s3": "us-west-2",
+    "documentacion": "https://docs.overturemaps.org/",
+    "atribucion_cita": "Overture Maps Foundation, overturemaps.org"
+  },
+  "ambito": {
+    "nota": "No existe un polígono urbano oficial inequívoco en las fuentes. Se usa la ventana urbana ya verificada en el WebGIS (BAGUA_BOUNDS, frontend/src/features/territorio/types.ts) y un margen para la descarga.",
+    "ventana_urbana": [-78.575, -5.69, -78.49, -5.6],
+    "margen_descarga_grados": 0.01,
+    "descarga_bbox": [-78.585, -5.7, -78.48, -5.59],
+    "centro": [-78.5367, -5.6378],
+    "zoom_inicial": 15.6
+  },
+  "referencia_administrativa": {
+    "nota": "Localidad «Bagua» de Overture (theme divisions). Procede de OpenStreetMap (ODbL). Es una referencia de división administrativa de Overture; no es un límite oficial del Gobierno Local.",
+    "id": "2458e1c5-a844-4fb5-961c-475af6dcafca",
+    "nombre": "Bagua",
+    "region": "PE-AMA",
+    "bbox": [-78.56689453125, -5.6865997314453125, -78.46434783935547, -5.481766223907471],
+    "licencia": "ODbL-1.0"
+  },
+  "temas": [
+    { "nombre": "transportation_segment", "tema": "transportation", "tipo": "segment" },
+    { "nombre": "transportation_connector", "tema": "transportation", "tipo": "connector" },
+    { "nombre": "buildings_building", "tema": "buildings", "tipo": "building" },
+    { "nombre": "buildings_building_part", "tema": "buildings", "tipo": "building_part" },
+    { "nombre": "base_land_use", "tema": "base", "tipo": "land_use" },
+    { "nombre": "base_water", "tema": "base", "tipo": "water" },
+    { "nombre": "base_land", "tema": "base", "tipo": "land" },
+    { "nombre": "places_place", "tema": "places", "tipo": "place" }
+  ],
+  "teselas": {
+    "zoom_minimo": 12,
+    "zoom_maximo": 16,
+    "capa_pmtiles": "bagua-master.pmtiles"
+  }
+}

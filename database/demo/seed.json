@@ -1,0 +1,895 @@
+{
+  "servicios": [
+    {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "nombre": "Convencional",
+      "color": "#3b6ca8"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "nombre": "Orgánicos",
+      "color": "#388468"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "nombre": "Aprovechables",
+      "color": "#b37b31"
+    }
+  ],
+  "sectores": [
+    {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "nombre": "Centro oeste · DEMO",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.542, -5.644],
+            [-78.536, -5.644],
+            [-78.536, -5.63],
+            [-78.542, -5.63],
+            [-78.542, -5.644]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "nombre": "Centro este · DEMO",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.536, -5.644],
+            [-78.528, -5.644],
+            [-78.528, -5.63],
+            [-78.536, -5.63],
+            [-78.536, -5.644]
+          ]
+        ]
+      }
+    }
+  ],
+  "rutas": [
+    {
+      "id": "00000000-0000-4000-8000-000000000301",
+      "codigo": "R-DEMO-01",
+      "nombre": "Jirón Lambayeque · DEMO",
+      "servicioId": "00000000-0000-4000-8000-000000000101",
+      "horario": "06:00 – 09:00",
+      "frecuencia": "Lunes, miércoles y viernes",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-78.5387259, -5.638011],
+          [-78.5384677, -5.6377614],
+          [-78.5379997, -5.6373069],
+          [-78.5375529, -5.636873],
+          [-78.5370071, -5.6363423],
+          [-78.5363765, -5.6357291],
+          [-78.5357609, -5.635143]
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000302",
+      "codigo": "R-DEMO-02",
+      "nombre": "Jirón Marañón · DEMO",
+      "servicioId": "00000000-0000-4000-8000-000000000102",
+      "horario": "08:00 – 10:00",
+      "frecuencia": "Martes y jueves",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-78.5387811, -5.6374054],
+          [-78.5384677, -5.6377614],
+          [-78.5381861, -5.6380909],
+          [-78.5377585, -5.6385912],
+          [-78.5372447, -5.6391925],
+          [-78.5368202, -5.6396413],
+          [-78.5366574, -5.6398056],
+          [-78.5363219, -5.6401682]
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000303",
+      "codigo": "R-DEMO-03",
+      "nombre": "Jirón Arequipa · DEMO",
+      "servicioId": "00000000-0000-4000-8000-000000000103",
+      "horario": "15:00 – 17:00",
+      "frecuencia": "Sábados",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-78.5354535, -5.6366225],
+          [-78.5349093, -5.6361425],
+          [-78.5343826, -5.6356789],
+          [-78.5339149, -5.635193],
+          [-78.5338375, -5.6351126],
+          [-78.5333283, -5.6346463],
+          [-78.5329444, -5.6342949],
+          [-78.5324604, -5.6338379]
+        ]
+      }
+    }
+  ],
+  "puntos": [
+    {
+      "id": "00000000-0000-4000-8000-000000000401",
+      "nombre": "Punto 1 · DEMO",
+      "rutaId": "00000000-0000-4000-8000-000000000301",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.5384677, -5.6377614]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000402",
+      "nombre": "Punto 2 · DEMO",
+      "rutaId": "00000000-0000-4000-8000-000000000301",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.5363765, -5.6357291]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000403",
+      "nombre": "Punto 3 · DEMO",
+      "rutaId": "00000000-0000-4000-8000-000000000302",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.5384677, -5.6377614]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000404",
+      "nombre": "Punto 4 · DEMO",
+      "rutaId": "00000000-0000-4000-8000-000000000302",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.5366574, -5.6398056]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000405",
+      "nombre": "Punto 5 · DEMO",
+      "rutaId": "00000000-0000-4000-8000-000000000303",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.5349093, -5.6361425]
+      }
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000406",
+      "nombre": "Punto 6 · DEMO",
+      "rutaId": "00000000-0000-4000-8000-000000000303",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.5329444, -5.6342949]
+      }
+    }
+  ],
+  "predios": [
+    {
+      "codigo": "DEMO-001",
+      "direccion": "Jirón Lambayeque 100 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5383717, -5.6375427],
+            [-78.5382211, -5.6373964],
+            [-78.5383604, -5.637253],
+            [-78.5385111, -5.6373993],
+            [-78.5383717, -5.6375427]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 01 · DEMO",
+          "vinculo": "Ocupante"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-002",
+      "direccion": "Jirón Lambayeque 112 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.538107, -5.6378153],
+            [-78.5379563, -5.637669],
+            [-78.5380957, -5.6375256],
+            [-78.5382463, -5.6376719],
+            [-78.538107, -5.6378153]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 02 · DEMO",
+          "vinculo": "Responsable"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-003",
+      "direccion": "Jirón Lambayeque 124 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5379143, -5.6370985],
+            [-78.5377637, -5.6369522],
+            [-78.537903, -5.6368088],
+            [-78.5380537, -5.6369551],
+            [-78.5379143, -5.6370985]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 03 · DEMO",
+          "vinculo": "Propietario"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-004",
+      "direccion": "Jirón Lambayeque 136 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5376496, -5.6373711],
+            [-78.5374989, -5.6372248],
+            [-78.5376383, -5.6370814],
+            [-78.5377889, -5.6372277],
+            [-78.5376496, -5.6373711]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 04 · DEMO",
+          "vinculo": "Contribuyente"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-005",
+      "direccion": "Jirón Lambayeque 148 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.537418, -5.6366163],
+            [-78.5372675, -5.6364699],
+            [-78.5374069, -5.6363265],
+            [-78.5375574, -5.6364729],
+            [-78.537418, -5.6366163]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 05 · DEMO",
+          "vinculo": "Ocupante"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-006",
+      "direccion": "Jirón Lambayeque 160 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5371531, -5.6368888],
+            [-78.5370026, -5.6367424],
+            [-78.537142, -5.636599],
+            [-78.5372925, -5.6367454],
+            [-78.5371531, -5.6368888]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 06 · DEMO",
+          "vinculo": "Responsable"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-007",
+      "direccion": "Jirón Lambayeque 172 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5368298, -5.6360444],
+            [-78.5366793, -5.635898],
+            [-78.5368187, -5.6357546],
+            [-78.5369693, -5.635901],
+            [-78.5368298, -5.6360444]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 07 · DEMO",
+          "vinculo": "Propietario"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-008",
+      "direccion": "Jirón Lambayeque 184 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5365649, -5.6363168],
+            [-78.5364143, -5.6361704],
+            [-78.5365538, -5.636027],
+            [-78.5367043, -5.6361734],
+            [-78.5365649, -5.6363168]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 08 · DEMO",
+          "vinculo": "Contribuyente"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000101",
+          "rutaId": "00000000-0000-4000-8000-000000000301"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-009",
+      "direccion": "Jirón Marañón 100 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5383267, -5.6377879],
+            [-78.5381903, -5.6379475],
+            [-78.5380382, -5.6378176],
+            [-78.5381747, -5.6376579],
+            [-78.5383267, -5.6377879]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 09 · DEMO",
+          "vinculo": "Ocupante"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-010",
+      "direccion": "Jirón Marañón 112 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5386156, -5.6380347],
+            [-78.5384791, -5.6381944],
+            [-78.5383271, -5.6380644],
+            [-78.5384635, -5.6379048],
+            [-78.5386156, -5.6380347]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 10 · DEMO",
+          "vinculo": "Responsable"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-011",
+      "direccion": "Jirón Marañón 124 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5379721, -5.6382028],
+            [-78.5378357, -5.6383624],
+            [-78.5376836, -5.6382325],
+            [-78.5378201, -5.6380728],
+            [-78.5379721, -5.6382028]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 11 · DEMO",
+          "vinculo": "Propietario"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-012",
+      "direccion": "Jirón Marañón 136 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.538261, -5.6384496],
+            [-78.5381245, -5.6386093],
+            [-78.5379725, -5.6384793],
+            [-78.5381089, -5.6383197],
+            [-78.538261, -5.6384496]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 12 · DEMO",
+          "vinculo": "Contribuyente"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-013",
+      "direccion": "Jirón Marañón 148 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5375014, -5.6387536],
+            [-78.537365, -5.6389132],
+            [-78.5372129, -5.6387833],
+            [-78.5373493, -5.6386236],
+            [-78.5375014, -5.6387536]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 13 · DEMO",
+          "vinculo": "Ocupante"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-014",
+      "direccion": "Jirón Marañón 160 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5377903, -5.6390004],
+            [-78.5376539, -5.6391601],
+            [-78.5375018, -5.6390301],
+            [-78.5376382, -5.6388705],
+            [-78.5377903, -5.6390004]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 14 · DEMO",
+          "vinculo": "Responsable"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-015",
+      "direccion": "Jirón Marañón 172 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5370392, -5.6392788],
+            [-78.5368949, -5.6394313],
+            [-78.5367496, -5.6392939],
+            [-78.5368939, -5.6391413],
+            [-78.5370392, -5.6392788]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 15 · DEMO",
+          "vinculo": "Propietario"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-016",
+      "direccion": "Jirón Marañón 184 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000201",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5373153, -5.6395399],
+            [-78.537171, -5.6396925],
+            [-78.5370257, -5.639555],
+            [-78.53717, -5.6394025],
+            [-78.5373153, -5.6395399]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 16 · DEMO",
+          "vinculo": "Contribuyente"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000102",
+          "rutaId": "00000000-0000-4000-8000-000000000302"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-017",
+      "direccion": "Jirón Arequipa 100 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5347842, -5.6359125],
+            [-78.5346266, -5.6357738],
+            [-78.5347587, -5.6356236],
+            [-78.5349164, -5.6357624],
+            [-78.5347842, -5.6359125]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 17 · DEMO",
+          "vinculo": "Ocupante"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-018",
+      "direccion": "Jirón Arequipa 112 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5345332, -5.6361978],
+            [-78.5343755, -5.636059],
+            [-78.5345077, -5.6359089],
+            [-78.5346653, -5.6360476],
+            [-78.5345332, -5.6361978]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 18 · DEMO",
+          "vinculo": "Responsable"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-019",
+      "direccion": "Jirón Arequipa 124 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5342864, -5.6354492],
+            [-78.5341408, -5.6352979],
+            [-78.5342849, -5.6351592],
+            [-78.5344305, -5.6353105],
+            [-78.5342864, -5.6354492]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 19 · DEMO",
+          "vinculo": "Propietario"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-020",
+      "direccion": "Jirón Arequipa 136 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5340126, -5.6357127],
+            [-78.533867, -5.6355614],
+            [-78.5340111, -5.6354227],
+            [-78.5341567, -5.635574],
+            [-78.5340126, -5.6357127]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 20 · DEMO",
+          "vinculo": "Contribuyente"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-021",
+      "direccion": "Jirón Arequipa 148 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5340139, -5.635166],
+            [-78.5338682, -5.6350147],
+            [-78.5340123, -5.634876],
+            [-78.5341579, -5.6350273],
+            [-78.5340139, -5.635166]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 21 · DEMO",
+          "vinculo": "Ocupante"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-022",
+      "direccion": "Jirón Arequipa 160 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5337401, -5.6354296],
+            [-78.5335945, -5.6352783],
+            [-78.5337385, -5.6351396],
+            [-78.5338842, -5.6352909],
+            [-78.5337401, -5.6354296]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 22 · DEMO",
+          "vinculo": "Responsable"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-023",
+      "direccion": "Jirón Arequipa 172 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5337211, -5.634884],
+            [-78.5335662, -5.6347422],
+            [-78.5337013, -5.6345947],
+            [-78.5338562, -5.6347365],
+            [-78.5337211, -5.634884]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 23 · DEMO",
+          "vinculo": "Propietario"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    },
+    {
+      "codigo": "DEMO-024",
+      "direccion": "Jirón Arequipa 184 · dirección DEMO",
+      "sectorId": "00000000-0000-4000-8000-000000000202",
+      "observaciones": "Geometría y datos ficticios para validación del sistema. No representan catastro ni cobertura municipal.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-78.5334645, -5.6351642],
+            [-78.5333096, -5.6350224],
+            [-78.5334447, -5.6348749],
+            [-78.5335996, -5.6350167],
+            [-78.5334645, -5.6351642]
+          ]
+        ]
+      },
+      "personas": [
+        {
+          "nombre": "Persona de prueba 24 · DEMO",
+          "vinculo": "Contribuyente"
+        }
+      ],
+      "servicios": [
+        {
+          "servicioId": "00000000-0000-4000-8000-000000000103",
+          "rutaId": "00000000-0000-4000-8000-000000000303"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# Only for a backend running on the host (npm run dev).
+# The default compose.yaml never publishes the database port.
+# Docker cannot publish ports on the internal "data" network, so the
+# database also joins a normal bridge network for the localhost binding.
+services:
+  database:
+    networks: [data, devhost]
+    ports:
+      - '127.0.0.1:${PG_DEV_PORT:-5432}:5432'
+
+networks:
+  devhost:

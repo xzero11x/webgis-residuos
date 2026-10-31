@@ -34,6 +34,23 @@ export interface BaguaMasterElement {
   nombre: string | null;
   alturaM: number | null;
   numPisos: number | null;
+  alturaSimulada: {
+    alturaM: number;
+    metodo: string;
+    vecinos: number;
+    referenciaM: number;
+    ghslM: number | null;
+  } | null;
+  alturaEstimada: {
+    alturaM: number;
+    cobertura: number;
+    muestras: number;
+    fuente: string;
+    fecha: string;
+    fechaPrecision: 'dia' | 'anio';
+    licencia: string;
+    metodo: string;
+  } | null;
   longitudM: number | null;
   areaM2: number | null;
   geometriaValida: boolean;
@@ -65,7 +82,14 @@ export interface BaguaMasterSummary {
   } | null;
   conjuntos: { nombre: string; filas: number; geometriaInvalida: number }[];
   elementos: { tabla: string; total: number; invalidas: number }[];
-  alturas: { edificios: number; conAltura: number; conPisos: number };
+  alturas: {
+    edificios: number;
+    conAltura: number;
+    conPisos: number;
+    conEstimacion: number;
+    conSimulacion: number;
+    fuentesEstimacion: { fuente: string; anio: number; total: number }[];
+  };
 }
 
 export interface SearchResult {

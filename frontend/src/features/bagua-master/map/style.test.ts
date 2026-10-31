@@ -1,3 +1,4 @@
+import { THEME_NAMES } from './themes';
 import { describe, expect, it, vi } from 'vitest';
 import {
   createPropertyExpression,
@@ -126,5 +127,53 @@ describe('Estilo de BAGUA MASTER: rótulos de calles', () => {
   it('las capas de vías siguen leyendo red_vial y no usan la capa auxiliar', () => {
     for (const id of ['bm-vias', 'bm-vias-borde', 'bm-senderos', 'bm-seleccion-via'])
       expect(byId(id)['source-layer']).toBe('red_vial');
+  });
+});
+
+describe('Estética independiente de la base Overture', () => {
+  it('mantiene Overture como única base vectorial y las alturas como capa auxiliar', () => {
+    const style = buildStyle();
+    expect(style.sources.overture).toMatchObject({
+      type: 'vector',
+      url: 'pmtiles://https://example.test/bagua-master.pmtiles',
+    });
+    expect(Object.values(style.sources).filter((source) => source.type !== 'geojson')).toHaveLength(
+      1,
+    );
+    for (const layer of style.layers) {
+      if ('source-layer' in layer) expect(layer.source).toBe('overture');
+    }
+    expect(JSON.stringify(style.sources)).not.toMatch(/openfreemap\.org/);
+  });
+});
+
+describe('Selector de temas locales sobre Overture', () => {
+  it.each(THEME_NAMES)(
+    '%s es válido y conserva fuentes, geometrías y filtros de Positron',
+    (theme) => {
+      const base = buildStyle();
+      const next = buildStyle(theme);
+      expect(validateStyleMin(next)).toEqual([]);
+      expect(next.sources).toEqual(base.sources);
+      expect(next.glyphs).toEqual(base.glyphs);
+      const structure = (style: typeof base) =>
+        style.layers.map((layer) => ({
+          id: layer.id,
+          type: layer.type,
+          source: 'source' in layer ? layer.source : null,
+          sourceLayer: 'source-layer' in layer ? layer['source-layer'] : null,
+          filter: 'filter' in layer ? layer.filter : null,
+        }));
+      expect(structure(next)).toEqual(structure(base));
+    },
+  );
+
+  it('cada tema tiene una paleta distinguible', () => {
+    const backgrounds = THEME_NAMES.map((theme) =>
+      buildStyle(theme).layers.find((layer) => layer.type === 'background')!,
+    );
+    expect(new Set(backgrounds.map((layer) => JSON.stringify(layer.paint))).size).toBe(
+      THEME_NAMES.length,
+    );
   });
 });

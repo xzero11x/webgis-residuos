@@ -47,3 +47,12 @@ export function useBaguaMasterRouteMap(enabled: boolean) {
     staleTime: 600_000,
   });
 }
+
+export function useBaguaMasterHeights(enabled: boolean) {
+  return useQuery({
+    queryKey: ['bagua-master', 'alturas', 'mapa'],
+    queryFn: ({ signal }) => baguaMasterApi.heightMap(signal),
+    enabled,
+    staleTime: 600_000,
+  });
+}

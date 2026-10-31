@@ -50,7 +50,15 @@ export function createBaguaMasterRepository(pool: Pool) {
            ORDER BY 1`,
         ),
         pool.query(
-          `SELECT count(*)::int AS edificios,count(altura_m)::int AS con_altura,count(num_pisos)::int AS con_pisos
+          `SELECT count(*)::int AS edificios,count(altura_m)::int AS con_altura,count(num_pisos)::int AS con_pisos,
+             (SELECT count(*)::int FROM bagua_master.altura_estimada) AS con_estimacion,
+             (SELECT count(*)::int FROM bagua_master.altura_simulada s
+               LEFT JOIN bagua_master.altura_estimada a ON a.edificio_id=s.edificio_id
+               WHERE a.edificio_id IS NULL) AS con_simulacion,
+             (SELECT coalesce(json_agg(t), '[]'::json) FROM (
+                SELECT fuente,extract(year FROM fecha)::int AS anio,count(*)::int AS total
+                FROM bagua_master.altura_estimada GROUP BY fuente,extract(year FROM fecha) ORDER BY fuente
+             ) t) AS fuentes_estimacion
            FROM bagua_master.edificio`,
         ),
       ]);
@@ -85,12 +93,36 @@ export function createBaguaMasterRepository(pool: Pool) {
           fuentesPrimarias: s.fuentes_primarias,
         })),
         elementos: counts.rows,
-        // 2.5D solo con alturas publicadas por Overture; nunca se estiman.
+        // Conserva las alturas originales y contabiliza aparte la capa derivada.
         alturas: {
           edificios: heights.rows[0].edificios,
           conAltura: heights.rows[0].con_altura,
           conPisos: heights.rows[0].con_pisos,
+          conEstimacion: heights.rows[0].con_estimacion,
+          conSimulacion: heights.rows[0].con_simulacion,
+          fuentesEstimacion: heights.rows[0].fuentes_estimacion,
         },
+      };
+    },
+    async heightMap() {
+      const result = await pool.query(
+        `SELECT e.id,coalesce(e.altura_m,a.altura_m,s.altura_m) AS altura_m,
+                CASE WHEN e.altura_m IS NOT NULL THEN 'publicada'
+                     WHEN a.edificio_id IS NOT NULL THEN 'estimada' ELSE 'simulada' END AS tipo,
+                ST_AsGeoJSON(e.geom,7)::json AS geometry
+         FROM bagua_master.edificio e
+         LEFT JOIN bagua_master.altura_estimada a ON e.id=a.edificio_id
+         LEFT JOIN bagua_master.altura_simulada s ON e.id=s.edificio_id
+         WHERE e.geom_valida AND coalesce(e.altura_m,a.altura_m,s.altura_m)>0 ORDER BY e.id`,
+      );
+      return {
+        type: 'FeatureCollection',
+        features: result.rows.map((r) => ({
+          type: 'Feature',
+          id: r.id,
+          geometry: r.geometry,
+          properties: { id: r.id, altura_m: r.altura_m, tipo: r.tipo },
+        })),
       };
     },
     async element(table: BaguaMasterTable, id: string) {
@@ -117,7 +149,47 @@ export function createBaguaMasterRepository(pool: Pool) {
               )
             ).rows[0]
           : undefined;
+      const estimate =
+        table === 'edificio'
+          ? (
+              await pool.query(
+                `SELECT altura_m,cobertura,muestras,fuente,fecha::text,fecha_precision,licencia,metodo
+             FROM bagua_master.altura_estimada WHERE edificio_id=$1`,
+                [id],
+              )
+            ).rows[0]
+          : undefined;
+      const simulated =
+        table === 'edificio' && !estimate && row.altura_m == null
+          ? (
+              await pool.query(
+                `SELECT altura_m,metodo,vecinos,referencia_m,ghsl_m FROM bagua_master.altura_simulada WHERE edificio_id=$1`,
+                [id],
+              )
+            ).rows[0]
+          : undefined;
       return {
+        alturaSimulada: simulated
+          ? {
+              alturaM: simulated.altura_m as number,
+              metodo: simulated.metodo as string,
+              vecinos: simulated.vecinos as number,
+              referenciaM: simulated.referencia_m as number,
+              ghslM: simulated.ghsl_m as number | null,
+            }
+          : null,
+        alturaEstimada: estimate
+          ? {
+              alturaM: estimate.altura_m as number,
+              cobertura: estimate.cobertura as number,
+              muestras: estimate.muestras as number,
+              fuente: estimate.fuente as string,
+              fecha: estimate.fecha as string,
+              fechaPrecision: estimate.fecha_precision as string,
+              licencia: estimate.licencia as string,
+              metodo: estimate.metodo as string,
+            }
+          : null,
         tabla: table,
         id: row.id,
         tipo: row.clase ?? null,

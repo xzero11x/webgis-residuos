@@ -429,3 +429,112 @@
     grid-template-columns: 88px 1fr;
   }
 }
+
+.bm-height-notice {
+  position: absolute;
+  z-index: 5;
+  bottom: 56px;
+  left: 12px;
+  max-width: min(360px, calc(100% - 76px));
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 94%);
+  color: #46594d;
+  font-size: 11px;
+  line-height: 1.5;
+  pointer-events: auto;
+}
+.bm-height-notice button {
+  text-decoration: underline;
+}
+@media (max-width: 767px) {
+  .bm-height-notice {
+    bottom: 76px;
+    font-size: 10px;
+  }
+  .bm-stage:has(.bm-info) .bm-height-notice {
+    display: none;
+  }
+}
+
+.bm-height-simulated,
+.bm-height-observed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.bm-height-simulated {
+  color: #77716a;
+}
+.bm-height-observed::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: #a1b0a8;
+  border-radius: 2px;
+}
+.bm-height-simulated input {
+  accent-color: #9d9385;
+}
+
+/* Selector de estilos: cambia la pintura local, nunca el proveedor cartográfico. */
+.bm-style-toolbar {
+  position: absolute;
+  z-index: 16;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 7px;
+  max-width: calc(100% - 84px);
+  overflow-x: auto;
+  padding: 3px;
+  scrollbar-width: thin;
+}
+.bm-style-toolbar button {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 6px 11px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: #315f8c;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.25;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
+}
+.bm-style-toolbar button:hover {
+  background: #244f79;
+}
+.bm-style-toolbar button[aria-pressed='true'] {
+  background: #2f78be;
+  border-color: #a8d4ff;
+}
+.bm-style-toolbar button:focus-visible {
+  outline: 3px solid #83b9eb;
+  outline-offset: 1px;
+}
+.bm-style-toolbar button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+.bm-style-toolbar ~ .bm-badge {
+  top: 66px;
+}
+@media (min-width: 768px) {
+  .bm-style-toolbar ~ .bm-info {
+    top: 106px;
+    max-height: calc(100% - 150px);
+  }
+}
+@media (max-width: 767px) {
+  .bm-style-toolbar {
+    gap: 5px;
+  }
+  .bm-style-toolbar button {
+    font-size: 14px;
+    padding: 6px 9px;
+  }
+}

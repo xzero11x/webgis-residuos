@@ -44,8 +44,10 @@ es provisional; el modelo funcional seguirá ajustándose con la Gerencia. Las r
 Módulo paralelo e independiente (entrada **BAGUA MASTER** de la barra lateral): mapa urbano de
 Bagua Capital hecho solo con Overture Maps `2026-09-23.1` y MapLibre, con teselas PMTiles propias
 (sin proveedores externos). Fase 1: calles, conectores, edificaciones, nombres, agua, usos del
-suelo y lugares; sin rutas, predios ni catastro. Overture no publica alturas para Bagua, así
-que el modo 2.5D queda desactivado. Se oculta con `BAGUA_MASTER_ENABLED=false` (y el mapa
+suelo y lugares; sin rutas, predios ni catastro. El modo **2.5D** incorpora una capa independiente de alturas satelitales estimadas
+de Google Open Buildings Temporal 2023 y GlobalBuildingAtlas 2019. Completa las huellas
+restantes con alturas **simuladas**, identificadas y con un control para ocultarlas.
+[Fuentes, cobertura y reproducción](docs/alturas-estimadas.md). Se oculta con `BAGUA_MASTER_ENABLED=false` (y el mapa
 municipal con `MUNICIPAL_MAP_ENABLED=false`). Procedimiento, inventario, licencias y retirada:
 [docs/bagua-master.md](docs/bagua-master.md).
 

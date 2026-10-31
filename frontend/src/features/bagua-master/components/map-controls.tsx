@@ -76,13 +76,11 @@ export function MapControls({
         className="bm-controls-3d"
         data-testid="bm-modo-3d"
         aria-pressed={mode3d}
-        aria-label={
-          no3d ? 'Vista 2.5D no disponible: Overture no publica alturas para Bagua' : 'Vista 2.5D'
-        }
+        aria-label={no3d ? 'Vista 2.5D no disponible: no hay alturas disponibles' : 'Vista 2.5D'}
         title={
           no3d
-            ? 'Overture no publica alturas de edificios para Bagua en esta versión: no se inventan.'
-            : `Vista 2.5D con las alturas publicadas por Overture (${heightsAvailable} edificios)`
+            ? 'No hay alturas disponibles para los edificios de Bagua.'
+            : `Vista 2.5D · alturas satelitales y simuladas (${heightsAvailable} edificios)`
         }
         disabled={disabled || no3d}
         onClick={onToggle3d}

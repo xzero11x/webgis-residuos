@@ -33,6 +33,7 @@ function dataDir() {
 
 function setup(overrides: Partial<Record<keyof BaguaMasterRepository, unknown>> = {}) {
   const repository = {
+    heightMap: vi.fn().mockResolvedValue({ type: 'FeatureCollection', features: [] }),
     summary: vi.fn().mockResolvedValue({ modulo: 'BAGUA MASTER' }),
     element: vi.fn().mockResolvedValue({ id: 'a', tabla: 'edificio' }),
     search: vi.fn().mockResolvedValue([]),
@@ -51,6 +52,16 @@ function setup(overrides: Partial<Record<keyof BaguaMasterRepository, unknown>> 
 }
 
 describe('BAGUA MASTER (módulo independiente)', () => {
+  it('expone las alturas derivadas de solo lectura con caché acotada', async () => {
+    const { app, repository } = setup();
+    const response = await request(app).get('/api/bagua-master/alturas/mapa');
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ type: 'FeatureCollection', features: [] });
+    expect(response.headers['cache-control']).toBe('public, max-age=300');
+    expect(repository.heightMap).toHaveBeenCalledOnce();
+    expect((await request(app).post('/api/bagua-master/alturas/mapa')).status).toBe(404);
+  });
+
   it('sirve PMTiles completas y por rangos HTTP', async () => {
     const { app } = setup();
     const full = await request(app).get('/api/bagua-master/teselas/bagua-master.pmtiles');

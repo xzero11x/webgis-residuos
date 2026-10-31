@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Map as MapLibreMap, PointLike } from 'maplibre-gl';
+import type { FeatureCollection } from 'geojson';
+import type {
+  Map as MapLibreMap,
+  PointLike,
+  GeoJSONSource,
+  FilterSpecification,
+} from 'maplibre-gl';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
 import { CENTER, DOWNLOAD_EXTENT, INITIAL_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../config';
 import type { RouteMapData, Selection } from '../types';
@@ -10,6 +16,7 @@ import {
   setRouteData,
   setRoutesVisible,
 } from './rutas-layers';
+import type { MapTheme } from './themes';
 import { buildStyle, SELECTABLE_LAYERS } from './style';
 
 // Visor MapLibre propio de BAGUA MASTER: instancia, estilo y protocolo PMTiles independientes
@@ -88,6 +95,9 @@ function sampleRoutePoint(map: MapLibreMap) {
 interface Props {
   selection: Selection | null;
   mode3d: boolean;
+  theme: MapTheme;
+  heights?: FeatureCollection;
+  showSimulated: boolean;
   routes: RoutesLayerState;
   onSelectRoute: (code: string) => void;
   onSelect: (selection: Selection | null) => void;
@@ -98,6 +108,9 @@ interface Props {
 export function BaguaMasterMap({
   selection,
   mode3d,
+  theme,
+  heights,
+  showSimulated,
   routes,
   onSelectRoute,
   onSelect,
@@ -234,6 +247,11 @@ export function BaguaMasterMap({
     const map = mapRef.current;
     if (!map || !ready) return;
     const id = selection?.id ?? '';
+    map.setFilter('bm-alturas-seleccion', [
+      '==',
+      ['get', 'id'],
+      selection?.tabla === 'edificio' ? id : '',
+    ]);
     map.setFilter('bm-seleccion-area', [
       '==',
       ['get', 'id'],
@@ -261,12 +279,66 @@ export function BaguaMasterMap({
     focusRoute(map, routes.selected);
   }, [ready, routes.data, routes.visible, routes.selected]);
 
-  // 2.5D: solo extruye edificios con altura publicada; las huellas 2D siguen visibles.
+  // Cambia solo pintura: conserva fuentes, cámara, filtros, selección y capas municipales.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    const next = buildStyle(theme);
+    for (const layer of next.layers) {
+      if (!map.getLayer(layer.id) || !('paint' in layer)) continue;
+      for (const [property, value] of Object.entries(layer.paint ?? {})) {
+        map.setPaintProperty(
+          layer.id,
+          property as Parameters<MapLibreMap['setPaintProperty']>[1],
+          value,
+        );
+      }
+    }
+    map.setLight(next.light!);
+    if (container.current) container.current.dataset.theme = theme;
+  }, [theme, ready]);
+
+  // Capa derivada independiente; se descarga solo al activar 2.5D y queda en caché.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (map && ready && heights) (map.getSource('bm-alturas') as GeoJSONSource).setData(heights);
+  }, [heights, ready]);
+
+  // El usuario puede ocultar toda simulación sin ocultar las estimaciones satelitales.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    const visible: FilterSpecification = showSimulated
+      ? ['all']
+      : ['!=', ['get', 'tipo'], 'simulada'];
+    map.setFilter('bm-alturas-3d', visible);
+    map.setFilter('bm-alturas-seleccion', [
+      'all',
+      visible,
+      ['==', ['get', 'id'], selection?.tabla === 'edificio' ? selection.id : ''],
+    ] as FilterSpecification);
+  }, [showSimulated, selection, ready]);
+
+  // 2.5D: las simulaciones se mantienen identificadas y se pueden ocultar.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !ready) return;
     map.setLayoutProperty('bm-edificios-3d', 'visibility', mode3d ? 'visible' : 'none');
-    map.easeTo({ pitch: mode3d ? 50 : 0, duration: 600 });
+    map.setLayoutProperty('bm-alturas-3d', 'visibility', mode3d ? 'visible' : 'none');
+    map.setLayoutProperty('bm-alturas-seleccion', 'visibility', mode3d ? 'visible' : 'none');
+    if (mode3d) {
+      map.dragRotate.enable();
+      map.touchZoomRotate.enableRotation();
+    } else {
+      map.dragRotate.disable();
+      map.touchZoomRotate.disableRotation();
+    }
+    map.easeTo({
+      pitch: mode3d ? 50 : 0,
+      bearing: mode3d ? map.getBearing() : 0,
+      zoom: mode3d ? Math.max(16, map.getZoom()) : map.getZoom(),
+      duration: 600,
+    });
   }, [mode3d, ready]);
 
   return (
@@ -275,6 +347,7 @@ export function BaguaMasterMap({
       className="bm-map"
       data-testid="bagua-master-map"
       data-ready="false"
+      data-theme={theme}
       data-modo={mode3d ? '2.5d' : '2d'}
       data-rutas={routes.visible ? 'visibles' : 'ocultas'}
       data-ruta-seleccionada={routes.selected}

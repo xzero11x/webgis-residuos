@@ -70,9 +70,11 @@ Filtro: intersección del `bbox` de cada elemento de Overture con el área de de
 Ausencias documentadas (no se rellenan ni se inventan):
 
 - **Alturas**: 0 de 14 357 edificios tienen `height` o `num_floors` en Overture para Bagua.
-  Por eso el botón 2.5D aparece **desactivado** con la explicación; la ficha indica
-  «No publicada por Overture». Si una versión futura publica alturas, el modo 2.5D extruye
-  solo esos edificios (las huellas 2D del resto se mantienen).
+  Desde el 27/10/2026 se añade una capa independiente de alturas estimadas de Google Open
+  Buildings Temporal 2023 y GlobalBuildingAtlas 2019: no modifica los atributos de Overture. El botón 2.5D se activa
+  cuando hay alturas originales o estimadas. Un modelo reproducible completa los huecos con
+  alturas simuladas, identificadas y ocultables.
+  [Método, cobertura y reproducción](alturas-estimadas.md).
 - **Partes de edificio**: 0 elementos; la tabla existe vacía y la capa no se tesela.
 - **Clases de edificio**: Overture no publica `class`/`subtype` para estos edificios; se
   diferencian solo por superficie calculada (≥ 300 m²), indicada como «calculada».
@@ -223,8 +225,7 @@ Reproducción: `npm run bagua-master:rotulos`, luego `npm run bagua-master:tesel
 falta la capa auxiliar). Medidas en el navegador: `npm run bagua-master:medir-rotulos` y
 `npm run bagua-master:capturar-nombres -- <carpeta> 15,16,17`.
 
-Interacción: acercar/alejar, centrar en Bagua, extensión urbana, 2D/2.5D (solo con alturas
-reales), búsqueda de calles y lugares, ficha del elemento (panel lateral en escritorio, panel
+Interacción: acercar/alejar, centrar en Bagua, extensión urbana, 2D/2.5D (alturas originales o estimadas con procedencia independiente), búsqueda de calles y lugares, ficha del elemento (panel lateral en escritorio, panel
 inferior plegable en celular). La ficha muestra el id de Overture, tipo, altura solo si existe,
 longitud/superficie calculadas, atributos originales, fuente y versión del conjunto. No muestra
 teléfonos, correos ni redes sociales de los lugares (pueden ser datos personales).
@@ -296,7 +297,7 @@ Contra la pila Docker (`PLAYWRIGHT_BASE_URL=http://127.0.0.1:8080`):
 Las 15 comprobaciones del módulo: entrada lateral y ruta; ninguna solicitud a terceros ni a la
 API municipal; PMTiles por rangos; versión y atribución; calles, edificaciones y rótulos
 dibujados; acercar, alejar, desplazar y centrar; ficha de edificación y de vía con datos reales y
-fuente declarada; 2.5D desactivado sin alturas inventadas; búsqueda; resultados sin duplicados
+fuente declarada; sin alturas por defecto (en la entrega inicial, 2.5D desactivado; desde el 27/10/2026, capa estimada independiente); búsqueda; resultados sin duplicados
 ni contactos personales; sin desbordes y ficha inferior en celular; alcance limitado a las 8
 tablas de Overture; las rutas son un conjunto aparte (fase 2) y no hay predios.
 
@@ -416,3 +417,31 @@ el toque elige la ruta; para consultar la calle de abajo se ocultan las rutas.
 `red_vial`, `edificio` y `conector` idénticas; teselas sin cambios; `bagua-master:proteccion-verificar`
 sin archivos modificados (solo las migraciones nuevas); `bagua-master:independencia` pasa. Capturas en
 `artifacts/screenshots/bagua-master/rutas/` (`scripts/bagua-master/capturar_rutas.mjs`).
+
+## Regla de base y estilo visual
+
+Por instrucción del usuario, la base de BAGUA MASTER sigue siendo **Overture Maps**.
+OpenFreeMap Positron se utiliza únicamente como referencia estética del estilo
+local: fondo claro, vías neutras, edificios grises, agua suave y rótulos discretos.
+No se carga su estilo remoto ni sus fuentes de geometrías en este visor.
+
+Las PMTiles propias, los identificadores, las huellas y los atributos de Overture
+se conservan. Las alturas externas y simuladas siguen siendo capas complementarias
+con procedencia identificable. El visor municipal histórico de `/` es independiente.
+
+La regla permanente está en [AGENTS.md](../AGENTS.md) y se comprueba en las pruebas
+de configuración y estilo. Referencia visual consultada:
+[OpenFreeMap Positron](https://tiles.openfreemap.org/styles/positron).
+
+### Selector visual
+
+La barra superior ofrece **Positron, Bright, Liberty, Dark, Fjord y 3D**. Los cinco
+primeros son variantes locales de pintura sobre las mismas fuentes de Overture;
+no descargan estilos ni teselas de OpenFreeMap. El botón **3D** activa/desactiva
+la vista 2.5D y se puede combinar con cualquier tema.
+
+Cambiar de tema aplica únicamente propiedades de pintura y luz a las capas ya
+cargadas: conserva cámara, selección, filtros, rutas y geometrías. Las paletas se
+mantienen en `frontend/src/features/bagua-master/map/themes.ts`. En pantallas
+estrechas la barra se desplaza horizontalmente. Las pruebas validan los cinco
+estilos y comprueban que fuentes y estructura cartográfica son idénticas.

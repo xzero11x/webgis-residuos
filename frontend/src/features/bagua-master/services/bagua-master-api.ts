@@ -1,3 +1,4 @@
+import type { FeatureCollection } from 'geojson';
 import { apiGet } from '@/lib/api';
 import type {
   BaguaMasterElement,
@@ -10,6 +11,8 @@ import type {
 
 // Servicios de datos de BAGUA MASTER: solo /api/bagua-master.
 export const baguaMasterApi = {
+  heightMap: (signal?: AbortSignal) =>
+    apiGet('/bagua-master/alturas/mapa', signal) as Promise<FeatureCollection>,
   summary: (signal?: AbortSignal) =>
     apiGet('/bagua-master/resumen', signal) as Promise<BaguaMasterSummary>,
   element: (tabla: BaguaMasterTable, id: string, signal?: AbortSignal) =>

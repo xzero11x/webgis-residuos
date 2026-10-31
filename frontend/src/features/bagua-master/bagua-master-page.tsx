@@ -8,10 +8,12 @@ import { SearchBox } from './components/search-box';
 import { OVERTURE_VERSION } from './config';
 import {
   useBaguaMasterRouteMap,
+  useBaguaMasterHeights,
   useBaguaMasterRoutes,
   useBaguaMasterSummary,
 } from './hooks/use-bagua-master';
 import { BaguaMasterLayout } from './layout/bagua-master-layout';
+import { MAP_THEMES, THEME_NAMES, type MapTheme } from './map/themes';
 import { BaguaMasterMap } from './map/bagua-master-map';
 import type { SearchResult, Selection } from './types';
 
@@ -20,12 +22,18 @@ import type { SearchResult, Selection } from './types';
 export function BaguaMasterPage() {
   const [map, setMap] = useState<MapLibreMap | null>(null);
   const [selection, setSelection] = useState<Selection | null>(null);
+  const [theme, setTheme] = useState<MapTheme>('positron');
   const [mode3d, setMode3d] = useState(false);
+  const [showSimulated, setShowSimulated] = useState(true);
   const [failed, setFailed] = useState(false);
   const [routesOn, setRoutesOn] = useState(false);
   const [routeCode, setRouteCode] = useState('');
   const summary = useBaguaMasterSummary();
-  const heights = summary.data?.alturas.conAltura ?? 0;
+  const heights =
+    (summary.data?.alturas.conAltura ?? 0) +
+    (summary.data?.alturas.conEstimacion ?? 0) +
+    (summary.data?.alturas.conSimulacion ?? 0);
+  const heightMap = useBaguaMasterHeights(mode3d);
   // Las rutas se piden solo al activarlas: abrir BAGUA MASTER no cuesta nada extra.
   const routeList = useBaguaMasterRoutes(routesOn);
   const routeMap = useBaguaMasterRouteMap(routesOn);
@@ -84,6 +92,9 @@ export function BaguaMasterPage() {
         <BaguaMasterMap
           selection={selection}
           mode3d={mode3d}
+          theme={theme}
+          heights={heightMap.data}
+          showSimulated={showSimulated}
           routes={{ visible: routesOn, selected: routeCode, data: routeMap.data }}
           onSelectRoute={selectRoute}
           onSelect={selectElement}
@@ -98,9 +109,63 @@ export function BaguaMasterPage() {
           onToggle3d={() => setMode3d((value) => !value)}
           onToggleRoutes={toggleRoutes}
         />
+        <div className="bm-style-toolbar" role="toolbar" aria-label="Estilo del mapa">
+          {THEME_NAMES.map((name) => (
+            <button
+              type="button"
+              key={name}
+              aria-pressed={theme === name}
+              onClick={() => setTheme(name)}
+            >
+              {MAP_THEMES[name].label}
+            </button>
+          ))}
+          <button
+            type="button"
+            aria-pressed={mode3d}
+            disabled={!map || heights === 0}
+            title="Activar o desactivar la vista 2.5D"
+            onClick={() => setMode3d((value) => !value)}
+          >
+            3D
+          </button>
+        </div>
         <p className="bm-badge" data-testid="bm-version">
           Overture Maps {summary.data?.version?.overture ?? OVERTURE_VERSION}
         </p>
+        {mode3d && (
+          <div className="bm-height-notice" role="status">
+            {heightMap.isError ? (
+              <>
+                No se pudieron cargar las alturas.{' '}
+                <button type="button" onClick={() => void heightMap.refetch()}>
+                  Reintentar
+                </button>
+              </>
+            ) : heightMap.isLoading ? (
+              'Cargando alturas…'
+            ) : (
+              <>
+                {(summary.data?.alturas.fuentesEstimacion ?? []).map((source) => (
+                  <span className="bm-height-observed" key={source.fuente}>
+                    {source.fuente.includes('Google') ? 'Google' : source.fuente} {source.anio}:{' '}
+                    {source.total.toLocaleString('es-PE')}
+                  </span>
+                ))}
+                <label className="bm-height-simulated">
+                  <input
+                    type="checkbox"
+                    checked={showSimulated}
+                    onChange={(event) => setShowSimulated(event.target.checked)}
+                  />
+                  Mostrar simuladas: {summary.data?.alturas.conSimulacion?.toLocaleString('es-PE')}
+                </label>
+                Simuladas = modelo visual, no alturas observadas. Selecciona un edificio para ver su
+                origen.
+              </>
+            )}
+          </div>
+        )}
         {failed && (
           <div className="bm-failure" role="alert">
             No se pudo cargar la cartografía de BAGUA MASTER. El resto de la aplicación sigue

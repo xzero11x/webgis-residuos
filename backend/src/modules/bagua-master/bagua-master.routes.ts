@@ -71,6 +71,11 @@ export function createBaguaMasterRouter(repository: BaguaMasterRepository, dataD
   const tilesDir = path.join(dataDir, 'teselas');
   const fontsDir = path.join(dataDir, 'estilo', 'fuentes');
 
+  router.get('/alturas/mapa', async (_req, res) => {
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    res.json(await repository.heightMap());
+  });
+
   router.get('/resumen', async (_req, res) => res.json(await repository.summary()));
 
   router.get('/elementos/:tabla/:id', async (req, res) => {

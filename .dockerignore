@@ -11,6 +11,8 @@ test-results
 artifacts
 .venv-gis
 data/cad
+data/bagua-master
+backups
 rustas
 rutas
 **/__pycache__

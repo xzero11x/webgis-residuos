@@ -1,0 +1,7 @@
+# Google Temporal, GlobalBuildingAtlas y simulación reproducible. No requiere Earth Engine.
+rasterio==1.5.2
+shapely==2.2.0
+pyproj==3.8.0
+s2sphere==0.2.5
+numpy==2.5.4
+affine==3.0.1

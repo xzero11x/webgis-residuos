@@ -1,38 +1,10 @@
 import type { ExpressionSpecification, StyleSpecification } from 'maplibre-gl';
+import { MAP_THEMES, type MapTheme } from './themes';
 import { ATTRIBUTION, GLYPHS_URL, MAX_ZOOM, TILES_URL } from '../config';
 
 // Estilo cartográfico propio de BAGUA MASTER. Una sola fuente estructural: las PMTiles de
 // Overture 2026-09-23.1 servidas por /api/bagua-master. Sin estilos ni mapas base externos.
 export const SOURCE = 'overture';
-
-const PALETTE = {
-  fondo: '#f6f6f3',
-  terreno: '#f1f0eb',
-  verde: '#cfe6c6',
-  verdeBorde: '#a9cf9c',
-  cementerio: '#dde5d2',
-  educacion: '#ece6f3',
-  salud: '#f6e2df',
-  residencial: '#efede7',
-  agua: '#9fcdec',
-  aguaLinea: '#6fb0de',
-  aguaTexto: '#22628f',
-  edificio: '#e4ded4',
-  edificioGrande: '#d4cbbd',
-  edificioBorde: '#a9a090',
-  viaBorde: '#bfbbb2',
-  troncal: '#f2a93b',
-  principal: '#f6c45f',
-  secundaria: '#fbdf8c',
-  local: '#ffffff',
-  sendero: '#a58f6b',
-  senderoClaro: '#e3d5b8',
-  texto: '#24231f',
-  textoSecundario: '#5e3b2c',
-  rutaTexto: '#8a5a00',
-  lugar: '#c2512f',
-  seleccion: '#d4380d',
-};
 
 const zoomWidth = (base: number, z14: number, z18: number): ExpressionSpecification => [
   'interpolate',
@@ -44,18 +16,6 @@ const zoomWidth = (base: number, z14: number, z18: number): ExpressionSpecificat
   z14,
   18,
   z18,
-];
-
-const roadColor: ExpressionSpecification = [
-  'match',
-  ['get', 'clase'],
-  ['motorway', 'trunk'],
-  PALETTE.troncal,
-  'primary',
-  PALETTE.principal,
-  'secondary',
-  PALETTE.secundaria,
-  PALETTE.local,
 ];
 
 /*
@@ -151,13 +111,34 @@ const PATHS: ExpressionSpecification = [
   false,
 ];
 
-export function buildStyle(): StyleSpecification {
+export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
+  const PALETTE = MAP_THEMES[theme].palette;
+  const roadColor: ExpressionSpecification = [
+    'match',
+    ['get', 'clase'],
+    ['motorway', 'trunk'],
+    PALETTE.troncal,
+    'primary',
+    PALETTE.principal,
+    'secondary',
+    PALETTE.secundaria,
+    PALETTE.local,
+  ];
+
   return {
     version: 8,
-    name: 'BAGUA MASTER · Overture 2026-09-23.1',
+    name: `BAGUA MASTER · Overture · ${MAP_THEMES[theme].label}`,
+    metadata: { 'bagua:base': 'Overture Maps', 'bagua:referencia-visual': MAP_THEMES[theme].label },
+    light: { anchor: 'viewport', color: '#ffffff', intensity: 0.45, position: [1.5, 210, 40] },
     glyphs: GLYPHS_URL(),
     sources: {
       [SOURCE]: { type: 'vector', url: TILES_URL(), attribution: ATTRIBUTION },
+      'bm-alturas': {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [] },
+        attribution:
+          'Alturas: © Google 2023 (CC BY 4.0) · © GlobalBuildingAtlas/TUM 2019 (CC BY-NC 4.0)',
+      },
     },
     layers: [
       { id: 'bm-fondo', type: 'background', paint: { 'background-color': PALETTE.fondo } },
@@ -241,7 +222,7 @@ export function buildStyle(): StyleSpecification {
         minzoom: 15,
         paint: {
           'line-color': PALETTE.edificioBorde,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.4, 18, 1.2],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.2, 18, 0.65],
         },
       },
       {
@@ -298,7 +279,7 @@ export function buildStyle(): StyleSpecification {
         minzoom: 17.5,
         paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 17.5, 2.2, MAX_ZOOM_STYLE, 4.5],
-          'circle-color': '#ffffff',
+          'circle-color': PALETTE.halo,
           'circle-stroke-color': PALETTE.viaBorde,
           'circle-stroke-width': 1.2,
         },
@@ -316,6 +297,49 @@ export function buildStyle(): StyleSpecification {
           'fill-extrusion-color': PALETTE.edificioGrande,
           'fill-extrusion-height': ['get', 'altura_m'],
           'fill-extrusion-opacity': 0.85,
+        },
+      },
+      {
+        id: 'bm-alturas-3d',
+        type: 'fill-extrusion',
+        source: 'bm-alturas',
+        minzoom: 15,
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-extrusion-height': ['get', 'altura_m'],
+          'fill-extrusion-base': 0,
+          'fill-extrusion-color': [
+            'case',
+            ['==', ['get', 'tipo'], 'simulada'],
+            PALETTE.simulada,
+            [
+              'interpolate',
+              ['linear'],
+              ['get', 'altura_m'],
+              2,
+              PALETTE.volumenBajo,
+              8,
+              PALETTE.volumenMedio,
+              20,
+              PALETTE.volumenAlto,
+              40,
+              PALETTE.volumenMaximo,
+            ],
+          ],
+          'fill-extrusion-opacity': 0.95,
+        },
+      },
+      {
+        id: 'bm-alturas-seleccion',
+        type: 'fill-extrusion',
+        source: 'bm-alturas',
+        minzoom: 15,
+        filter: ['==', ['get', 'id'], ''],
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-extrusion-height': ['get', 'altura_m'],
+          'fill-extrusion-color': PALETTE.seleccion,
+          'fill-extrusion-opacity': 0.95,
         },
       },
       {
@@ -354,7 +378,7 @@ export function buildStyle(): StyleSpecification {
         },
         paint: {
           'text-color': PALETTE.aguaTexto,
-          'text-halo-color': '#ffffff',
+          'text-halo-color': PALETTE.halo,
           'text-halo-width': 1.8,
         },
       },
@@ -372,7 +396,7 @@ export function buildStyle(): StyleSpecification {
         },
         paint: {
           'text-color': PALETTE.aguaTexto,
-          'text-halo-color': '#ffffff',
+          'text-halo-color': PALETTE.halo,
           'text-halo-width': 1.8,
         },
       },
@@ -395,16 +419,16 @@ export function buildStyle(): StyleSpecification {
           'symbol-placement': 'line',
           'symbol-sort-key': ['*', -1, ['get', 'rango']],
           'text-field': ['get', 'nombre'],
-          'text-font': ['Noto Sans Medium'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 14.5, 11, 16, 13, 18, 16],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 14.5, 10.5, 16, 12, 18, 14],
           'text-padding': 2,
           'symbol-spacing': 360,
           'text-max-angle': 45,
         },
         paint: {
           'text-color': PALETTE.texto,
-          'text-halo-color': '#ffffff',
-          'text-halo-width': 2.4,
+          'text-halo-color': PALETTE.halo,
+          'text-halo-width': 1.2,
         },
       },
       /*
@@ -431,7 +455,7 @@ export function buildStyle(): StyleSpecification {
         },
         paint: {
           'text-color': PALETTE.rutaTexto,
-          'text-halo-color': '#ffffff',
+          'text-halo-color': PALETTE.halo,
           'text-halo-width': 2.2,
         },
       },
@@ -447,18 +471,22 @@ export function buildStyle(): StyleSpecification {
           'text-font': ['Noto Sans Italic'],
           'text-size': 12,
         },
-        paint: { 'text-color': '#7a6a52', 'text-halo-color': '#ffffff', 'text-halo-width': 1.5 },
+        paint: {
+          'text-color': PALETTE.textoSecundario,
+          'text-halo-color': PALETTE.halo,
+          'text-halo-width': 1.5,
+        },
       },
       {
         id: 'bm-lugares',
         type: 'circle',
         source: SOURCE,
         'source-layer': 'lugares',
-        minzoom: 14.5,
+        minzoom: 15.5,
         paint: {
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 14.5, 3, 18, 6],
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.5, 2, 18, 4],
           'circle-color': PALETTE.lugar,
-          'circle-stroke-color': '#ffffff',
+          'circle-stroke-color': PALETTE.halo,
           'circle-stroke-width': 1.6,
         },
       },
@@ -467,11 +495,11 @@ export function buildStyle(): StyleSpecification {
         type: 'symbol',
         source: SOURCE,
         'source-layer': 'lugares',
-        minzoom: 15.5,
+        minzoom: 16.5,
         layout: {
           'text-field': ['get', 'nombre'],
           'text-font': ['Noto Sans Regular'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 15.5, 12, 18, 14],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 16.5, 10.5, 18, 12],
           'text-offset': [0, 1.1],
           'text-anchor': 'top',
           'text-max-width': 10,
@@ -479,7 +507,7 @@ export function buildStyle(): StyleSpecification {
         },
         paint: {
           'text-color': PALETTE.textoSecundario,
-          'text-halo-color': '#ffffff',
+          'text-halo-color': PALETTE.halo,
           'text-halo-width': 1.8,
         },
       },
@@ -492,6 +520,7 @@ export const SELECTABLE_LAYERS: {
   layer: string;
   tabla: 'lugar' | 'conector' | 'red_vial' | 'edificio' | 'agua' | 'uso_suelo' | 'terreno';
 }[] = [
+  { layer: 'bm-alturas-3d', tabla: 'edificio' },
   { layer: 'bm-lugares', tabla: 'lugar' },
   { layer: 'bm-conectores', tabla: 'conector' },
   { layer: 'bm-vias', tabla: 'red_vial' },

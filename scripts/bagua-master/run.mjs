@@ -6,6 +6,10 @@ import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..', '..');
 const steps = {
+  alturas: ['python', 'estimate_heights.py', '--importar'],
+  'descargar-alturas-gba': ['python', 'download_gba.py'],
+  'importar-alturas-gba': ['python', 'import_gba_heights.py', '--importar'],
+  'completar-alturas': ['python', 'complete_heights.py', '--importar'],
   descargar: ['python', 'overture_download.py'],
   verificar: ['python', 'overture_download.py', '--verify'],
   paquete: ['python', 'build_package.py'],
@@ -75,7 +79,9 @@ if (tool === 'python') {
     process.exit(2);
   }
   commandArgs = [
-    '-I',
+    // Mantiene el directorio del script para importar los helpers GIS del proyecto.
+    '-E',
+    '-s',
     '-X',
     'utf8',
     path.join(root, 'scripts', 'bagua-master', args[0]),

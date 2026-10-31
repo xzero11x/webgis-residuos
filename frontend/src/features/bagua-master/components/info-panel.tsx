@@ -168,7 +168,51 @@ export function InfoPanel({ selection, onClose }: { selection: Selection; onClos
               )}
               {element.tabla === 'edificio' &&
                 element.alturaM === null &&
-                element.numPisos === null && <Row label="Altura">No publicada por Overture</Row>}
+                element.numPisos === null &&
+                !element.alturaEstimada &&
+                !element.alturaSimulada && (
+                  <Row label="Altura">Sin altura disponible; se mantiene en 2D</Row>
+                )}
+              {element.alturaSimulada && (
+                <>
+                  <Row label="Altura SIMULADA">
+                    {element.alturaSimulada.alturaM.toLocaleString('es-PE')} m · solo visualización
+                  </Row>
+                  <Row label="Origen de la simulación">
+                    Modelo aleatorio reproducible con huellas comparables, alturas satelitales
+                    cercanas y contexto GHSL 2018.
+                  </Row>
+                  <Row label="Referencias cercanas">
+                    {element.alturaSimulada.vecinos} edificios con altura satelital en un radio de
+                    350 m.
+                  </Row>
+                  <Row label="Aviso">
+                    Sin altura satelital aceptada para esta huella. El volumen es sintético; no
+                    indica altura real ni número de pisos.
+                  </Row>
+                </>
+              )}
+              {element.alturaEstimada && (
+                <>
+                  <Row label="Altura estimada">
+                    {element.alturaEstimada.alturaM.toLocaleString('es-PE')} m sobre el terreno
+                  </Row>
+                  <Row label="Fuente de la altura">
+                    {element.alturaEstimada.fuente} ·{' '}
+                    {element.alturaEstimada.fechaPrecision === 'anio'
+                      ? element.alturaEstimada.fecha.slice(0, 4) + ' (referencia anual)'
+                      : element.alturaEstimada.fecha}
+                  </Row>
+                  <Row label="Licencia de la altura">{element.alturaEstimada.licencia}</Row>
+                  <Row label="Cobertura de datos válidos">
+                    {Math.round(element.alturaEstimada.cobertura * 100)} % de la huella muestreada
+                  </Row>
+                  <Row label="Precisión">
+                    Estimación satelital; puede haber desplazamientos. No es una medición catastral
+                    ni indica número de pisos.
+                  </Row>
+                </>
+              )}
               {element.longitudM !== null && (
                 <Row label="Longitud (calculada)">
                   {element.longitudM.toLocaleString('es-PE')} m

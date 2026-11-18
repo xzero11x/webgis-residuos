@@ -10,6 +10,7 @@ import hashlib
 import io
 import json
 import math
+import os
 from pathlib import Path
 import subprocess
 import urllib.parse
@@ -39,6 +40,10 @@ def transform(fn, geometry):
 
 
 def sql(query):
+    if os.environ.get('BAGUA_HEIGHTS_DIRECT_DB') == '1':
+        result = subprocess.run(['psql', '-X', '-qAt', '-v', 'ON_ERROR_STOP=1'],
+                                input=query, text=True, capture_output=True, check=True)
+        return result.stdout
     result = subprocess.run(
         ['docker', 'compose', 'exec', '-T', 'database', 'sh', '-c',
          'exec psql -X -qAt -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"'],

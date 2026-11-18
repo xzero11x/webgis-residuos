@@ -50,7 +50,7 @@ export function AppLayout() {
       )}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="app-header">
-          <div className="flex min-w-0 items-center gap-3">
+          <div className="flex min-w-0 items-center gap-2.5">
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -81,16 +81,16 @@ export function AppLayout() {
                 <Menu />
               </Button>
             )}
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center gap-1.5 text-xs">
               <span className="hidden text-muted-foreground xl:inline">Espacio de trabajo</span>
               <ChevronRight className="hidden size-3 text-muted-foreground/60 xl:block" />
-              <span className="whitespace-nowrap font-medium">{title}</span>
+              <span className="whitespace-nowrap font-semibold text-foreground">{title}</span>
             </div>
           </div>
           <TerritorialSearch />
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span
-              className="hidden items-center gap-1.5 text-[11px] text-muted-foreground 2xl:flex"
+              className="hidden items-center gap-1.5 rounded-full border bg-muted/40 px-2.5 py-1 text-[11px] text-muted-foreground 2xl:flex"
               role="status"
             >
               <span
@@ -111,9 +111,9 @@ export function AppLayout() {
             </span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-11 gap-2 px-1.5" aria-label="Menú de usuario">
-                  <span className="flex size-8 items-center justify-center rounded-full border bg-muted">
-                    <UserRound className="size-4 text-foreground/70" />
+                <Button variant="ghost" className="h-8 gap-1.5 px-1.5" aria-label="Menú de usuario">
+                  <span className="flex size-6 items-center justify-center rounded-full border bg-muted">
+                    <UserRound className="size-3.5 text-foreground/75" />
                   </span>
                   <ChevronDown className="size-3 text-muted-foreground" />
                 </Button>

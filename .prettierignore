@@ -11,3 +11,13 @@ data/cad
 rustas
 rutas
 database/municipal/*.json
+
+# Skills externas: conservar los archivos publicados por sus autores.
+.claude/skills
+# Copia íntegra del documento rector proporcionado por el usuario.
+VISION_MAESTRA_PRODUCTO_FINAL_WEBGIS_BAGUA.md
+VISION_EXPERIENCIA_WEBGIS_BAGUA.md
+VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md
+PLAN_EJECUCION_BAGUA_MASTER_SIN_RENTAS.md
+MISION_CODEX_FINALIZAR_WEBGIS_BAGUA.md
+CRITERIOS_ACEPTACION_CODEX.md

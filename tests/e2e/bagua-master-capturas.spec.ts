@@ -26,7 +26,7 @@ test.describe('Capturas de BAGUA MASTER', () => {
     await idle(page);
     await page.screenshot({ path: `${dir}/${p}-02-vista-urbana.png` });
     await page
-      .getByRole('searchbox', { name: 'Buscar calle o lugar en Bagua' })
+      .getByRole('searchbox', { name: 'Buscar predio, calle, lugar o ruta en Bagua' })
       .fill('plaza de armas');
     await page.getByRole('button', { name: /Plaza de Armas Bagua/ }).click();
     await idle(page);
@@ -50,7 +50,7 @@ test.describe('Capturas de BAGUA MASTER', () => {
     await page.goto('/bagua-master');
     await expect(map).toHaveAttribute('data-ready', 'true', { timeout: 60_000 });
     await page
-      .getByRole('searchbox', { name: 'Buscar calle o lugar en Bagua' })
+      .getByRole('searchbox', { name: 'Buscar predio, calle, lugar o ruta en Bagua' })
       .fill('plaza de armas');
     await page.getByRole('button', { name: /Plaza de Armas Bagua/ }).click();
     await idle(page);

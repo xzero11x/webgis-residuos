@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import { management } from '@/features/gestion/api';
 import { ChevronDown, X } from 'lucide-react';
 import { OVERTURE_VERSION } from '../config';
 import { useBaguaMasterElement } from '../hooks/use-bagua-master';
@@ -80,6 +83,16 @@ function Row({
 }
 
 export function InfoPanel({ selection, onClose }: { selection: Selection; onClose: () => void }) {
+  const linked = useQuery({
+    queryKey: ['gestion', 'edificio-predios', selection.id],
+    queryFn: () =>
+      management<{
+        items: { id: string; codigo: string; direccion: string; archivado: boolean }[];
+      }>(`/espacial/edificios/${encodeURIComponent(selection.id)}/predios`),
+    enabled: selection.tabla === 'edificio',
+    retry: false,
+    gcTime: 0,
+  });
   const [collapsed, setCollapsed] = useState(false);
   const query = useBaguaMasterElement(selection);
   const element = query.data;
@@ -140,99 +153,136 @@ export function InfoPanel({ selection, onClose }: { selection: Selection; onClos
       </header>
       {!collapsed && (
         <div className="bm-info-body">
+          {selection.tabla === 'edificio' && (
+            <p className="bm-rutas-ayuda">
+              Edificación cartográfica de Overture; su geometría no identifica un predio
+              administrativo.
+            </p>
+          )}
           {query.isError && <p role="alert">No se pudo cargar el elemento.</p>}
           {element && (
-            <dl>
-              <Row label="Identificador Overture" mono>
-                {element.id}
-              </Row>
-              {unnamedRoad && (
-                <Row label="Nombre en Overture">No publicado por Overture 2026-09-23.1</Row>
+            <>
+              {selection.tabla === 'edificio' && (
+                <section>
+                  <h3>Predios relacionados</h3>
+                  {linked.isPending ? (
+                    <p role="status">Consultando vínculos…</p>
+                  ) : linked.isError ? (
+                    <p>Se requiere sesión autorizada para consultar los vínculos.</p>
+                  ) : linked.data.items.length ? (
+                    <ul>
+                      {linked.data.items.map((p) => (
+                        <li key={p.id}>
+                          <Link to={`/bagua-master?predio=${p.id}`}>
+                            {p.codigo} · {p.direccion}
+                            {p.archivado ? ' · Archivado' : ''}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>
+                      Edificación de Overture sin relación predial confirmada. No se asume ningún
+                      predio por cercanía.
+                    </p>
+                  )}
+                </section>
               )}
-              {unnamedRoad && recovered && (
-                <>
-                  <Row label="Nombre recuperado">{recovered.nombre}</Row>
-                  <Row label="Origen del nombre">
-                    Documental: DWG «RUTA TOMAQUE - BRUJO PATA - CASUARINAS» (texto «
-                    {recovered.nombreDocumental}»), asociado por{' '}
-                    {recovered.nivel === 'texto' ? 'posición y orientación' : 'continuidad vial'}
-                    {recovered.respaldoRpu === 'respaldado' ? ' y lotes colindantes' : ''}.
-                  </Row>
-                  <Row label="Aviso">{recovered.aviso}</Row>
-                </>
-              )}
-              <Row label="Tipo">{tipo || 'Sin clase publicada por Overture'}</Row>
-              {element.alturaM !== null && <Row label="Altura (Overture)">{element.alturaM} m</Row>}
-              {element.numPisos !== null && (
-                <Row label="Plantas (Overture)">{element.numPisos}</Row>
-              )}
-              {element.tabla === 'edificio' &&
-                element.alturaM === null &&
-                element.numPisos === null &&
-                !element.alturaEstimada &&
-                !element.alturaSimulada && (
-                  <Row label="Altura">Sin altura disponible; se mantiene en 2D</Row>
+              <dl>
+                <Row label="Identificador Overture" mono>
+                  {element.id}
+                </Row>
+                {unnamedRoad && (
+                  <Row label="Nombre en Overture">No publicado por Overture 2026-09-23.1</Row>
                 )}
-              {element.alturaSimulada && (
-                <>
-                  <Row label="Altura SIMULADA">
-                    {element.alturaSimulada.alturaM.toLocaleString('es-PE')} m · solo visualización
+                {unnamedRoad && recovered && (
+                  <>
+                    <Row label="Nombre recuperado">{recovered.nombre}</Row>
+                    <Row label="Origen del nombre">
+                      Documental: DWG «RUTA TOMAQUE - BRUJO PATA - CASUARINAS» (texto «
+                      {recovered.nombreDocumental}»), asociado por{' '}
+                      {recovered.nivel === 'texto' ? 'posición y orientación' : 'continuidad vial'}
+                      {recovered.respaldoRpu === 'respaldado' ? ' y lotes colindantes' : ''}.
+                    </Row>
+                    <Row label="Aviso">{recovered.aviso}</Row>
+                  </>
+                )}
+                <Row label="Tipo">{tipo || 'Sin clase publicada por Overture'}</Row>
+                {element.alturaM !== null && (
+                  <Row label="Altura (Overture)">{element.alturaM} m</Row>
+                )}
+                {element.numPisos !== null && (
+                  <Row label="Plantas (Overture)">{element.numPisos}</Row>
+                )}
+                {element.tabla === 'edificio' &&
+                  element.alturaM === null &&
+                  element.numPisos === null &&
+                  !element.alturaEstimada &&
+                  !element.alturaSimulada && (
+                    <Row label="Altura">Sin altura disponible; se mantiene en 2D</Row>
+                  )}
+                {element.alturaSimulada && (
+                  <>
+                    <Row label="Altura SIMULADA">
+                      {element.alturaSimulada.alturaM.toLocaleString('es-PE')} m · solo
+                      visualización
+                    </Row>
+                    <Row label="Origen de la simulación">
+                      Modelo aleatorio reproducible con huellas comparables, alturas satelitales
+                      cercanas y contexto GHSL 2018.
+                    </Row>
+                    <Row label="Referencias cercanas">
+                      {element.alturaSimulada.vecinos} edificios con altura satelital en un radio de
+                      350 m.
+                    </Row>
+                    <Row label="Aviso">
+                      Sin altura satelital aceptada para esta huella. El volumen es sintético; no
+                      indica altura real ni número de pisos.
+                    </Row>
+                  </>
+                )}
+                {element.alturaEstimada && (
+                  <>
+                    <Row label="Altura estimada">
+                      {element.alturaEstimada.alturaM.toLocaleString('es-PE')} m sobre el terreno
+                    </Row>
+                    <Row label="Fuente de la altura">
+                      {element.alturaEstimada.fuente} ·{' '}
+                      {element.alturaEstimada.fechaPrecision === 'anio'
+                        ? element.alturaEstimada.fecha.slice(0, 4) + ' (referencia anual)'
+                        : element.alturaEstimada.fecha}
+                    </Row>
+                    <Row label="Licencia de la altura">{element.alturaEstimada.licencia}</Row>
+                    <Row label="Cobertura de datos válidos">
+                      {Math.round(element.alturaEstimada.cobertura * 100)} % de la huella muestreada
+                    </Row>
+                    <Row label="Precisión">
+                      Estimación satelital; puede haber desplazamientos. No es una medición
+                      catastral ni indica número de pisos.
+                    </Row>
+                  </>
+                )}
+                {element.longitudM !== null && (
+                  <Row label="Longitud (calculada)">
+                    {element.longitudM.toLocaleString('es-PE')} m
                   </Row>
-                  <Row label="Origen de la simulación">
-                    Modelo aleatorio reproducible con huellas comparables, alturas satelitales
-                    cercanas y contexto GHSL 2018.
+                )}
+                {element.areaM2 !== null && (
+                  <Row label="Superficie (calculada)">
+                    {element.areaM2.toLocaleString('es-PE')} m²
                   </Row>
-                  <Row label="Referencias cercanas">
-                    {element.alturaSimulada.vecinos} edificios con altura satelital en un radio de
-                    350 m.
+                )}
+                {extraAttributes(element).map(([key, value]) => (
+                  <Row key={key} label={key.replace(/_/g, ' ')}>
+                    {value}
                   </Row>
-                  <Row label="Aviso">
-                    Sin altura satelital aceptada para esta huella. El volumen es sintético; no
-                    indica altura real ni número de pisos.
-                  </Row>
-                </>
-              )}
-              {element.alturaEstimada && (
-                <>
-                  <Row label="Altura estimada">
-                    {element.alturaEstimada.alturaM.toLocaleString('es-PE')} m sobre el terreno
-                  </Row>
-                  <Row label="Fuente de la altura">
-                    {element.alturaEstimada.fuente} ·{' '}
-                    {element.alturaEstimada.fechaPrecision === 'anio'
-                      ? element.alturaEstimada.fecha.slice(0, 4) + ' (referencia anual)'
-                      : element.alturaEstimada.fecha}
-                  </Row>
-                  <Row label="Licencia de la altura">{element.alturaEstimada.licencia}</Row>
-                  <Row label="Cobertura de datos válidos">
-                    {Math.round(element.alturaEstimada.cobertura * 100)} % de la huella muestreada
-                  </Row>
-                  <Row label="Precisión">
-                    Estimación satelital; puede haber desplazamientos. No es una medición catastral
-                    ni indica número de pisos.
-                  </Row>
-                </>
-              )}
-              {element.longitudM !== null && (
-                <Row label="Longitud (calculada)">
-                  {element.longitudM.toLocaleString('es-PE')} m
+                ))}
+                <Row label="Fuente">
+                  {fuentes.length ? fuentes.join('; ') : 'Sin fuente declarada'}
                 </Row>
-              )}
-              {element.areaM2 !== null && (
-                <Row label="Superficie (calculada)">
-                  {element.areaM2.toLocaleString('es-PE')} m²
-                </Row>
-              )}
-              {extraAttributes(element).map(([key, value]) => (
-                <Row key={key} label={key.replace(/_/g, ' ')}>
-                  {value}
-                </Row>
-              ))}
-              <Row label="Fuente">
-                {fuentes.length ? fuentes.join('; ') : 'Sin fuente declarada'}
-              </Row>
-              <Row label="Conjunto de datos">Overture Maps {OVERTURE_VERSION}</Row>
-            </dl>
+                <Row label="Conjunto de datos">Overture Maps {OVERTURE_VERSION}</Row>
+              </dl>
+            </>
           )}
         </div>
       )}

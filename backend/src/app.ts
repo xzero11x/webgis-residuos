@@ -14,12 +14,15 @@ import { createMunicipalRouter } from './modules/municipal/municipal.routes.js';
 import type { MunicipalRepository } from './modules/municipal/municipal.repository.js';
 import { createBaguaMasterRouter } from './modules/bagua-master/bagua-master.routes.js';
 import type { BaguaMasterRepository } from './modules/bagua-master/bagua-master.repository.js';
+import type { Pool } from 'pg';
+import { createGestionRouter } from './modules/gestion/gestion.routes.js';
 
 export function createApp(
   repository: HealthRepository,
   territorio?: TerritorioRepository,
   municipal?: MunicipalRepository,
   baguaMaster?: { repository: BaguaMasterRepository; dataDir: string },
+  gestionPool?: Pool,
 ) {
   const app = express();
   app.disable('x-powered-by');
@@ -38,6 +41,15 @@ export function createApp(
   app.use(
     pinoHttp({
       logger,
+      // Búsquedas y filtros pueden contener información personal; no registrar query,
+      // cabeceras, cookies ni cuerpo de solicitudes.
+      serializers: {
+        req: (request) => ({
+          id: request.id,
+          method: request.method,
+          url: String(request.url ?? '').split('?')[0],
+        }),
+      },
       genReqId: (_request, response) => {
         const id = randomUUID();
         response.setHeader('X-Request-Id', id);
@@ -49,6 +61,7 @@ export function createApp(
   const healthRouter = createHealthRouter(repository);
   app.use('/api', healthRouter);
   if (territorio) app.use('/api', createTerritorioRouter(territorio));
+  if (gestionPool) app.use('/api/gestion', createGestionRouter(gestionPool));
   if (municipal) app.use('/api/municipal', createMunicipalRouter(municipal));
   // Módulo independiente: solo se monta si está activado; no comparte rutas ni datos con el anterior.
   if (baguaMaster)

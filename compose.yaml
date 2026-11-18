@@ -34,6 +34,8 @@ services:
       HOST: 0.0.0.0
       PORT: 3000
       LOG_LEVEL: info
+      BAGUA_DEPLOYMENT: ${BAGUA_DEPLOYMENT:-production}
+      BAGUA_FIXTURE_DATABASE: ${BAGUA_FIXTURE_DATABASE:-}
       PGHOST: database
       PGPORT: 5432
       PGDATABASE: ${POSTGRES_DB:-bagua_webgis}

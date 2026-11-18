@@ -1,4 +1,5 @@
 import { territorioPaths, territorioSchemas } from '../modules/territorio/territorio.openapi.js';
+import { gestionPaths } from '../modules/gestion/gestion.openapi.js';
 
 const healthSchema = {
   type: 'object',
@@ -27,13 +28,17 @@ export const openapi = {
     title: 'Bagua WebGIS · API',
     version: '0.3.0',
     description:
-      'Versión funcional local con información DEMO y modelo provisional. /health comprueba el proceso; /ready verifica PostgreSQL y PostGIS. Autenticación pendiente de una fase posterior.',
+      'WebGIS municipal y BAGUA MASTER. La nueva gestión /gestion usa sesión, perfiles técnicos y datos sintéticos separados del DEMO histórico. /health comprueba el proceso; /ready verifica PostgreSQL/PostGIS. Validación institucional y datos reales pendientes.',
   },
   servers: [{ url: '/api', description: 'Mismo origen mediante Vite o Nginx' }],
   tags: [{ name: 'Infraestructura' }, { name: 'Territorio DEMO' }, { name: 'Predios DEMO' }],
-  components: { schemas: territorioSchemas },
+  components: {
+    schemas: territorioSchemas,
+    securitySchemes: { GestionSesion: { type: 'apiKey', in: 'cookie', name: 'bagua_gestion' } },
+  },
   paths: {
     ...territorioPaths,
+    ...gestionPaths,
     '/municipal/cad-inventario': {
       get: {
         tags: ['Archivo municipal'],

@@ -1,0 +1,25 @@
+# Ejecución explícita: docker compose -f compose.yaml -f infrastructure/compose.heights.yaml run --build --rm heights
+services:
+  heights:
+    profiles: [tools]
+    build:
+      context: .
+      dockerfile: infrastructure/docker/heights.Dockerfile
+    environment:
+      PGHOST: database
+      PGDATABASE: ${POSTGRES_DB:-bagua_webgis}
+      PGUSER: ${POSTGRES_USER:-bagua}
+      PGPASSWORD: ${POSTGRES_PASSWORD:?Run npm run setup:env first}
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./data/bagua-master:/app/data/bagua-master
+    networks: [web, data]
+    depends_on:
+      database:
+        condition: service_healthy
+    command:
+      [
+        sh,
+        -c,
+        'python scripts/bagua-master/estimate_heights.py --importar && python scripts/bagua-master/complete_heights.py --importar',
+      ]

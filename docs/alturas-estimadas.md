@@ -2,23 +2,46 @@
 
 BAGUA MASTER conserva las **14.357 huellas originales** de Overture y completa su vista 2.5D:
 
-| Origen de altura                           | Edificios | Significado                                     |
-| ------------------------------------------ | --------: | ----------------------------------------------- |
-| Google Open Buildings Temporal 2023        |     1.997 | Estimación satelital                            |
-| GlobalBuildingAtlas / TUM, referencia 2019 |     6.776 | Estimación satelital añadida donde falta Google |
-| Simulación reproducible                    |     5.584 | Modelo visual; no altura individual observada   |
-| Total                                      |    14.357 | Cobertura visual completa                       |
+| Origen de altura                           | Edificios | Significado                                    |
+| ------------------------------------------ | --------: | ---------------------------------------------- |
+| Google Open Buildings Temporal 2023        |     1.997 | Estimación satelital                           |
+| GlobalBuildingAtlas / TUM, referencia 2019 |         0 | No recuperada en la instalación del 03/11/2026 |
+| Simulación reproducible                    |    12.360 | Modelo visual; no altura individual observada  |
+| Total                                      |    14.357 | Cobertura visual completa                      |
 
 Las simulaciones se dibujan en color arena y se pueden ocultar con **Mostrar simuladas**.
 Las estimaciones externas se mantienen en verde. La ficha de cada volumen distingue el
 origen, la licencia y el año; nunca se presentan valores sintéticos como datos satelitales.
 No se han validado alturas ni alineación en campo.
 
-En `/bagua-master`, pulsa **2D** en la barra derecha para activar **2.5D**.
+En `/bagua-master`, pulsa **3D** en la barra derecha para activar **2.5D**.
 La cámara se inclina; arrastrar con el botón derecho permite girar. En pantallas
 táctiles se puede girar con dos dedos. Volver a 2D restablece inclinación y orientación.
 Al pulsar un volumen se muestra su altura estimada, fuente, fecha y cobertura válida.
 Las rutas municipales se pueden activar simultáneamente.
+
+## Recuperación del 3 de noviembre de 2026
+
+El respaldo del 22 de octubre no contenía las tablas de alturas posteriores.
+Se volvieron a calcular e importar 1.997 estimaciones de Google y 12.360
+simulaciones calibradas con ellas y GHSL. Las 6.776 estimaciones de GBA de la
+entrega anterior, descritas en el apartado de ampliación, no se han recuperado
+en esta instalación. La API informa los conteos efectivos.
+
+Para reproducir esta recuperación con Docker, sin instalar Python en Windows:
+
+```sh
+docker compose -f compose.yaml -f infrastructure/compose.heights.yaml run --build --rm heights
+```
+
+El servicio temporal obtiene datos externos, conserva recortes y manifiestos
+en `data/bagua-master/alturas` y publica únicamente tablas derivadas. No ejecuta
+descargas al arrancar el visor ni modifica las PMTiles. Al terminar, recargar
+el visor para actualizar el resumen de alturas del cliente.
+
+El selector compacto de apariencia contiene Positron, Bright, Liberty, Dark y
+Fjord. Cambia pintura local sin alterar cámara ni fuentes. El control 3D es
+único y el detalle de procedencia se despliega bajo demanda.
 
 ## Fuente y significado
 

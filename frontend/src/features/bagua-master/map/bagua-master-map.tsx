@@ -6,7 +6,7 @@ import type {
   GeoJSONSource,
   FilterSpecification,
 } from 'maplibre-gl';
-import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
+import { loadMapRuntime } from './runtime';
 import { CENTER, DOWNLOAD_EXTENT, INITIAL_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../config';
 import type { RouteMapData, Selection } from '../types';
 import {
@@ -16,12 +16,17 @@ import {
   setRouteData,
   setRoutesVisible,
 } from './rutas-layers';
-import type { MapTheme } from './themes';
+import { DEFAULT_THEME, type MapTheme } from './themes';
 import { buildStyle, SELECTABLE_LAYERS } from './style';
 
 // Visor MapLibre propio de BAGUA MASTER: instancia, estilo y protocolo PMTiles independientes
 // del mapa municipal. Solo se carga cuando se abre /bagua-master.
-let pmtilesRegistered = false;
+
+/**
+ * Cámara recordada mientras la sesión del navegador siga abierta: al volver del expediente u
+ * otro espacio, el mapa reaparece donde estaba. No persiste tras recargar la página.
+ */
+let camera: { center: [number, number]; zoom: number; pitch: number } | null = null;
 
 /** Elemento seleccionable más prioritario bajo un punto de pantalla. */
 function pickAt(map: MapLibreMap, point: PointLike): Selection | null {
@@ -135,24 +140,19 @@ export function BaguaMasterMap({
     let map: MapLibreMap | undefined;
     const observer = new ResizeObserver(() => map?.resize());
     observer.observe(element);
-    void Promise.all([import('maplibre-gl'), import('pmtiles')])
-      .then(([maplibre, pmtiles]) => {
+    void loadMapRuntime()
+      .then((maplibre) => {
         if (disposed) return;
-        maplibre.setWorkerUrl(workerUrl);
-        if (!pmtilesRegistered) {
-          const protocol = new pmtiles.Protocol();
-          maplibre.addProtocol('pmtiles', protocol.tile);
-          pmtilesRegistered = true;
-        }
         const [[w, s], [e, n]] = DOWNLOAD_EXTENT;
         map = new maplibre.Map({
           container: element,
-          style: buildStyle(),
-          center: CENTER,
-          zoom: INITIAL_ZOOM,
+          style: buildStyle(DEFAULT_THEME),
+          center: camera?.center ?? CENTER,
+          zoom: camera?.zoom ?? INITIAL_ZOOM,
+          pitch: camera?.pitch ?? 0,
           minZoom: MIN_ZOOM,
           maxZoom: MAX_ZOOM,
-          maxPitch: 60,
+          maxPitch: 72,
           maxBounds: [
             [w - 0.01, s - 0.01],
             [e + 0.01, n + 0.01],
@@ -173,6 +173,11 @@ export function BaguaMasterMap({
         });
         map.on('movestart', () => {
           element.dataset.idle = 'false';
+        });
+        map.on('moveend', () => {
+          if (!map) return;
+          const center = map.getCenter();
+          camera = { center: [center.lng, center.lat], zoom: map.getZoom(), pitch: map.getPitch() };
         });
         map.on('idle', () => {
           if (!map) return;
@@ -295,6 +300,7 @@ export function BaguaMasterMap({
       }
     }
     map.setLight(next.light!);
+    map.setSky(next.sky!);
     if (container.current) container.current.dataset.theme = theme;
   }, [theme, ready]);
 
@@ -312,6 +318,7 @@ export function BaguaMasterMap({
       ? ['all']
       : ['!=', ['get', 'tipo'], 'simulada'];
     map.setFilter('bm-alturas-3d', visible);
+    map.setFilter('bm-alturas-sombra', visible);
     map.setFilter('bm-alturas-seleccion', [
       'all',
       visible,
@@ -325,6 +332,7 @@ export function BaguaMasterMap({
     if (!map || !ready) return;
     map.setLayoutProperty('bm-edificios-3d', 'visibility', mode3d ? 'visible' : 'none');
     map.setLayoutProperty('bm-alturas-3d', 'visibility', mode3d ? 'visible' : 'none');
+    map.setLayoutProperty('bm-alturas-sombra', 'visibility', mode3d ? 'visible' : 'none');
     map.setLayoutProperty('bm-alturas-seleccion', 'visibility', mode3d ? 'visible' : 'none');
     if (mode3d) {
       map.dragRotate.enable();
@@ -334,10 +342,11 @@ export function BaguaMasterMap({
       map.touchZoomRotate.disableRotation();
     }
     map.easeTo({
-      pitch: mode3d ? 50 : 0,
-      bearing: mode3d ? map.getBearing() : 0,
-      zoom: mode3d ? Math.max(16, map.getZoom()) : map.getZoom(),
-      duration: 600,
+      pitch: mode3d ? 58 : 0,
+      // Entrada en perspectiva con un giro leve; si el usuario ya giró el mapa, se respeta.
+      bearing: mode3d ? map.getBearing() || -20 : 0,
+      zoom: mode3d ? Math.max(16.2, map.getZoom()) : map.getZoom(),
+      duration: 900,
     });
   }, [mode3d, ready]);
 

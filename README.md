@@ -1,9 +1,67 @@
-# Bagua WebGIS
+# WEBGIS BAGUA
 
-Primera versión funcional del Sistema de Información Geográfica para la Gestión
-Territorial de Predios y Servicios de Residuos Sólidos de la Municipalidad Provincial de Bagua.
+**BAGUA MASTER** es el producto central de gestión territorial y operativa municipal.
+Abrir [mapa de trabajo](http://localhost:8080/bagua-master). El visor de `/` es
+legado independiente; su DEMO no define el padrón administrativo actual.
 
-## Abrir y probar
+[Producto](PRODUCT.md) · [Estado y evidencia](docs/avance-verificado.md) ·
+[Interacción](VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md) ·
+[Gestión: uso y contratos](docs/gestion-bagua-master.md).
+Para agentes: [AGENTS.md](AGENTS.md), con consulta documental según la tarea.
+
+Este README contrasta comandos y rutas con el repositorio al 17/11/2026; no vuelve
+a certificar pruebas anteriores. La gestión usa API/PostgreSQL y autenticación con
+perfiles de ensayo; los registros administrativos disponibles son sintéticos.
+No se acredita entrega oficial de Rentas ni aceptación institucional.
+
+## Abrir y probar BAGUA MASTER
+
+Requisitos: Node.js 24, npm 11 y Docker Desktop con contenedores Linux.
+
+```sh
+npm ci
+npm run setup:env
+npm run infra:up
+```
+
+Antes de crear cuentas o muestras, configurar una copia local/test conforme a
+[segregación de fixtures](docs/segregacion-fixtures.md): `BAGUA_DEPLOYMENT=local`
+o `test` y `BAGUA_FIXTURE_DATABASE` igual a la base realmente conectada. Nunca
+etiquetar una instancia institucional como local. Si cambia la configuración con
+Compose ya iniciado, recrear el backend como indica esa guía. Las plantillas
+bloquean las escrituras sintéticas por defecto. Con la copia habilitada:
+
+```sh
+npm run gestion:usuario
+npm run gestion:seed
+```
+
+Abrir [BAGUA MASTER](http://localhost:8080/bagua-master) y pulsar **Ingresar**.
+Tras autenticar, **Registros** abre el padrón; el inicio contextual ofrece tareas y
+**Herramientas** reúne opciones según perfil. Buscar un predio de prueba, abrir su
+ficha y consultar personas, unidades, servicios y actividad autorizados. La ficha
+completa y los formularios se amplían dentro del mismo mapa. Un registro sin
+ubicación sigue consultable y no recibe un marcador inventado.
+Las contraseñas se guardan en artifacts/accesos-locales, fuera de Git. La muestra
+nueva es sintética y separada del primer mapa. La cartografía requiere las PMTiles
+y recursos locales existentes, según [puesta en marcha](docs/puesta-en-marcha-2026-11-03.md).
+El seed administrativo no descarga ni reconstruye cartografía.
+
+Para recorrer la muestra curada de vivienda, bodega, personas, unidades y entregas,
+en la copia local/test habilitada ejecutar:
+
+```sh
+docker compose exec -T backend node backend/dist/db/gestion-scenarios.js --experiencia
+```
+
+En el mapa, elegir **Predios** y abrir **Jr. Comercio 216** (dirección ficticia de
+la demostración). La ficha permite recorrer relaciones y registrar una entrega
+sin abandonar el mapa. Ninguna dirección de la muestra atribuye identidad municipal.
+
+<details>
+<summary>Referencia histórica del primer visor; no instala ni define BAGUA MASTER</summary>
+
+### Prueba del visor histórico
 
 Requisitos: Node.js 24, npm 11 y Docker Desktop con contenedores Linux.
 
@@ -30,28 +88,39 @@ Todos los datos operativos son DEMO, incluidos los creados desde esta versión.
 Los polígonos no representan linderos catastrales oficiales. El ámbito de navegación
 es provisional; el modelo funcional seguirá ajustándose con la Gerencia. Las rutas municipales documentales se mantienen separadas de los datos DEMO.
 
-| Dirección                          | Contenido                               |
-| ---------------------------------- | --------------------------------------- |
-| http://localhost:8080              | WebGIS                                  |
-| http://localhost:8080/sistema      | Estado de API y PostGIS                 |
-| http://localhost:8080/api/health   | Disponibilidad del proceso              |
-| http://localhost:8080/api/ready    | Conexión con PostgreSQL/PostGIS         |
-| http://localhost:8080/api/docs/    | Swagger y endpoints funcionales         |
-| http://localhost:8080/bagua-master | BAGUA MASTER (nueva cartografía urbana) |
+</details>
+
+| Dirección                                      | Contenido                                             |
+| ---------------------------------------------- | ----------------------------------------------------- |
+| http://localhost:8080                          | Visor municipal histórico (si está habilitado)        |
+| http://localhost:8080/sistema                  | Estado de API y PostGIS                               |
+| http://localhost:8080/api/health               | Disponibilidad del proceso                            |
+| http://localhost:8080/api/ready                | Conexión con PostgreSQL/PostGIS                       |
+| http://localhost:8080/api/docs/                | Swagger y endpoints funcionales                       |
+| http://localhost:8080/bagua-master             | BAGUA MASTER: mapa de trabajo y gestión               |
+| http://localhost:8080/bagua-master/gestion     | Enlace compatible que redirige al espacio equivalente |
+| http://localhost:8080/bagua-master/expedientes | Expedientes de predios, personas y unidades           |
+| http://localhost:8080/bagua-master/servicios   | Servicios, participaciones y registro de entregas     |
+| http://localhost:8080/bagua-master/resultados  | Entregas registradas por periodo, servicio y material |
 
 ## BAGUA MASTER
 
-Módulo paralelo e independiente (entrada **BAGUA MASTER** de la barra lateral): mapa urbano de
-Bagua Capital hecho solo con Overture Maps `2026-09-23.1` y MapLibre, con teselas PMTiles propias
-(sin proveedores externos). Fase 1: calles, conectores, edificaciones, nombres, agua, usos del
-suelo y lugares; sin rutas, predios ni catastro. El modo **2.5D** incorpora una capa independiente de alturas satelitales estimadas
-de Google Open Buildings Temporal 2023 y GlobalBuildingAtlas 2019. Completa las huellas
-restantes con alturas **simuladas**, identificadas y con un control para ocultarlas.
-[Fuentes, cobertura y reproducción](docs/alturas-estimadas.md). Se oculta con `BAGUA_MASTER_ENABLED=false` (y el mapa
-municipal con `MUNICIPAL_MAP_ENABLED=false`). Procedimiento, inventario, licencias y retirada:
-[docs/bagua-master.md](docs/bagua-master.md).
+Producto base actual en `/bagua-master`, con cartografía Overture `2026-09-23.1`,
+PMTiles propias, rutas documentales DWG y gestión administrativa separada. Búsqueda,
+fichas y operaciones se integran en el mapa sin sidebar permanente. El histórico
+permanece independiente. Las alturas derivadas conservan su procedencia y las
+simuladas requieren elección explícita.
+[Cartografía](docs/bagua-master.md) · [Alturas](docs/alturas-estimadas.md) ·
+[Avance técnico](docs/avance-verificado.md).
 
-## Rutas municipales recuperadas
+## Rutas municipales del visor histórico — reproducción técnica
+
+Los comandos y conteos de esta sección documentan extracciones/importaciones
+históricas, no resultados reejecutados en esta tarea. Sus rutas PDF no se incorporan
+al catálogo activo de BAGUA MASTER, que conserva únicamente DWG. No ejecutar estos
+procesos para un cambio visual ni sin sus originales y herramientas locales.
+
+### Fuentes y procesamiento
 
 Los originales están en `rutas/` (excluida de Git): hoy, seis DWG. La primera entrega
 (`rustas/`: 5 DWG, 4 BAK y 3 PDF) ya se procesó y sus extracciones se conservan. La vista
@@ -122,7 +191,7 @@ npm run infra:down
 ```
 
 `infra:up` construye y arranca los cuatro servicios; el backend aplica migraciones
-pendientes antes de arrancar. `seed:demo` es explícito e idempotente: conserva las
+pendientes antes de arrancar. `seed:demo` pertenece al legado, requiere destino de fixtures habilitado y es explícito e idempotente: conserva las
 ediciones existentes. `infra:down` conserva el volumen y sus datos.
 
 Cuando se desee eliminar **todos los registros DEMO**, incluidos los creados o
@@ -135,7 +204,7 @@ los archivos existentes; los `.env` están excluidos de Git.
 
 ## Desarrollo
 
-Después de migrar y cargar DEMO mediante Compose:
+Después de preparar la base migrada de desarrollo y los recursos locales necesarios:
 
 ```sh
 npm run db:dev
@@ -147,11 +216,14 @@ Vite redirige `/api` al backend. El override `db:dev` publica PostgreSQL solamen
 localhost para el backend nativo. Para restablecer el aislamiento, ejecutar
 `docker compose up -d --force-recreate database` sin el override.
 
-`VITE_MAP_STYLE_URL` permite cambiar de proveedor MapLibre. Esta entrega utiliza
-OpenFreeMap Positron. En desarrollo se configura en `frontend/.env`; en Docker,
-en `.env` raíz. Reiniciar Vite o reconstruir el frontend después de cambiarlo.
-Las variables Vite son públicas y se fijan al compilar. El mapa base requiere
-conexión a Internet y conserva la atribución del proveedor.
+`VITE_MAP_STYLE_URL` configura exclusivamente el fondo del **visor histórico**
+(OpenFreeMap Positron por defecto). En desarrollo se define en `frontend/.env`;
+en Docker, en `.env` raíz. Reiniciar Vite o reconstruir frontend para aplicar cambios.
+Las variables Vite son públicas y se fijan al compilar; ese fondo requiere Internet
+y conserva atribución. BAGUA MASTER utiliza Overture y recursos locales: esta
+variable no autoriza sustituir su base cartográfica.
+
+[Configuración y resolución de fallos](docs/configuration.md).
 
 ## Calidad
 
@@ -160,17 +232,19 @@ npm run check
 npx playwright install chromium
 ```
 
-Contra el Compose iniciado y con DEMO cargado, en PowerShell:
+Contra una copia Compose local/test habilitada, con los fixtures y recursos que
+requiera la suite seleccionada, en PowerShell:
 
 ```powershell
 $env:PLAYWRIGHT_BASE_URL = 'http://127.0.0.1:8080'
 npm run test:e2e
 ```
 
-Playwright verifica el recorrido real en escritorio, tablet y móvil; crea registros
-con códigos `E2E-*` y elimina únicamente sus propios registros al terminar. Sin
-`PLAYWRIGHT_BASE_URL` inicia Vite/Express y necesita igualmente una base migrada y
-con DEMO. Las pruebas municipales necesitan además `import:municipal`, y
+Playwright contiene recorridos de escritorio, tablet y móvil. Las suites nuevas
+comprueban el destino de fixtures antes de escribir; algunas conservan registros
+`E2E-*` para auditoría, por lo que no se promete limpieza automática universal.
+Sin `PLAYWRIGHT_BASE_URL` inicia Vite/Express y requiere base migrada/configurada.
+Las pruebas del legado necesitan DEMO; las municipales, además `import:municipal`, y
 `second-pass.spec.ts`, `import:segunda-pasada`. Capturas en `artifacts/screenshots`, trazas en `test-results`.
 
 ## Organización y límites
@@ -179,9 +253,12 @@ con DEMO. Las pruebas municipales necesitan además `import:municipal`, y
 validación, transacciones y OpenAPI. `database/`: migraciones y seed independiente.
 `infrastructure/`: Docker y Nginx. `docs/`: decisiones y validación breve.
 
-Esta entrega es local y aún no incorpora autenticación ni permisos municipales.
-Entregas operativas, reportes y despliegue institucional quedan
-para incrementos posteriores. No se han añadido microservicios ni infraestructura extra.
+La gestión actual contiene sesiones, roles técnicos provisionales, entregas,
+reportes e importación CSV/JSON. Su existencia en código no acredita reglas
+institucionales aprobadas ni integración del padrón real. El alcance probado y los
+pendientes están en el avance único; los informes antiguos conservan su fecha.
+El despliegue institucional requiere datos/autorizaciones, permisos, operación y
+aceptación municipal. No se han añadido microservicios ni infraestructura extra.
 
 [Arquitectura](docs/architecture.md) · [Configuración](docs/configuration.md) ·
 [BAGUA MASTER](docs/bagua-master.md) ·

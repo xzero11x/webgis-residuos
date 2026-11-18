@@ -5,6 +5,8 @@ import { pool } from './pool.js';
 import { createTerritorioRepository } from '../modules/territorio/territorio.repository.js';
 import { predioSchema } from '../modules/territorio/territorio.schema.js';
 import { importMunicipal } from './import-municipal.js';
+import { assertFixtureTarget } from './fixture-target.js';
+import { env } from '../config/env.js';
 
 const directory = new URL('../../../database/', import.meta.url);
 const client = await pool.connect();
@@ -20,12 +22,17 @@ try {
       .sort();
     for (const name of files) {
       const sql = await readFile(new URL(`migrations/${name}`, directory), 'utf8');
-      const checksum = createHash('sha256').update(sql).digest('hex');
+      // Windows y Linux guardan saltos de línea distintos; el SQL sigue siendo el mismo.
+      const normalizedSql = sql.replace(/\r\n/g, '\n');
+      const checksum = createHash('sha256').update(normalizedSql).digest('hex');
+      const windowsChecksum = createHash('sha256')
+        .update(normalizedSql.replace(/\n/g, '\r\n'))
+        .digest('hex');
       const previous = await client.query('SELECT checksum FROM schema_migrations WHERE name=$1', [
         name,
       ]);
       if (previous.rows[0]) {
-        if (previous.rows[0].checksum !== checksum)
+        if (![checksum, windowsChecksum].includes(previous.rows[0].checksum))
           throw new Error(`La migración aplicada ${name} fue modificada.`);
         continue;
       }
@@ -46,6 +53,7 @@ try {
   } else if (command === 'import-municipal') {
     await importMunicipal(client, directory);
   } else if (command === 'seed') {
+    await assertFixtureTarget(pool, env);
     const data = JSON.parse(await readFile(new URL('demo/seed.json', directory), 'utf8'));
     await client.query('BEGIN');
     try {
@@ -90,6 +98,7 @@ try {
     }
     console.log('DEMO cargado. Los registros existentes y sus ediciones se conservan.');
   } else if (command === 'clear-demo') {
+    await assertFixtureTarget(pool, env);
     await client.query('BEGIN');
     try {
       await client.query(`DELETE FROM predios WHERE is_demo;

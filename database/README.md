@@ -1,5 +1,10 @@
 # Base espacial
 
+El producto nuevo utiliza `gestion` y `bagua_master`, con fuentes y permisos
+independientes del legado. Preparar muestras nuevas mediante `gestion:seed`
+solo en destino local/test explícito. Los comandos `seed:demo` siguientes son
+históricos, no instalan el producto actual. Ver [gestión](../docs/gestion-bagua-master.md).
+
 PostgreSQL 17 + PostGIS 3.5 en volumen persistente. `init/001-postgis.sql` habilita
 la extensión al crear el volumen. Las migraciones de `migrations/` crean y
 actualizan el modelo; el backend las aplica antes de arrancar en Docker.

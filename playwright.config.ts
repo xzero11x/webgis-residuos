@@ -11,7 +11,12 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   workers: 3,
   reporter: [['list'], ['html', { open: 'never' }]],
-  use: { baseURL, channel: 'chromium', trace: 'retain-on-failure', screenshot: 'only-on-failure' },
+  use: {
+    baseURL,
+    channel: process.env.PLAYWRIGHT_CHANNEL || 'chromium',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+  },
   projects: [
     {
       name: 'desktop',

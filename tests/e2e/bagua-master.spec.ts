@@ -1,4 +1,5 @@
 import { expect, test, type Page, type Request } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 
 // BAGUA MASTER: 15 verificaciones del módulo nuevo y 7 de no regresión del mapa municipal.
 const VERSION = '2026-09-23.1';
@@ -52,7 +53,7 @@ test.describe('BAGUA MASTER', () => {
     await expect(link).toContainText('Nueva cartografía urbana');
     await link.click();
     await expect(page).toHaveURL(/\/bagua-master$/);
-    await expect(page.getByRole('heading', { name: 'BAGUA MASTER', level: 1 })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'WEBGIS BAGUA, ir a Explorar' })).toBeVisible();
     await expect(page.getByTestId('bagua-master-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });
@@ -66,9 +67,12 @@ test.describe('BAGUA MASTER', () => {
       .map((r) => r.url())
       .filter((u) => !u.startsWith('data:') && !u.startsWith('blob:') && !u.startsWith(origin));
     expect(external).toEqual([]);
-    expect(requests.some((r) => /openfreemap|tiles\.|basemaps|maptiler|mapbox/.test(r.url()))).toBe(
-      false,
-    );
+    // Se comprueba el servidor, no la ruta: «pmtiles.js» es un módulo propio del mismo origen.
+    expect(
+      requests.some((r) =>
+        /openfreemap|(^|\.)tiles\.|basemaps|maptiler|mapbox/.test(new URL(r.url()).hostname),
+      ),
+    ).toBe(false);
     // El módulo no consulta la API municipal.
     expect(
       requests.some((r) => /\/api\/(municipal|capas|predios|territorio|catalogos)/.test(r.url())),
@@ -158,7 +162,9 @@ test.describe('BAGUA MASTER', () => {
     await expect(info).toContainText(element.fuentes[0].dataset);
     await expect(info).toContainText(`Overture Maps ${VERSION}`);
     // Sin alturas en Overture para Bagua: no se muestra una altura inventada.
-    await expect(info).toContainText('No publicada por Overture');
+    expect(element.alturaM).toBeNull();
+    if (!element.alturaEstimada && !element.alturaSimulada)
+      await expect(info).toContainText('Sin altura disponible; se mantiene en 2D');
     await expect(info).not.toContainText('Altura (Overture)');
   });
 
@@ -173,13 +179,17 @@ test.describe('BAGUA MASTER', () => {
     await expect(info).toHaveCount(0);
   });
 
-  test('BM-11 2.5D solo con alturas reales', async ({ page, request }) => {
+  test('BM-11 2.5D solo cuando hay alturas disponibles', async ({ page, request }) => {
     const summary = await (await request.get('/api/bagua-master/resumen')).json();
     await openMaster(page);
     const button = page.getByTestId('bm-modo-3d');
-    if (summary.alturas.conAltura === 0) {
+    const available =
+      summary.alturas.conAltura +
+      (summary.alturas.conEstimacion ?? 0) +
+      (summary.alturas.conSimulacion ?? 0);
+    if (available === 0) {
       await expect(button).toBeDisabled();
-      await expect(button).toHaveAttribute('title', /no se inventan/);
+      await expect(button).toHaveAttribute('title', /No hay alturas disponibles/);
       await expect(page.getByTestId('bagua-master-map')).toHaveAttribute('data-modo', '2d');
       expect((await dataset(page)).pitch).toBe('0');
     } else {
@@ -192,9 +202,12 @@ test.describe('BAGUA MASTER', () => {
   test('BM-12 búsqueda de lugares', async ({ page }) => {
     await openMaster(page);
     await page
-      .getByRole('searchbox', { name: 'Buscar calle o lugar en Bagua' })
+      .getByRole('combobox', { name: 'Buscar predio, persona, unidad, ruta, calle o lugar' })
       .fill('plaza de armas');
-    await page.getByRole('button', { name: /Plaza de Armas Bagua/ }).click();
+    await page
+      .getByRole('option', { name: /Plaza de Armas Bagua/ })
+      .first()
+      .click();
     const info = page.getByTestId('bm-info');
     await expect(info).toContainText('Plaza de Armas Bagua');
     await expect(info).toContainText('Lugar');
@@ -209,9 +222,12 @@ test.describe('BAGUA MASTER', () => {
     expect(new Set(names).size).toBe(names.length);
     await openMaster(page);
     await page
-      .getByRole('searchbox', { name: 'Buscar calle o lugar en Bagua' })
+      .getByRole('combobox', { name: 'Buscar predio, persona, unidad, ruta, calle o lugar' })
       .fill('plaza de armas');
-    await page.getByRole('button', { name: /Plaza de Armas Bagua/ }).click();
+    await page
+      .getByRole('option', { name: /Plaza de Armas Bagua/ })
+      .first()
+      .click();
     const info = page.getByTestId('bm-info');
     await expect(info).toContainText('Fuente');
     for (const hidden of ['phones', 'emails', 'socials', 'filename'])
@@ -232,7 +248,10 @@ test.describe('BAGUA MASTER', () => {
     await clickSample(page, 'muestraEdificio');
     const panel = (await page.getByTestId('bm-info').boundingBox())!;
     if (info.project.name === 'mobile') {
-      expect(Math.round(panel.y + panel.height)).toBe(viewport.height);
+      // La ficha se apoya sobre la barra de espacios del móvil (≈56 px), no sobre el borde.
+      const bottom = Math.round(panel.y + panel.height);
+      expect(bottom).toBeLessThanOrEqual(viewport.height);
+      expect(bottom).toBeGreaterThan(viewport.height - 80);
       expect(panel.width).toBeCloseTo(viewport.width, -1);
       await page.getByRole('button', { name: 'Plegar información' }).click();
       await expect(page.getByRole('button', { name: 'Mostrar información' })).toBeVisible();
@@ -293,10 +312,23 @@ test.describe('Mapa municipal sin regresiones', () => {
   });
 
   test('MAP-03 la navegación vuelve al mapa general', async ({ page }) => {
-    await openMaster(page);
-    if (await page.getByRole('button', { name: 'Abrir navegación' }).isVisible())
-      await page.getByRole('button', { name: 'Abrir navegación' }).click();
-    await page.getByRole('link', { name: 'Mapa general', exact: true }).click();
+    // El acceso al mapa general histórico vive en el menú de la cuenta.
+    const source = readFileSync('artifacts/accesos-locales/admin-bagua.txt', 'utf8');
+    await page.goto('/bagua-master/expedientes');
+    if (
+      await page
+        .getByLabel('Contraseña', { exact: true })
+        .isVisible({ timeout: 3000 })
+        .catch(() => false)
+    ) {
+      await page.getByLabel('Usuario', { exact: true }).fill(source.match(/^Usuario: (.+)$/m)![1]!);
+      await page
+        .getByLabel('Contraseña', { exact: true })
+        .fill(source.match(/^Contraseña: (.+)$/m)![1]!);
+      await page.getByRole('button', { name: 'Ingresar', exact: true }).click();
+    }
+    await page.getByRole('button', { name: /^Cuenta de / }).click();
+    await page.getByRole('menuitem', { name: /Mapa general · histórico/ }).click();
     await expect(page).toHaveURL(/\/$/);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,

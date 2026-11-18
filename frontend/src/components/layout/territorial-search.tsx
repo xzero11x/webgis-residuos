@@ -15,7 +15,7 @@ export function TerritorialSearch({ mobile = false }: { mobile?: boolean }) {
   }
   return (
     <div className={mobile ? 'mobile-map-search' : 'header-search'}>
-      <Search className="absolute left-3.5 size-4 text-muted-foreground" />
+      <Search className="pointer-events-none absolute left-3 size-3.5 text-muted-foreground" />
       <Input
         type="search"
         maxLength={120}
@@ -27,13 +27,13 @@ export function TerritorialSearch({ mobile = false }: { mobile?: boolean }) {
             ? 'Código, dirección o persona…'
             : 'Buscar ruta o archivo municipal…'
         }
-        className="border-0 bg-muted/80 pr-9 pl-10"
+        className="h-8 border-border bg-muted/45 pr-8 pl-8.5 focus-visible:bg-background"
       />
       {value && (
         <button
           type="button"
           onClick={() => update('')}
-          className="absolute right-2 flex size-7 items-center justify-center rounded-lg"
+          className="absolute right-1.5 flex size-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
           aria-label="Limpiar búsqueda"
         >
           <X className="size-3.5" />

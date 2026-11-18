@@ -25,6 +25,7 @@ export function MapControls({
       <button
         type="button"
         aria-label="Acercar"
+        title="Acercar"
         disabled={disabled}
         onClick={() => map?.zoomIn({ duration: 350 })}
       >
@@ -33,6 +34,7 @@ export function MapControls({
       <button
         type="button"
         aria-label="Alejar"
+        title="Alejar"
         disabled={disabled}
         onClick={() => map?.zoomOut({ duration: 350 })}
       >
@@ -86,7 +88,7 @@ export function MapControls({
         onClick={onToggle3d}
       >
         <Box size={16} />
-        <span>{mode3d ? '2.5D' : '2D'}</span>
+        <span>{mode3d ? '2D' : '3D'}</span>
       </button>
     </div>
   );

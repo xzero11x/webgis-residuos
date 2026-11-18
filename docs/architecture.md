@@ -1,4 +1,23 @@
-# Arquitectura funcional provisional
+# Arquitectura de WEBGIS BAGUA
+
+## Producto vigente: BAGUA MASTER
+
+La superficie principal es `frontend/src/features/bagua-master/bagua-master-page.tsx`.
+MapLibre y las PMTiles Overture permanecen montados; búsqueda e inspector abren
+fichas/operaciones ampliables en el mismo espacio, sin sidebar principal de módulos.
+`features/gestion` conecta formularios a `/api/gestion`, backend Express y esquema
+`gestion` PostgreSQL; fuentes, vínculos, servicios, participaciones, entregas e
+historial separados. Auth por cookie, roles de ensayo y comprobación del destino
+de fixtures en backend. Las migraciones administrativas parten de 016 y continúan
+en `database/migrations/`; verificar los archivos actuales antes de intervenir.
+La base cartográfica y rutas DWG
+documentales permanecen en `bagua_master` (009–015).
+
+Ver [estado real](estado-real-bagua-master.md) y [avance único](avance-verificado.md).
+El apartado siguiente describe el visor histórico, preservado como documentación
+técnica; no es arquitectura objetivo ni aceptación obligatoria del producto actual.
+
+## Arquitectura histórica conservada
 
 ```text
 Navegador → Nginx :8080

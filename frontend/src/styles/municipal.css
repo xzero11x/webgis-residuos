@@ -8,38 +8,43 @@
   .map-info-actions button {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
     color: var(--muted-foreground);
     cursor: pointer;
+    transition:
+      background-color 0.12s,
+      color 0.12s;
   }
   .map-info-actions button:hover {
-    background: #eff3f1;
+    background: var(--muted);
+    color: var(--foreground);
   }
   .map-info-bubble {
     position: absolute;
-    right: 64px;
-    top: 18px;
+    right: 54px;
+    top: 12px;
     z-index: 12;
     display: grid;
     place-items: center;
-    width: 48px;
-    height: 48px;
-    border: 2px solid #365f53;
-    border-radius: 50%;
-    background: #fff;
-    color: #294c42;
-    box-shadow: 0 3px 12px #183c2420;
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid var(--primary);
+    border-radius: 10px;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
+    color: var(--primary);
+    box-shadow: var(--shadow-control);
     cursor: pointer;
   }
   .map-info-bubble:hover {
-    background: #f0f6f2;
+    background: #fff;
   }
   .map-info-bubble:focus-visible,
   .map-info-actions button:focus-visible {
-    outline: 3px solid #488879;
-    outline-offset: 3px;
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
   .gis-stage:has(.map-info-bubble) .route-browser,
   .gis-stage:has(.map-info-bubble) .cartography-legend,
@@ -49,62 +54,73 @@
   }
   .municipal-tag {
     display: inline-block;
-    padding: 4px 7px;
-    border-radius: 6px;
-    background: #edf4ef;
-    color: #426650;
-    border: 1px solid #dce8df;
-    font-size: 8px;
-    font-weight: 650;
-    letter-spacing: 0.45px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: var(--status-verified-bg);
+    color: var(--status-verified-fg);
+    border: 1px solid var(--status-verified-border);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
   }
   .map-view-tabs {
     display: flex;
-    padding: 4px;
+    padding: 3px;
     border: 1px solid var(--border);
-    background: #f5f7f5;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px #203a2608;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
+    border-radius: 9px;
+    box-shadow: var(--shadow-control);
   }
   .map-view-tabs button {
     flex: 1;
-    font-size: 11px;
-    padding: 8px 5px;
-    border-radius: 8px;
+    font-size: 11.5px;
+    padding: 6px 8px;
+    border-radius: 6px;
     color: var(--muted-foreground);
+    transition:
+      background-color 0.12s,
+      color 0.12s;
   }
   .map-view-tabs button[aria-selected='true'] {
-    background: white;
+    background: var(--background);
     color: var(--foreground);
     font-weight: 600;
-    box-shadow: 0 1px 4px #203a2614;
+    box-shadow: var(--shadow-xs);
   }
   .route-browser {
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 10px;
     overflow: hidden;
-    background: #fff;
-    box-shadow: 0 4px 18px #203a2610;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-panel);
   }
   .route-browser-heading {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    padding: 16px 15px 5px;
+    padding: 12px 14px 3px;
     font-size: 12px;
+    font-weight: 600;
+    color: var(--foreground);
   }
   .route-browser-heading span {
-    background: #f3f5f3;
+    background: var(--muted);
+    border: 1px solid var(--border-subtle);
     padding: 1px 6px;
     border-radius: 5px;
     font-size: 10px;
+    font-weight: 600;
+    color: var(--muted-foreground);
   }
   .route-browser-caption {
-    padding: 0 15px 13px;
-    font-size: 10px;
+    padding: 0 14px 10px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
   }
   .route-results {
-    max-height: calc(100dvh - 430px);
+    max-height: calc(100dvh - 410px);
     overflow: auto;
   }
   .route-result {
@@ -112,13 +128,14 @@
     width: 100%;
     align-items: center;
     gap: 10px;
-    padding: 13px 14px;
+    padding: 10px 14px;
     text-align: left;
-    border-top: 1px solid #f0f2f0;
+    border-top: 1px solid var(--border-subtle);
+    transition: background-color 0.1s;
   }
   .route-result:hover,
   .route-result.active {
-    background: #f3f7f3;
+    background: var(--muted);
   }
   .route-result > span:nth-child(2) {
     flex: 1;
@@ -128,99 +145,106 @@
     display: block;
     font-size: 12px;
     font-weight: 550;
+    color: var(--foreground);
   }
   .route-result small {
     display: block;
-    margin-top: 5px;
-    font-size: 9px;
+    margin-top: 2px;
+    font-size: 10px;
     color: var(--muted-foreground);
   }
   .route-swatch {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 32px;
-    height: 34px;
-    background: #f5f7f5;
-    border-radius: 9px;
+    width: 30px;
+    height: 30px;
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: 7px;
     flex-shrink: 0;
   }
   .show-review {
     width: 100%;
-    border-top: 1px solid var(--border);
-    padding: 13px;
-    color: #8c6c32;
-    font-size: 10px;
+    border-top: 1px solid var(--status-review-border);
+    padding: 10px 14px;
+    color: var(--status-review-fg);
+    font-size: 10.5px;
+    font-weight: 500;
     text-align: left;
-    background: #fdfbf6;
+    background: var(--status-review-bg);
   }
   .municipal-detail .panel-heading h2 {
-    font-size: 21px;
+    font-size: 17px;
   }
   .municipal-detail .panel-scroll {
     font-size: 12px;
-    line-height: 1.65;
+    line-height: 1.6;
   }
   .municipal-detail .panel-scroll small {
     display: block;
     color: var(--muted-foreground);
-    font-size: 10px;
-    margin-top: 7px;
+    font-size: 10.5px;
+    margin-top: 6px;
   }
   .route-service {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
     font-size: 12px;
+    font-weight: 500;
   }
   .route-facts {
     display: flex;
-    gap: 35px;
-    padding: 18px 0;
+    gap: 28px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-subtle);
   }
   .route-facts strong {
     display: block;
-    font-size: 20px;
-    font-weight: 550;
-    letter-spacing: -0.5px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
   .route-facts span {
     display: block;
-    font-size: 10px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
   }
   .source-notice {
-    background: #f3f6f4;
-    border: 1px solid #e4ebe5;
-    padding: 12px;
-    border-radius: 10px;
+    background: var(--surface-subtle);
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    border-radius: 8px;
     font-size: 11px;
-    margin: 12px 0;
+    line-height: 1.5;
+    margin: 10px 0;
   }
   .source-notice.pending {
-    background: #fcf7ed;
-    border-color: #ecdfc5;
-    color: #86632c;
+    background: var(--status-review-bg);
+    border-color: var(--status-review-border);
+    color: var(--status-review-fg);
   }
   .source-filename {
     overflow-wrap: anywhere;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 11px;
   }
   .source-details {
     border-top: 1px solid var(--border);
-    margin-top: 22px;
-    padding-top: 15px;
-    font-size: 10px;
+    margin-top: 18px;
+    padding-top: 12px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
   }
   .source-details summary {
     color: var(--foreground);
-    font-weight: 550;
+    font-weight: 600;
     cursor: pointer;
     font-size: 11px;
   }
   .source-details p {
-    margin-top: 12px;
+    margin-top: 10px;
   }
   .cad-handles {
     overflow-wrap: anywhere;
@@ -235,39 +259,39 @@
     right: 16px;
   }
   .map-info-actions button {
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
   }
 }
 @media (max-width: 767px) {
   .gis-heading .municipal-tag {
-    font-size: 6px;
+    font-size: 7px;
     max-width: 160px;
     text-align: right;
   }
   .route-browser-heading {
-    padding: 10px 12px 4px;
+    padding: 10px 12px 3px;
     font-size: 11px;
   }
   .route-browser-caption {
-    padding: 0 12px 9px;
-    font-size: 9px;
+    padding: 0 12px 8px;
+    font-size: 9.5px;
   }
   .route-results {
     max-height: 180px;
   }
   .route-result {
-    padding: 10px 12px;
+    padding: 9px 12px;
   }
   .route-result strong {
-    font-size: 11px;
+    font-size: 11.5px;
   }
   .map-view-tabs button {
     padding: 6px 4px;
-    font-size: 10px;
+    font-size: 10.5px;
   }
   .municipal-detail .panel-heading h2 {
-    font-size: 20px;
+    font-size: 16px;
   }
   .layer-menu {
     max-height: 340px;
@@ -285,56 +309,63 @@
 @layer components {
   .map-mode-switch {
     display: flex;
-    gap: 3px;
-    padding: 4px;
-    background: #e9eeeb;
-    border-radius: 11px;
+    gap: 2px;
+    padding: 3px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
   }
   .map-mode-switch button {
-    padding: 8px 15px;
-    font-size: 12px;
-    border-radius: 8px;
-    color: #66746d;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    font-weight: 500;
+    border-radius: 6px;
+    color: var(--muted-foreground);
     cursor: pointer;
+    transition:
+      background-color 0.12s,
+      color 0.12s;
   }
   .map-mode-switch button[aria-pressed='true'] {
-    background: white;
-    color: #233c32;
-    box-shadow: 0 1px 4px #203a2612;
+    background: var(--background);
+    color: var(--foreground);
+    box-shadow: var(--shadow-xs);
     font-weight: 600;
   }
   .cartography-legend {
-    background: #ffffff;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: 0 4px 18px #203a260a;
+    border-radius: 10px;
+    box-shadow: var(--shadow-control);
   }
   .cartography-legend summary {
-    padding: 13px 15px;
-    font-size: 11px;
+    padding: 10px 14px;
+    font-size: 11.5px;
     cursor: pointer;
     font-weight: 600;
+    color: var(--foreground);
   }
   .cartography-legend summary span {
     float: right;
-    color: #728077;
-    font-size: 10px;
+    color: var(--muted-foreground);
+    font-size: 10.5px;
     font-weight: 400;
   }
   .legend-items {
-    padding: 0 15px 14px;
+    padding: 0 14px 12px;
   }
   .legend-items p {
     display: flex;
     align-items: center;
     gap: 9px;
     font-size: 11px;
-    margin: 8px 0;
+    margin: 7px 0;
   }
   .legend-items b {
     margin-left: auto;
     font-weight: 500;
-    color: #62716b;
+    color: var(--muted-foreground);
   }
   .legend-items i {
     width: 18px;
@@ -364,20 +395,20 @@
   }
   .legend-items small {
     display: block;
-    color: #738078;
+    color: var(--muted-foreground);
     font-size: 10px;
-    line-height: 1.6;
-    margin-top: 10px;
+    line-height: 1.55;
+    margin-top: 8px;
   }
   .layer-menu {
-    width: 270px;
+    width: 272px;
     max-height: min(65dvh, 520px);
     overflow: auto;
   }
 }
 @media (max-width: 767px) {
   .map-mode-switch button {
-    padding: 7px 10px;
+    padding: 5px 10px;
     font-size: 11px;
   }
   .gis-stage.has-feature .cartography-legend {
@@ -405,8 +436,8 @@
     min-width: 0;
     margin-top: 5px;
     border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 7px;
+    border-radius: 6px;
+    padding: 6px 8px;
     background: var(--background);
     font-size: 11px;
   }
@@ -425,6 +456,9 @@
     padding-top: 6px;
     color: var(--muted-foreground);
     font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
   .second-pass-swatch {
     margin-left: auto;
@@ -501,9 +535,9 @@
   }
   .second-pass-detail .panel-heading small {
     display: block;
-    margin-top: 4px;
-    color: #738078;
-    font-size: 10px;
+    margin-top: 3px;
+    color: var(--muted-foreground);
+    font-size: 10.5px;
   }
   .second-pass-fact,
   .second-pass-crs {
@@ -515,7 +549,7 @@
   .second-pass-fact span,
   .second-pass-crs span {
     display: block;
-    color: #738078;
+    color: var(--muted-foreground);
     font-size: 10px;
   }
 }
@@ -536,6 +570,9 @@
     padding-top: 6px;
     color: var(--muted-foreground);
     font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
   .territorio-swatch {
     margin-left: auto;
@@ -590,8 +627,8 @@
     gap: 10px;
   }
   .territorial-fact dt {
-    color: #738078;
-    font-size: 10px;
+    color: var(--muted-foreground);
+    font-size: 10.5px;
   }
   .territorial-fact dd {
     margin: 2px 0 0;
@@ -601,15 +638,16 @@
   }
   .territorial-source-toggle {
     margin-left: 8px;
-    color: #2f6b4f;
-    font-size: 10px;
+    color: var(--primary);
+    font-size: 10.5px;
+    font-weight: 500;
     text-decoration: underline;
     cursor: pointer;
   }
   .territorial-source {
     display: block;
     margin-top: 4px;
-    color: #5a6862;
+    color: var(--muted-foreground);
     font-size: 10px;
     line-height: 1.5;
   }
@@ -624,26 +662,27 @@
   .territorial-sources small,
   .territorial-relations small {
     display: block;
-    color: #738078;
+    color: var(--muted-foreground);
     font-size: 10px;
   }
   .territorial-empty {
-    color: #738078;
+    color: var(--muted-foreground);
     font-size: 12px;
   }
   .territorial-criterion {
     margin-top: 6px;
     font-size: 11px;
-    color: #4a5b53;
+    color: var(--muted-foreground);
   }
 }
 
 .map-data-note {
-  margin-top: 8px;
+  margin-top: 6px;
   padding: 8px 10px;
-  border-radius: 10px;
-  background: #fff8ec;
-  color: #7a5517;
+  border-radius: 8px;
+  border: 1px solid var(--status-review-border);
+  background: var(--status-review-bg);
+  color: var(--status-review-fg);
   font-size: 11px;
   line-height: 1.45;
 }

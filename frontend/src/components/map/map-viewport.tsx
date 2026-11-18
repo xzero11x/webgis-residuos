@@ -374,7 +374,11 @@ export function MapViewport({
           const territorial = TERRITORIO_CLICK_LAYERS.map((id) =>
             features.find((f) => f.layer.id === id),
           ).find(Boolean);
-          if (territorial && !features.some((f) => f.layer.id === 'predios-fill')) {
+          // Las rutas y los puntos visibles deben poder seleccionarse sobre áreas territoriales.
+          if (
+            territorial &&
+            !features.some((f) => ['rutas-line', 'puntos-circle'].includes(f.layer.id))
+          ) {
             cb.onFeature({
               kind: 'territorio',
               properties: selectionProperties({

@@ -211,6 +211,9 @@ export function MapPage() {
   const [draft, setDraft] = useState<Position[]>([]);
   const [message, setMessage] = useState('');
   useEffect(() => {
+    if (q && selectionQuery.current !== q) {
+      setListOpen(true);
+    }
     const timer = setTimeout(() => {
       setDebounced(q);
       if (q && selectionQuery.current !== q) {

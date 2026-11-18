@@ -15,6 +15,7 @@ export default tseslint.config(
       'playwright-report/**',
       'artifacts/**',
       '.venv-gis/**',
+      '.claude/skills/**',
       'data/cad/**',
       'rustas/**',
       'rutas/**',

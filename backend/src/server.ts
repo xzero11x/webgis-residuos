@@ -14,6 +14,7 @@ const app = createApp(
   env.BAGUA_MASTER_ENABLED === 'true'
     ? { repository: createBaguaMasterRepository(pool), dataDir: env.BAGUA_MASTER_DATA_DIR }
     : undefined,
+  env.BAGUA_MASTER_ENABLED === 'true' ? pool : undefined,
 );
 const server = app.listen(env.PORT, env.HOST, () => {
   logger.info({ host: env.HOST, port: env.PORT }, 'API Bagua WebGIS iniciada');

@@ -4,9 +4,12 @@ Módulo cartográfico **paralelo e independiente** del mapa municipal. Fase 1: m
 Bagua Capital construido **solo** con Overture Maps (release `2026-09-23.1`, esquema `v2.0.0`)
 y MapLibre GL JS, con teselas propias servidas desde nuestra infraestructura.
 
-No contiene rutas municipales, horarios, puntos de recolección, predios, lotes, catastro de
-COFOPRI, rótulos catastrales ni geometrías de los DWG. No concilia fuentes municipales. El mapa
-municipal (`/`) no se modificó: ni su estilo, ni sus capas, ni sus datos.
+La descripción de fase 1 siguiente documenta la base Overture. El módulo incorpora
+posteriormente rutas documentales DWG y una conexión protegida con el padrón sintético,
+como capas y registros independientes. No transforma edificios Overture en predios ni
+certifica horarios o vigencia operativa. Consultar [gestión](gestion-bagua-master.md) y
+[mapa de trabajo](experiencia-mapa-trabajo.md) para los incrementos actuales. El mapa
+municipal histórico (`/`) conserva sus fuentes propias.
 
 ## Arquitectura
 

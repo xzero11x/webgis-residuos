@@ -1,10 +1,20 @@
-import { useCallback, useState } from 'react';
+import { UnitReference } from './components/unit-reference';
+import { ExploreViews } from './components/explore-views';
+import { WorkspaceEdits } from '@/features/gestion/workspace-edits';
+import { useCallback, useEffect, useState } from 'react';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { PredioReference } from './components/predio-reference';
+import { PersonReference } from './components/person-reference';
+import { SpatialReview } from './components/spatial-review';
+import { ExploreWelcome } from '@/features/product/welcome';
+import { legacyWorkTarget } from '@/features/product/legacy';
+import '@/features/gestion/gestion.css';
 import type { Map as MapLibreMap } from 'maplibre-gl';
 import './bagua-master.css';
 import { MapControls } from './components/map-controls';
 import { InfoPanel } from './components/info-panel';
 import { RoutesPanel } from './components/routes-panel';
-import { SearchBox } from './components/search-box';
+import { StylePicker } from './components/style-picker';
 import { OVERTURE_VERSION } from './config';
 import {
   useBaguaMasterRouteMap,
@@ -12,21 +22,35 @@ import {
   useBaguaMasterRoutes,
   useBaguaMasterSummary,
 } from './hooks/use-bagua-master';
-import { BaguaMasterLayout } from './layout/bagua-master-layout';
-import { MAP_THEMES, THEME_NAMES, type MapTheme } from './map/themes';
+import { DEFAULT_THEME, type MapTheme } from './map/themes';
 import { BaguaMasterMap } from './map/bagua-master-map';
-import type { SearchResult, Selection } from './types';
+import type { BaguaMasterTable, Selection } from './types';
 
 // Página del módulo BAGUA MASTER (/bagua-master). Se carga de forma diferida y no depende
 // de ningún componente, estado ni consulta del mapa municipal.
 export function BaguaMasterPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const legacy = legacyWorkTarget(searchParams);
+  const administrativeId = searchParams.get('predio');
+  const personId = searchParams.get('persona');
+  const spatialReview = !!administrativeId && searchParams.get('espacial') === 'revision';
+  const spatialBuilding = searchParams.get('edificio_revision');
+  const chooseSpatialBuilding = useCallback(
+    (id: string) =>
+      setSearchParams((previous) => {
+        const next = new URLSearchParams(previous);
+        next.set('edificio_revision', id);
+        return next;
+      }),
+    [setSearchParams],
+  );
   const [map, setMap] = useState<MapLibreMap | null>(null);
   const [selection, setSelection] = useState<Selection | null>(null);
-  const [theme, setTheme] = useState<MapTheme>('positron');
+  const [theme, setTheme] = useState<MapTheme>(DEFAULT_THEME);
   const [mode3d, setMode3d] = useState(false);
-  const [showSimulated, setShowSimulated] = useState(true);
+  const [showSimulated, setShowSimulated] = useState(false);
   const [failed, setFailed] = useState(false);
-  const [routesOn, setRoutesOn] = useState(false);
+  const [routesOn, setRoutesOn] = useState(searchParams.get('explorar') === 'rutas');
   const [routeCode, setRouteCode] = useState('');
   const summary = useBaguaMasterSummary();
   const heights =
@@ -38,8 +62,25 @@ export function BaguaMasterPage() {
   const routeList = useBaguaMasterRoutes(routesOn);
   const routeMap = useBaguaMasterRouteMap(routesOn);
 
+  const clearAdministrative = useCallback(() => {
+    setSearchParams(
+      (previous) => {
+        const next = new URLSearchParams(previous);
+        next.delete('predio');
+        next.delete('unidad');
+        next.delete('ficha');
+        next.delete('persona');
+        next.delete('espacial');
+        next.delete('edificio_revision');
+        return next;
+      },
+      { replace: true },
+    );
+  }, [setSearchParams]);
+
   const selectRoute = useCallback(
     (code: string) => {
+      clearAdministrative();
       setRouteCode(code);
       if (!code) return;
       setSelection(null);
@@ -61,136 +102,229 @@ export function BaguaMasterPage() {
         },
       );
     },
-    [map, routeList.data],
+    [map, routeList.data, clearAdministrative],
   );
   const toggleRoutes = useCallback(() => {
+    clearAdministrative();
     setRoutesOn((on) => !on);
     setRouteCode('');
-  }, []);
+    setSearchParams((previous) => {
+      const next = new URLSearchParams(previous);
+      next.set('explorar', routesOn ? 'territorio' : 'rutas');
+      return next;
+    });
+  }, [clearAdministrative, routesOn, setSearchParams]);
   // Con un elemento de Overture seleccionado se ve su ficha; las rutas siguen dibujadas.
-  const selectElement = useCallback((next: Selection | null) => {
-    setSelection(next);
-  }, []);
-
-  const pick = useCallback(
-    (result: SearchResult) => {
-      setSelection({ tabla: result.tabla, id: result.id });
-      map?.flyTo({
-        center: result.geometria.coordinates,
-        zoom: 17.5,
-        duration: 900,
-        essential: true,
-      });
+  const selectElement = useCallback(
+    (next: Selection | null) => {
+      if (spatialReview) {
+        if (next?.tabla === 'edificio') chooseSpatialBuilding(next.id);
+        return;
+      }
+      if (next) clearAdministrative();
+      setSelection(next);
     },
-    [map],
+    [clearAdministrative, spatialReview, chooseSpatialBuilding],
   );
+
+  // Entradas desde la búsqueda universal: se ejecutan una vez y se retiran del URL.
+  const placeIntent = searchParams.get('lugar');
+  const routeIntent = searchParams.get('ruta');
+  useEffect(() => {
+    if (!map || !placeIntent) return;
+    const [tabla, id] = placeIntent.split(':');
+    const x = Number(searchParams.get('x'));
+    const y = Number(searchParams.get('y'));
+    setSearchParams(
+      (previous) => {
+        const next = new URLSearchParams(previous);
+        [
+          'lugar',
+          'x',
+          'y',
+          'predio',
+          'unidad',
+          'ficha',
+          'persona',
+          'espacial',
+          'edificio_revision',
+        ].forEach((key) => next.delete(key));
+        return next;
+      },
+      { replace: true },
+    );
+    if (!tabla || !id) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- consume una entrada de URL de un solo uso y mueve el mapa
+    setSelection({ tabla: tabla as BaguaMasterTable, id });
+    if (Number.isFinite(x) && Number.isFinite(y))
+      map.flyTo({ center: [x, y], zoom: 17.5, duration: 900, essential: true });
+  }, [map, placeIntent, searchParams, setSearchParams]);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- la ruta pedida desde la búsqueda abre el panel de rutas
+    if (routeIntent) setRoutesOn(true);
+  }, [routeIntent]);
+  useEffect(() => {
+    if (!routeIntent || !map || !routeList.data) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- selecciona la ruta pedida y retira la entrada del URL
+    selectRoute(routeIntent);
+    setSearchParams(
+      (previous) => {
+        const next = new URLSearchParams(previous);
+        next.delete('ruta');
+        return next;
+      },
+      { replace: true },
+    );
+  }, [routeIntent, map, routeList.data, selectRoute, setSearchParams]);
   const onFailure = useCallback(() => setFailed(true), []);
 
+  if (legacy) return <Navigate to={legacy} replace />;
+
   return (
-    <BaguaMasterLayout search={<SearchBox onPick={pick} />}>
-      <section className="bm-stage" aria-label="Mapa urbano de Bagua">
-        <BaguaMasterMap
-          selection={selection}
-          mode3d={mode3d}
-          theme={theme}
-          heights={heightMap.data}
-          showSimulated={showSimulated}
-          routes={{ visible: routesOn, selected: routeCode, data: routeMap.data }}
-          onSelectRoute={selectRoute}
-          onSelect={selectElement}
-          onMap={setMap}
-          onFailure={onFailure}
-        />
-        <MapControls
-          map={map}
-          mode3d={mode3d}
-          heightsAvailable={heights}
-          routesOn={routesOn}
-          onToggle3d={() => setMode3d((value) => !value)}
-          onToggleRoutes={toggleRoutes}
-        />
-        <div className="bm-style-toolbar" role="toolbar" aria-label="Estilo del mapa">
-          {THEME_NAMES.map((name) => (
-            <button
-              type="button"
-              key={name}
-              aria-pressed={theme === name}
-              onClick={() => setTheme(name)}
-            >
-              {MAP_THEMES[name].label}
-            </button>
-          ))}
-          <button
-            type="button"
-            aria-pressed={mode3d}
-            disabled={!map || heights === 0}
-            title="Activar o desactivar la vista 2.5D"
-            onClick={() => setMode3d((value) => !value)}
-          >
-            3D
-          </button>
-        </div>
-        <p className="bm-badge" data-testid="bm-version">
-          Overture Maps {summary.data?.version?.overture ?? OVERTURE_VERSION}
-        </p>
-        {mode3d && (
-          <div className="bm-height-notice" role="status">
-            {heightMap.isError ? (
-              <>
-                No se pudieron cargar las alturas.{' '}
-                <button type="button" onClick={() => void heightMap.refetch()}>
-                  Reintentar
-                </button>
-              </>
-            ) : heightMap.isLoading ? (
-              'Cargando alturas…'
-            ) : (
-              <>
-                {(summary.data?.alturas.fuentesEstimacion ?? []).map((source) => (
-                  <span className="bm-height-observed" key={source.fuente}>
-                    {source.fuente.includes('Google') ? 'Google' : source.fuente} {source.anio}:{' '}
-                    {source.total.toLocaleString('es-PE')}
-                  </span>
-                ))}
-                <label className="bm-height-simulated">
-                  <input
-                    type="checkbox"
-                    checked={showSimulated}
-                    onChange={(event) => setShowSimulated(event.target.checked)}
-                  />
-                  Mostrar simuladas: {summary.data?.alturas.conSimulacion?.toLocaleString('es-PE')}
-                </label>
-                Simuladas = modelo visual, no alturas observadas. Selecciona un edificio para ver su
-                origen.
-              </>
-            )}
-          </div>
-        )}
-        {failed && (
-          <div className="bm-failure" role="alert">
-            No se pudo cargar la cartografía de BAGUA MASTER. El resto de la aplicación sigue
-            disponible.
-          </div>
-        )}
-        {routesOn && !selection && (
-          <RoutesPanel
-            routes={routeList.data}
-            loading={routeList.isLoading}
-            failed={routeList.isError || routeMap.isError}
-            selected={routeCode}
-            onSelect={selectRoute}
-            onClose={toggleRoutes}
-          />
-        )}
-        {selection && (
-          <InfoPanel
-            key={`${selection.tabla}-${selection.id}`}
+    <>
+      <div className="bm-map-workspace">
+        <section className="bm-stage" aria-label="Mapa urbano de Bagua">
+          <BaguaMasterMap
             selection={selection}
-            onClose={() => setSelection(null)}
+            mode3d={mode3d}
+            theme={theme}
+            heights={heightMap.data}
+            showSimulated={showSimulated}
+            routes={{ visible: routesOn, selected: routeCode, data: routeMap.data }}
+            onSelectRoute={selectRoute}
+            onSelect={selectElement}
+            onMap={setMap}
+            onFailure={onFailure}
+          />
+          <MapControls
+            map={map}
+            mode3d={mode3d}
+            heightsAvailable={heights}
+            routesOn={routesOn}
+            onToggle3d={() => setMode3d((value) => !value)}
+            onToggleRoutes={toggleRoutes}
+          />
+          <StylePicker theme={theme} onChange={setTheme} />
+          <ExploreViews
+            routesOn={routesOn}
+            onRoutes={toggleRoutes}
+            onExplore={() => setSelection(null)}
+          />
+          <p className="bm-badge" data-testid="bm-version">
+            Overture Maps {summary.data?.version?.overture ?? OVERTURE_VERSION}
+          </p>
+          {mode3d && (
+            <details className="bm-height-notice" open={heightMap.isError || undefined}>
+              <summary>Vista 2.5D · origen de las alturas</summary>
+              {heightMap.isError ? (
+                <>
+                  No se pudieron cargar las alturas.{' '}
+                  <button type="button" onClick={() => void heightMap.refetch()}>
+                    Reintentar
+                  </button>
+                </>
+              ) : heightMap.isLoading ? (
+                'Cargando alturas…'
+              ) : (
+                <>
+                  {(summary.data?.alturas.fuentesEstimacion ?? []).map((source) => (
+                    <span className="bm-height-observed" key={source.fuente}>
+                      {source.fuente.includes('Google') ? 'Google' : source.fuente} {source.anio}:{' '}
+                      {source.total.toLocaleString('es-PE')}
+                    </span>
+                  ))}
+                  <label className="bm-height-simulated">
+                    <input
+                      type="checkbox"
+                      checked={showSimulated}
+                      onChange={(event) => setShowSimulated(event.target.checked)}
+                    />
+                    Mostrar simuladas:{' '}
+                    {summary.data?.alturas.conSimulacion?.toLocaleString('es-PE')}
+                  </label>
+                  Simuladas = modelo visual, no alturas observadas. Selecciona un edificio para ver
+                  su origen.
+                </>
+              )}
+            </details>
+          )}
+          {failed && (
+            <div className="bm-failure" role="alert">
+              No se pudo cargar la cartografía de BAGUA MASTER. El resto de la aplicación sigue
+              disponible.
+            </div>
+          )}
+          {routesOn && !selection && !administrativeId && !personId && (
+            <RoutesPanel
+              routes={routeList.data}
+              loading={routeList.isLoading}
+              failed={routeList.isError || routeMap.isError}
+              selected={routeCode}
+              onSelect={selectRoute}
+              onClose={toggleRoutes}
+            />
+          )}
+          {selection && !administrativeId && !personId && (
+            <InfoPanel
+              key={`${selection.tabla}-${selection.id}`}
+              selection={selection}
+              onClose={() => setSelection(null)}
+            />
+          )}
+        </section>
+        {!administrativeId && !personId && !selection && !routesOn && <ExploreWelcome />}
+        {administrativeId && searchParams.get('unidad') && !spatialReview && (
+          <UnitReference predio={administrativeId} id={searchParams.get('unidad')!} />
+        )}
+        {administrativeId && !searchParams.get('unidad') && !spatialReview && (
+          <PredioReference
+            key={administrativeId}
+            id={administrativeId}
+            map={map}
+            onClose={() => {
+              clearAdministrative();
+              document.getElementById('bm-work-search')?.focus();
+            }}
           />
         )}
-      </section>
-    </BaguaMasterLayout>
+        {administrativeId && spatialReview && (
+          <WorkspaceEdits>
+            <SpatialReview
+              key={administrativeId}
+              id={administrativeId}
+              map={map}
+              selected={spatialBuilding}
+              onSelect={chooseSpatialBuilding}
+              onClose={() => {
+                setSearchParams((previous) => {
+                  const next = new URLSearchParams(previous);
+                  next.delete('espacial');
+                  next.delete('edificio_revision');
+                  return next;
+                });
+              }}
+            />
+          </WorkspaceEdits>
+        )}
+        {personId && (
+          <PersonReference
+            key={personId}
+            id={personId}
+            onClose={clearAdministrative}
+            onPredio={(id) =>
+              setSearchParams((previous) => {
+                const next = new URLSearchParams(previous);
+                next.delete('persona');
+                next.set('predio', id);
+                next.delete('unidad');
+                next.delete('edificio_revision');
+                return next;
+              })
+            }
+          />
+        )}
+      </div>
+    </>
   );
 }
 

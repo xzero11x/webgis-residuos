@@ -15,6 +15,12 @@ export const envSchema = z.object({
   PGUSER: z.string().min(1),
   PGPASSWORD: z.string().min(1),
   PGPOOL_MAX: z.coerce.number().int().min(1).max(50).default(10),
+  // Distinto de NODE_ENV: un contenedor optimizado puede ser un entorno local.
+  BAGUA_DEPLOYMENT: z.enum(['local', 'test', 'production']).default('production'),
+  BAGUA_FIXTURE_DATABASE: z.string().default(''),
+  // Sin inicio de sesión: todo acceso actúa como la cuenta administradora local. Solo se admite
+  // en un destino local o de pruebas con fixtures habilitados; si no, el servidor no arranca.
+  BAGUA_ACCESO_LIBRE: z.enum(['true', 'false']).default('false'),
   // BAGUA MASTER (módulo independiente): se puede desactivar sin afectar al WebGIS municipal.
   BAGUA_MASTER_ENABLED: z.enum(['true', 'false']).default('true'),
   BAGUA_MASTER_DATA_DIR: z

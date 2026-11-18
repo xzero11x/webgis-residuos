@@ -85,6 +85,29 @@ const ROAD_CASING: ExpressionSpecification = [
   2.6,
 ];
 
+/**
+ * Sombra proyectada: la huella desplazada `metros` hacia el rumbo `hacia` (grados desde el norte).
+ * Es un recurso de presentación; no añade ni modifica geometrías. Escala con el terreno.
+ */
+const shadowOffset = (metros: number, hacia: number): ExpressionSpecification => {
+  const rad = (hacia * Math.PI) / 180;
+  const at = (zoom: number): ExpressionSpecification => {
+    const px = metros * PX_PER_M_Z16 * 2 ** (zoom - 16);
+    return ['literal', [+(px * Math.sin(rad)).toFixed(2), +(-px * Math.cos(rad)).toFixed(2)]];
+  };
+  return [
+    'interpolate',
+    ['exponential', 2],
+    ['zoom'],
+    15,
+    at(15),
+    MAX_ZOOM_STYLE,
+    at(MAX_ZOOM_STYLE),
+  ];
+};
+/** Rumbo desde el que llega la luz en la vista 2.5D; la sombra del suelo cae al lado opuesto. */
+const LIGHT_AZIMUTH = 295;
+
 const MAJOR_ROADS: ExpressionSpecification = [
   'match',
   ['get', 'clase'],
@@ -129,7 +152,23 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
     version: 8,
     name: `BAGUA MASTER · Overture · ${MAP_THEMES[theme].label}`,
     metadata: { 'bagua:base': 'Overture Maps', 'bagua:referencia-visual': MAP_THEMES[theme].label },
-    light: { anchor: 'viewport', color: '#ffffff', intensity: 0.45, position: [1.5, 210, 40] },
+    // Luz fija al mapa: las caras conservan su sombreado al girar la vista.
+    light: {
+      anchor: 'map',
+      color: PALETTE.luz,
+      intensity: 0.38,
+      position: [1.6, LIGHT_AZIMUTH, 38],
+    },
+    // Cielo y bruma del horizonte, visibles con la vista 2.5D muy inclinada.
+    sky: {
+      'sky-color': PALETTE.cielo,
+      'horizon-color': PALETTE.horizonte,
+      'fog-color': PALETTE.horizonte,
+      'sky-horizon-blend': 0.7,
+      'horizon-fog-blend': 0.8,
+      'fog-ground-blend': 0.85,
+      'atmosphere-blend': 0,
+    },
     glyphs: GLYPHS_URL(),
     sources: {
       [SOURCE]: { type: 'vector', url: TILES_URL(), attribution: ATTRIBUTION },
@@ -198,6 +237,20 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: { 'line-color': PALETTE.aguaLinea, 'line-width': zoomWidth(1.5, 4, 14) },
       },
+      // Sombra corta bajo cada edificio: separa las manzanas del suelo sin recargar el mapa.
+      {
+        id: 'bm-edificios-sombra',
+        type: 'fill',
+        source: SOURCE,
+        'source-layer': 'edificios',
+        minzoom: 15,
+        paint: {
+          'fill-color': PALETTE.edificioSombra,
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.5],
+          'fill-translate': shadowOffset(1.1, LIGHT_AZIMUTH - 180),
+          'fill-translate-anchor': 'map',
+        },
+      },
       {
         id: 'bm-edificios',
         type: 'fill',
@@ -222,7 +275,7 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         minzoom: 15,
         paint: {
           'line-color': PALETTE.edificioBorde,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.2, 18, 0.65],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.3, 18, 0.9],
         },
       },
       {
@@ -299,6 +352,20 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
           'fill-extrusion-opacity': 0.85,
         },
       },
+      // Sombra en el suelo de los volúmenes 2.5D (misma capa derivada, mismo filtro).
+      {
+        id: 'bm-alturas-sombra',
+        type: 'fill',
+        source: 'bm-alturas',
+        minzoom: 15,
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-color': PALETTE.sombra,
+          'fill-opacity': 0.32,
+          'fill-translate': shadowOffset(7, LIGHT_AZIMUTH - 180),
+          'fill-translate-anchor': 'map',
+        },
+      },
       {
         id: 'bm-alturas-3d',
         type: 'fill-extrusion',
@@ -326,7 +393,8 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
               PALETTE.volumenMaximo,
             ],
           ],
-          'fill-extrusion-opacity': 0.95,
+          'fill-extrusion-vertical-gradient': true,
+          'fill-extrusion-opacity': 1,
         },
       },
       {
@@ -419,8 +487,15 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
           'symbol-placement': 'line',
           'symbol-sort-key': ['*', -1, ['get', 'rango']],
           'text-field': ['get', 'nombre'],
-          'text-font': ['Noto Sans Regular'],
+          // Avenidas y vías principales en peso medio: la jerarquía también se lee en el texto.
+          'text-font': [
+            'case',
+            ['>=', ['coalesce', ['get', 'rango'], 0], 3],
+            ['literal', ['Noto Sans Medium']],
+            ['literal', ['Noto Sans Regular']],
+          ],
           'text-size': ['interpolate', ['linear'], ['zoom'], 14.5, 10.5, 16, 12, 18, 14],
+          'text-letter-spacing': 0.02,
           'text-padding': 2,
           'symbol-spacing': 360,
           'text-max-angle': 45,
@@ -428,7 +503,8 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         paint: {
           'text-color': PALETTE.texto,
           'text-halo-color': PALETTE.halo,
-          'text-halo-width': 1.2,
+          'text-halo-width': 1.4,
+          'text-halo-blur': 0.4,
         },
       },
       /*

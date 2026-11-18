@@ -4,52 +4,53 @@
     flex: 1;
     min-height: 0;
     flex-direction: column;
-    padding: 0 18px 18px;
+    padding: 0 12px 12px;
   }
   .gis-heading {
     display: flex;
-    min-height: 60px;
+    min-height: 46px;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     padding: 0 4px;
   }
   .gis-heading h1 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: -0.35px;
+    letter-spacing: -0.01em;
+    color: var(--foreground);
   }
   .gis-heading h1 > span {
-    margin-left: 12px;
-    font-size: 11px;
+    margin-left: 8px;
+    font-size: 11.5px;
     font-weight: 400;
     color: var(--muted-foreground);
     letter-spacing: 0;
   }
   .demo-tag {
     display: inline-block;
-    color: #957026;
-    background: #fcf5e6;
-    border: 1px solid #e9d9b1;
-    border-radius: 6px;
-    padding: 3px 6px;
-    font-size: 8px;
-    font-weight: 650;
-    letter-spacing: 0.65px;
+    color: var(--status-review-fg);
+    background: var(--status-review-bg);
+    border: 1px solid var(--status-review-border);
+    border-radius: 5px;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
   }
   .gis-stage {
     min-height: 540px;
-    border-radius: 18px;
+    border-radius: 12px;
   }
   .map-tools-left {
     position: absolute;
-    top: 16px;
-    left: 16px;
-    width: 300px;
+    top: 12px;
+    left: 12px;
+    width: 304px;
     z-index: 5;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     pointer-events: none;
   }
   .map-tools-left > * {
@@ -57,12 +58,12 @@
   }
   .map-action-row {
     display: flex;
-    gap: 7px;
+    gap: 6px;
     align-items: center;
   }
   .map-action-row [data-slot='button'] {
-    font-size: 11px;
-    box-shadow: 0 2px 7px #22372806;
+    font-size: 11.5px;
+    box-shadow: var(--shadow-control);
   }
   .layer-control {
     position: relative;
@@ -71,48 +72,58 @@
     display: flex;
     gap: 6px;
     align-items: center;
-    height: 36px;
+    height: 32px;
     padding: 0 10px;
     border: 1px solid var(--border);
-    border-radius: 12px;
-    background: #fff;
-    font-size: 11px;
+    border-radius: 8px;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-control);
+    font-size: 11.5px;
     font-weight: 500;
+    color: var(--foreground);
     cursor: pointer;
     list-style: none;
+    transition: background-color 0.12s;
+  }
+  .layer-control > summary:hover {
+    background: #fff;
   }
   .layer-control > summary::-webkit-details-marker {
     display: none;
   }
   .layer-menu {
     position: absolute;
-    top: 44px;
+    top: 38px;
     right: 0;
     z-index: 20;
-    width: 220px;
-    padding: 16px;
+    width: 240px;
+    padding: 12px 14px;
     background: #fff;
     border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: 0 8px 30px #22372812;
+    border-radius: 10px;
+    box-shadow: var(--shadow-panel);
   }
   .layer-menu p {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: var(--muted-foreground);
     font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
   .layer-menu label {
     display: flex;
-    gap: 9px;
+    gap: 8px;
     align-items: center;
-    padding: 10px 0;
+    padding: 7px 0;
     font-size: 12px;
     cursor: pointer;
   }
   input[type='checkbox'] {
     accent-color: var(--primary);
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
   }
   .legend-predios,
   .legend-sectores {
@@ -141,66 +152,72 @@
     background: #f5f7ef;
   }
   .filters-card {
-    padding: 14px;
+    padding: 12px 14px;
     border: 1px solid var(--border);
-    border-radius: 14px;
-    background: #fff;
-    box-shadow: 0 4px 18px #203a2610;
+    border-radius: 10px;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-panel);
   }
   .filters-card strong {
     font-size: 12px;
   }
   .filters-card button {
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 500;
     color: var(--primary);
   }
   .filters-card label {
     display: block;
-    margin-top: 10px;
-    font-size: 10px;
+    margin-top: 8px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
   }
   .filters-card select {
     display: block;
     width: 100%;
-    margin-top: 5px;
-    padding: 8px;
+    margin-top: 4px;
+    padding: 6px 8px;
     border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #f9faf9;
+    border-radius: 6px;
+    background: var(--background);
     color: var(--foreground);
-    font-size: 11px;
+    font-size: 11.5px;
   }
   .results-panel {
     overflow: hidden;
     border: 1px solid var(--border);
-    border-radius: 14px;
-    background: #fff;
-    box-shadow: 0 4px 18px #203a2610;
+    border-radius: 10px;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-panel);
   }
   .results-heading {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 15px;
+    padding: 11px 14px;
     font-size: 12px;
+    font-weight: 500;
   }
   .results-heading > span {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
   }
   .results-heading strong {
-    min-width: 22px;
-    border-radius: 6px;
-    padding: 2px 6px;
+    min-width: 20px;
+    border-radius: 5px;
+    padding: 1px 6px;
     background: var(--muted);
+    border: 1px solid var(--border-subtle);
     font-size: 10px;
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--muted-foreground);
   }
   .results-list {
-    max-height: calc(100dvh - 370px);
+    max-height: calc(100dvh - 350px);
     overflow-y: auto;
     border-top: 1px solid var(--border);
     overscroll-behavior: contain;
@@ -210,80 +227,87 @@
     width: 100%;
     align-items: center;
     gap: 10px;
-    padding: 15px 13px;
+    padding: 11px 13px;
     text-align: left;
-    border-bottom: 1px solid #f0f2ef;
-    transition: background 0.12s;
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background-color 0.1s;
   }
   .predio-result:hover {
-    background: #f5f8f5;
+    background: var(--muted);
   }
   .result-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 33px;
-    height: 37px;
+    width: 30px;
+    height: 32px;
     flex-shrink: 0;
-    background: #f1f5f2;
-    border-radius: 10px;
+    background: var(--surface-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: 7px;
   }
   .predio-result strong {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 600;
   }
   .predio-result em {
-    font-size: 7px;
+    font-size: 8px;
     font-style: normal;
-    font-weight: 500;
-    color: #978359;
-    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: var(--status-review-fg);
+    background: var(--status-review-bg);
+    padding: 1px 4px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
   }
   .result-address {
     display: block;
-    margin-top: 4px;
+    margin-top: 2px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 10px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
   }
   .predio-result small {
     display: block;
-    margin-top: 6px;
-    font-size: 9px;
-    color: #53675b;
+    margin-top: 3px;
+    font-size: 9.5px;
+    color: var(--muted-foreground);
   }
   .empty-results {
-    padding: 24px 15px;
+    padding: 20px 14px;
     text-align: center;
     font-size: 12px;
     color: var(--muted-foreground);
   }
   .empty-results button {
     display: block;
-    margin: 12px auto 0;
+    margin: 10px auto 0;
     color: var(--primary);
-    font-size: 11px;
+    font-size: 11.5px;
+    font-weight: 500;
   }
   .map-home {
     position: absolute;
     right: 10px;
-    top: 92px;
+    top: 90px;
     z-index: 3;
     width: 34px;
     height: 34px;
     border-radius: 8px;
-    box-shadow: 0 1px 5px #0002;
+    box-shadow: var(--shadow-control);
   }
   .gis-stage .maplibregl-ctrl-top-right {
     top: 8px;
   }
   .gis-stage .maplibregl-ctrl-group {
-    border-radius: 9px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-control);
   }
   .gis-stage .maplibregl-ctrl-group button {
     width: 34px;
@@ -291,51 +315,54 @@
   }
   .demo-map-note {
     position: absolute;
-    left: 16px;
-    bottom: 9px;
+    left: 12px;
+    bottom: 8px;
     max-width: 70%;
     pointer-events: none;
     border-radius: 5px;
-    background: #ffffffdc;
-    padding: 4px 7px;
-    font-size: 8px;
-    color: #72736b;
+    border: 1px solid var(--border-subtle);
+    background: rgb(255 255 255 / 90%);
+    padding: 3px 8px;
+    font-size: 9.5px;
+    color: var(--muted-foreground);
   }
   .detail-panel {
     position: absolute;
     z-index: 10;
-    right: 58px;
-    top: 16px;
-    bottom: 32px;
+    right: 54px;
+    top: 12px;
+    bottom: 28px;
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 352px;
     max-height: 800px;
     overflow: hidden;
     border: 1px solid var(--border);
-    border-radius: 18px;
+    border-radius: 12px;
     background: #fff;
-    box-shadow: 0 6px 28px #253f2514;
+    box-shadow: var(--shadow-panel);
   }
   .panel-heading {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     flex-shrink: 0;
-    padding: 20px 20px 16px;
+    padding: 14px 16px 12px;
     border-bottom: 1px solid var(--border);
+    background: var(--surface-subtle);
   }
   .panel-heading h2 {
-    margin-top: 7px;
-    font-size: 22px;
+    margin-top: 5px;
+    font-size: 18px;
     font-weight: 600;
-    letter-spacing: -0.7px;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
   }
   .panel-heading [data-slot='button'] {
     color: var(--muted-foreground);
   }
   .panel-scroll {
-    padding: 20px;
+    padding: 16px;
     overflow-y: auto;
     overscroll-behavior: contain;
     flex: 1;
@@ -345,40 +372,42 @@
     display: flex;
     gap: 8px;
     font-size: 12px;
-    line-height: 1.7;
+    line-height: 1.55;
     color: var(--muted-foreground);
   }
   .detail-address svg {
-    margin-top: 3px;
+    margin-top: 2px;
   }
   .detail-metrics {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    gap: 14px;
-    margin-top: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    margin-top: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-subtle);
   }
   .detail-metrics span {
-    font-size: 10px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
   }
   .detail-metrics strong {
     display: block;
-    margin-top: 5px;
-    font-size: 11px;
-    font-weight: 500;
+    margin-top: 3px;
+    font-size: 12px;
+    font-weight: 600;
   }
   .detail-section {
-    margin-top: 22px;
+    margin-top: 18px;
   }
   .detail-section h3 {
     display: flex;
-    gap: 7px;
+    gap: 6px;
     align-items: center;
     font-size: 11px;
     font-weight: 600;
-    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+    color: var(--foreground);
+    margin-bottom: 10px;
   }
   .detail-section h3 svg {
     width: 14px;
@@ -389,60 +418,61 @@
     display: flex;
     gap: 10px;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .person-avatar {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     flex-shrink: 0;
     border-radius: 50%;
     background: var(--muted);
     color: var(--muted-foreground);
   }
   .person-row p {
-    font-size: 11px;
-    line-height: 1.5;
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1.4;
   }
   .person-row span {
     display: block;
-    margin-top: 3px;
+    margin-top: 2px;
     font-size: 10px;
     color: var(--muted-foreground);
   }
   .service-card {
-    padding: 14px;
-    margin-top: 10px;
+    padding: 12px;
+    margin-top: 8px;
     border: 1px solid var(--border);
-    border-radius: 12px;
-    background: #fafbf9;
+    border-radius: 9px;
+    background: var(--surface-subtle);
   }
   .route-schedule {
     display: flex;
     gap: 8px;
-    padding-top: 12px;
-    margin-top: 12px;
-    border-top: 1px solid var(--border);
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid var(--border-subtle);
     font-size: 11px;
     color: var(--primary);
   }
   .route-schedule strong {
-    font-weight: 500;
+    font-weight: 600;
   }
   .route-schedule span {
     display: block;
-    margin-top: 4px;
+    margin-top: 2px;
     font-size: 10px;
     color: var(--muted-foreground);
   }
   .panel-actions {
     display: flex;
-    gap: 9px;
-    padding: 14px 18px;
+    gap: 8px;
+    padding: 12px 16px;
     border-top: 1px solid var(--border);
-    background: #fff;
+    background: var(--surface-subtle);
     flex-shrink: 0;
   }
   .panel-actions [data-slot='button'] {
@@ -452,13 +482,13 @@
     display: none;
   }
   .delete-confirm {
-    margin-top: 18px;
+    margin-top: 14px;
     padding: 12px;
     border: 1px solid #efc8c3;
-    border-radius: 10px;
+    border-radius: 8px;
     background: #fff6f4;
-    font-size: 11px;
-    line-height: 1.7;
+    font-size: 11.5px;
+    line-height: 1.55;
   }
   .editor-form {
     display: flex;
@@ -467,14 +497,14 @@
     flex-direction: column;
   }
   .editor-panel {
-    width: 380px;
+    width: 376px;
     max-height: none;
   }
   .field label {
     display: block;
     font-size: 11px;
     font-weight: 500;
-    margin-bottom: 7px;
+    margin-bottom: 5px;
   }
   .field input,
   .field select,
@@ -485,14 +515,14 @@
   .field textarea {
     width: 100%;
     border: 1px solid var(--input);
-    border-radius: 10px;
+    border-radius: 8px;
     background: #fff;
-    padding: 10px;
+    padding: 8px 10px;
   }
   .field-error {
     display: block;
     margin-top: 4px;
-    font-size: 10px;
+    font-size: 10.5px;
     color: var(--destructive);
   }
   .field-error:empty {
@@ -503,7 +533,7 @@
   }
   .form-section {
     border-top: 1px solid var(--border);
-    padding-top: 16px;
+    padding-top: 14px;
   }
   .form-section > summary {
     font-size: 12px;
@@ -512,33 +542,34 @@
   }
   .form-section > summary span {
     margin-left: 8px;
-    font-size: 10px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
     font-weight: 400;
   }
   .person-fields {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 12px;
-    margin-bottom: 10px;
+    gap: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 8px;
   }
   .service-option {
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 10px;
   }
   .geometry-summary {
     display: flex;
     align-items: center;
     gap: 7px;
-    padding: 10px;
-    background: #f4f7f3;
-    border-radius: 9px;
-    font-size: 10px;
-    color: var(--primary);
+    padding: 9px 10px;
+    background: var(--status-verified-bg);
+    border: 1px solid var(--status-verified-border);
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--status-verified-fg);
   }
   .geometry-summary button {
     margin-left: auto;
@@ -546,54 +577,57 @@
     text-decoration: underline;
   }
   .form-error {
-    font-size: 11px;
-    line-height: 1.7;
+    font-size: 11.5px;
+    line-height: 1.55;
     background: #fff3ee;
+    border: 1px solid #f2cec2;
     color: #993c2e;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
   }
   .drawing-bar {
     position: absolute;
     z-index: 15;
     left: 50%;
-    bottom: 44px;
+    bottom: 36px;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 25px;
-    padding: 16px 20px;
+    gap: 20px;
+    padding: 12px 16px;
     border: 1px solid var(--border);
-    border-radius: 16px;
-    background: #fff;
-    box-shadow: 0 4px 20px #0001;
+    border-radius: 12px;
+    background: var(--surface-elevated);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-panel);
     max-width: calc(100% - 24px);
     width: max-content;
   }
   .drawing-bar strong {
-    font-size: 13px;
+    font-size: 12.5px;
   }
   .drawing-bar p {
     font-size: 11px;
     color: var(--muted-foreground);
-    margin-top: 5px;
+    margin-top: 3px;
   }
   .map-toast {
     position: absolute;
-    top: 17px;
+    top: 14px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 25;
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 16px;
-    border: 1px solid #d3e5d5;
-    border-radius: 12px;
-    background: #f6fff7;
-    color: var(--primary);
-    font-size: 11px;
-    box-shadow: 0 3px 12px #0001;
+    padding: 9px 14px;
+    border: 1px solid var(--status-verified-border);
+    border-radius: 9px;
+    background: var(--status-verified-bg);
+    color: var(--status-verified-fg);
+    font-size: 11.5px;
+    font-weight: 500;
+    box-shadow: var(--shadow-control);
     max-width: 90%;
   }
   .map-toast button {
@@ -602,62 +636,65 @@
   .map-feature-card {
     position: absolute;
     z-index: 10;
-    bottom: 44px;
-    left: 16px;
+    bottom: 36px;
+    left: 12px;
     width: 300px;
-    padding: 20px;
+    padding: 16px;
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 12px;
     background: #fff;
-    box-shadow: 0 5px 20px #0001;
+    box-shadow: var(--shadow-panel);
   }
   .map-feature-card > button {
     position: absolute;
-    right: 12px;
-    top: 12px;
+    right: 10px;
+    top: 10px;
   }
   .map-feature-card h2 {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    margin: 10px 0;
+    margin: 8px 0;
   }
   .map-feature-card p {
     font-size: 12px;
-    margin-top: 7px;
+    margin-top: 6px;
   }
   .map-feature-card small {
     display: block;
-    font-size: 10px;
+    font-size: 10.5px;
     color: var(--muted-foreground);
-    margin-top: 14px;
-    line-height: 1.6;
+    margin-top: 12px;
+    line-height: 1.5;
   }
   .detail-loading {
     position: absolute;
-    right: 60px;
-    top: 16px;
+    right: 54px;
+    top: 12px;
     width: 300px;
-    padding: 20px;
+    padding: 16px;
     background: #fff;
-    border-radius: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow-panel);
     font-size: 12px;
     z-index: 12;
   }
   .detail-loading button {
     display: block;
-    margin-top: 12px;
+    margin-top: 10px;
     text-decoration: underline;
   }
   .map-data-error {
-    padding: 12px;
-    background: #fff4e5;
+    padding: 10px 12px;
+    background: var(--status-review-bg);
+    border: 1px solid var(--status-review-border);
     font-size: 11px;
-    border-radius: 10px;
-    color: #8a6126;
+    border-radius: 8px;
+    color: var(--status-review-fg);
   }
   .map-data-error button {
     display: block;
-    margin-top: 7px;
+    margin-top: 6px;
     text-decoration: underline;
   }
   .mobile-map-search {
@@ -665,14 +702,15 @@
     display: none;
     align-items: center;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 8px;
     border: 1px solid var(--border);
+    box-shadow: var(--shadow-control);
   }
   .gis-stage .map-provider-status {
     top: auto;
-    bottom: 45px;
+    bottom: 40px;
     left: auto;
-    right: 60px;
+    right: 54px;
     z-index: 20;
     max-width: 340px;
   }
@@ -687,17 +725,17 @@
     width: 280px;
   }
   .detail-panel {
-    right: 50px;
+    right: 48px;
     width: 330px;
   }
 }
 @media (max-width: 767px) {
   .gis-page {
-    padding: 0 0 0;
+    padding: 0;
   }
   .gis-heading {
-    min-height: 44px;
-    padding: 0 17px;
+    min-height: 40px;
+    padding: 0 14px;
   }
   .gis-heading h1 {
     font-size: 13px;
@@ -713,39 +751,39 @@
     border-radius: 0;
   }
   .map-tools-left {
-    top: 12px;
-    left: 12px;
-    width: calc(100% - 64px);
-    gap: 8px;
+    top: 10px;
+    left: 10px;
+    width: calc(100% - 60px);
+    gap: 6px;
   }
   .mobile-map-search {
     display: flex;
   }
   .mobile-map-search input {
     font-size: 12px;
-    height: 40px;
+    height: 36px;
     background: #fff;
   }
   .map-action-row {
     gap: 5px;
   }
   .map-action-row [data-slot='button'] {
-    height: 34px;
-    font-size: 10px;
+    height: 32px;
+    font-size: 10.5px;
     padding: 0 9px;
     gap: 5px;
   }
   .layer-control > summary {
-    height: 34px;
-    font-size: 10px;
+    height: 32px;
+    font-size: 10.5px;
     padding: 0 9px;
   }
   .layer-menu {
     right: 0;
-    width: 220px;
+    width: 224px;
   }
   .results-heading {
-    padding: 10px 12px;
+    padding: 9px 12px;
   }
   .results-list {
     max-height: 220px;
@@ -765,10 +803,10 @@
     width: 100%;
     height: 49%;
     max-height: none;
-    border-radius: 22px 22px 0 0;
+    border-radius: 16px 16px 0 0;
     border-bottom: 0;
     z-index: 16;
-    box-shadow: 0 -3px 24px #0001;
+    box-shadow: 0 -4px 20px rgb(15 23 32 / 10%);
   }
   .detail-panel.expanded {
     height: 84%;
@@ -777,35 +815,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 25px;
+    height: 22px;
     flex-shrink: 0;
     width: 100%;
+    background: var(--surface-subtle);
   }
   .detail-mobile-handle span {
     height: 4px;
-    width: 34px;
-    border-radius: 8px;
-    background: #d6ded7;
+    width: 32px;
+    border-radius: 999px;
+    background: var(--border);
   }
   .panel-heading {
-    padding: 9px 18px 14px;
+    padding: 8px 16px 12px;
   }
   .panel-heading h2 {
-    font-size: 20px;
+    font-size: 17px;
     margin-top: 4px;
   }
   .panel-scroll {
-    padding: 16px 18px;
+    padding: 14px 16px;
   }
   .panel-actions {
-    padding: 12px 18px max(12px, env(safe-area-inset-bottom));
+    padding: 10px 14px max(10px, env(safe-area-inset-bottom));
   }
   .detail-metrics {
     margin-top: 14px;
     padding-bottom: 14px;
   }
   .detail-section {
-    margin-top: 17px;
+    margin-top: 16px;
   }
   .editor-panel {
     height: calc(100% - 25px);
@@ -813,25 +852,26 @@
     z-index: 25;
   }
   .editor-panel .panel-heading {
-    padding-top: 18px;
+    padding-top: 16px;
   }
   .drawing-bar {
-    bottom: 40px;
-    flex-direction: column;
+    bottom: 36px;
     gap: 12px;
+    padding: 12px 14px;
+    flex-direction: column;
     align-items: flex-start;
     width: calc(100% - 24px);
-    padding: 14px;
   }
   .drawing-bar > div:last-child {
     width: 100%;
+    display: flex;
     justify-content: flex-end;
   }
   .demo-map-note {
     bottom: 32px;
     left: 8px;
     max-width: calc(100% - 50px);
-    font-size: 7px;
+    font-size: 7.5px;
   }
   .map-toast {
     top: auto;
@@ -840,18 +880,30 @@
     right: 12px;
     max-width: none;
     transform: none;
-    font-size: 10px;
+    font-size: 10.5px;
     padding: 10px;
   }
   .map-feature-card {
-    bottom: 32px;
     left: 12px;
+    bottom: 32px;
     width: calc(100% - 24px);
+  }
+  .detail-loading {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 24px;
+    width: auto;
+  }
+  .map-tools-left.is-editing {
+    display: none;
   }
   .gis-stage .map-provider-status {
     right: 12px;
-    bottom: 70px;
     left: 12px;
+    bottom: 70px;
+    max-width: none;
+    width: auto;
     font-size: 10px;
   }
 }

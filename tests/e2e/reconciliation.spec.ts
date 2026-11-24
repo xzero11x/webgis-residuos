@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 test('ruta 2026 recuperada y consulta CAD por archivo', async ({ page, request }, info) => {
   const errors: string[] = [];
@@ -26,7 +27,7 @@ test('ruta 2026 recuperada y consulta CAD por archivo', async ({ page, request }
       (f: { properties: { ref: string } }) => f.properties.ref === '989930EF',
     ),
   ).toBe(true);
-  await page.goto('/');
+  await openMunicipalViewer(page);
   const map = page.getByTestId('territorial-map');
   await expect(map).toHaveAttribute('data-ready', 'true', { timeout: 60000 });
   await page.locator('input[type=search]:visible').fill('2026');

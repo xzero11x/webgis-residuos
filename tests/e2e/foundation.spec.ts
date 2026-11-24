@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 test('API, PostGIS y Swagger responden', async ({ request, page }) => {
   expect((await request.get('/api/health')).status()).toBe(200);
@@ -17,7 +18,7 @@ test('API, PostGIS y Swagger responden', async ({ request, page }) => {
 test('mapa real, búsqueda, ficha, filtros y capas responsive', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/');
+  await openMunicipalViewer(page);
   await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
     timeout: 60_000,
   });
@@ -82,7 +83,7 @@ test('dibujar, crear, editar, recargar y eliminar un predio en PostGIS', async (
 }, testInfo) => {
   const code = `E2E-${testInfo.project.name.toUpperCase()}-${Date.now()}`;
   try {
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });
@@ -145,7 +146,7 @@ test('dibujar, crear, editar, recargar y eliminar un predio en PostGIS', async (
 });
 
 test('navegación y estado de conexión', async ({ page }) => {
-  await page.goto('/');
+  await openMunicipalViewer(page);
   if (await page.getByRole('button', { name: 'Abrir navegación' }).isVisible())
     await page.getByRole('button', { name: 'Abrir navegación' }).click();
   await page.getByRole('link', { name: 'Estado del sistema', exact: true }).click();

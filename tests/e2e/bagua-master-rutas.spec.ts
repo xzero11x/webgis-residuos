@@ -36,7 +36,8 @@ test.describe('BAGUA MASTER · rutas de recolección', () => {
     await expect(page.getByTestId('bm-ruta-MUN-COMERCIAL')).toHaveCount(0);
     await expect(page.getByTestId('bm-ruta-MUN-INSTITUCIONAL')).toHaveCount(0);
     await expect(page.locator('[data-testid^="bm-ruta-"]')).toHaveCount(7);
-    await expect(panel).toContainText('no se ajustan');
+    await expect(panel).toContainText('ajustados a la red vial');
+    await expect(panel).toContainText('trazo original del plano se conserva');
     expect(errors).toEqual([]);
   });
 

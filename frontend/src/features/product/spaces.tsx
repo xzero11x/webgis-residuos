@@ -12,6 +12,7 @@ import { PasswordChange, Users } from '@/features/gestion/users';
 import { ActivityComposer } from '@/features/bagua-master/components/activity-composer';
 import '@/features/gestion/gestion.css';
 import { SessionGate } from './session';
+import { ResultadosOperacion } from './resultados-operacion';
 import { useEnvironment } from './use-session';
 
 function Space({
@@ -235,9 +236,12 @@ export function ResultadosPage() {
         <Space
           eyebrow="Resultados"
           title="Análisis de resultados"
-          lead="Entregas registradas por periodo, servicio y material. Cada cifra sale de registros que puedes abrir; lo que falta registrar no se estima."
+          lead="Participación en los programas selectivos, kilos recolectados, valorización y padrón. Cada cifra sale de registros que puedes abrir; lo que falta registrar no se estima."
         >
           <section className="pr-card pr-card-pad">
+            <ResultadosOperacion user={user} />
+          </section>
+          <section className="pr-card pr-card-pad" style={{ marginTop: 20 }}>
             <Reports user={user} />
           </section>
         </Space>

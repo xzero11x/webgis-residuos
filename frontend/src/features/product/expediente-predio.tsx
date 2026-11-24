@@ -16,6 +16,8 @@ import {
   useSpatialLinks,
 } from '@/features/bagua-master/components/spatial-links';
 import { LocationMiniMap } from './location-minimap';
+import { OperacionPredio } from './operacion-predio';
+import { QrPredio } from '@/features/qr/qr-predio';
 import { Sheet } from './sheet';
 import { SessionGate } from './session';
 
@@ -66,6 +68,13 @@ function Dossier({ id, user }: { id: string; user: User }) {
     retry: false,
   });
   const spatial = useSpatialLinks(id);
+  const operation = useQuery({
+    queryKey: ['gestion', 'operacion', id],
+    queryFn: ({ signal }) =>
+      management<{ horarios: unknown[] }>(`/predios/${id}/operacion`, 'GET', undefined, signal),
+    enabled: query.isSuccess,
+    retry: false,
+  });
   const mutation = useMutation({
     mutationFn: ({
       path,
@@ -396,6 +405,7 @@ function Dossier({ id, user }: { id: string; user: User }) {
                   <p>Asignación, participación y entrega son registros distintos.</p>
                 </div>
               </div>
+              <OperacionPredio predioId={p.id} />
               <div className="pr-card">
                 {!data.asignaciones.length && !data.participaciones.length ? (
                   <div className="pr-empty">
@@ -494,6 +504,12 @@ function Dossier({ id, user }: { id: string; user: User }) {
           </div>
 
           <aside className="pr-dossier-aside" aria-label="Contexto del expediente">
+            <QrPredio
+              predioId={p.id}
+              direccion={p.direccion}
+              sector={p.sector ?? null}
+              editable={editable}
+            />
             <section className="pr-card" aria-labelledby="h-cadena">
               <div className="pr-section-head" style={{ padding: '16px 20px 0', margin: 0 }}>
                 <h2 id="h-cadena">Cadena de información</h2>
@@ -511,7 +527,13 @@ function Dossier({ id, user }: { id: string; user: User }) {
                     'Servicios y participación',
                     `${data.asignaciones.length} asignados`,
                   ],
-                  ['servicios', 'Rutas y horarios', 'sin vínculo documentado'],
+                  [
+                    'servicios',
+                    'Rutas y horarios',
+                    operation.data
+                      ? `${operation.data.horarios.length} servicios con horario`
+                      : 'consultando…',
+                  ],
                   ['actividad', 'Entregas e historial', `${activeDeliveries} entregas`],
                 ].map(([anchor, label, count], index) => (
                   <li key={`${anchor}-${index}`} style={{ padding: '9px 20px' }}>

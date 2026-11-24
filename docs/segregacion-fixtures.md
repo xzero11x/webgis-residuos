@@ -3,7 +3,7 @@
 > Registro de incrementos con cortes históricos. Para el estado actual consultar
 > el [avance único](avance-verificado.md); los límites y conteos de cada corte no
 > acreditan que sigan pendientes o hayan sido reprobados hoy. La interacción objetivo
-> se define en [entorno integrado](../VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
+> se define en [entorno integrado](archive/VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
 
 Incremento B11 del plan sin Rentas, 16/11/2026. Reutiliza la configuración y el
 pool; no modifica migraciones, datos existentes, cartografía ni interfaz.

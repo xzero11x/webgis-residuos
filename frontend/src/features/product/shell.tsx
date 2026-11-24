@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet, useLocation, useMatch } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   BarChart3,
+  ClipboardCheck,
   ClipboardList,
   FolderOpen,
   KeyRound,
@@ -26,6 +27,7 @@ const spaces = [
   { to: '/bagua-master', end: true, label: 'Explorar', icon: MapIcon },
   { to: '/bagua-master/expedientes', end: false, label: 'Expedientes', icon: FolderOpen },
   { to: '/bagua-master/servicios', end: false, label: 'Servicios', icon: ClipboardList },
+  { to: '/bagua-master/campo', end: false, label: 'Campo', icon: ClipboardCheck },
   { to: '/bagua-master/resultados', end: false, label: 'Resultados', icon: BarChart3 },
 ] as const;
 
@@ -171,6 +173,7 @@ function MainRegion({ isMap, children }: { isMap: boolean; children: ReactNode }
 const titles: [string, string][] = [
   ['/bagua-master/expedientes', 'Expedientes'],
   ['/bagua-master/servicios', 'Servicios'],
+  ['/bagua-master/campo', 'Campo'],
   ['/bagua-master/resultados', 'Resultados'],
   ['/bagua-master/administracion', 'Administración'],
 ];

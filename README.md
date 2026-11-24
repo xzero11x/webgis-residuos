@@ -5,7 +5,7 @@ Abrir [mapa de trabajo](http://localhost:8080/bagua-master). El visor de `/` es
 legado independiente; su DEMO no define el padrón administrativo actual.
 
 [Producto](PRODUCT.md) · [Estado y evidencia](docs/avance-verificado.md) ·
-[Interacción](VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md) ·
+[Interacción](docs/archive/VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md) ·
 [Gestión: uso y contratos](docs/gestion-bagua-master.md).
 Para agentes: [AGENTS.md](AGENTS.md), con consulta documental según la tarea.
 
@@ -110,8 +110,11 @@ PMTiles propias, rutas documentales DWG y gestión administrativa separada. Bús
 fichas y operaciones se integran en el mapa sin sidebar permanente. El histórico
 permanece independiente. Las alturas derivadas conservan su procedencia y las
 simuladas requieren elección explícita.
-[Cartografía](docs/bagua-master.md) · [Alturas](docs/alturas-estimadas.md) ·
-[Avance técnico](docs/avance-verificado.md).
+[Cartografía](docs/bagua-master.md) · [Alturas](docs/alturas-estimadas.md) · [Edificaciones complementarias](docs/edificaciones-complementarias.md) ·
+
+- [Coherencia interna del mapa](docs/coherencia-interna.md)
+- [Operación del servicio de residuos](docs/operacion-servicio.md)
+  [Avance técnico](docs/avance-verificado.md).
 
 ## Rutas municipales del visor histórico — reproducción técnica
 

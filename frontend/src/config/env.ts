@@ -11,7 +11,7 @@ export const frontendEnvSchema = z.object({
     .default('/api'),
   VITE_MAP_STYLE_URL: mapStyle.default(''),
   // Módulos cartográficos independientes: cada uno se puede ocultar sin afectar al otro.
-  VITE_MUNICIPAL_MAP_ENABLED: z.enum(['true', 'false']).default('true'),
+  VITE_MUNICIPAL_MAP_ENABLED: z.enum(['true', 'false']).default('false'),
   VITE_BAGUA_MASTER_ENABLED: z.enum(['true', 'false']).default('true'),
 });
 

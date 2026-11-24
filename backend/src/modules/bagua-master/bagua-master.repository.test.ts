@@ -68,3 +68,74 @@ describe('Alturas satelitales independientes de Overture', () => {
     expect(element?.alturaM).toBeNull();
   });
 });
+
+describe('Huellas complementarias de otras fuentes abiertas', () => {
+  it('publica la procedencia y marca como provisional la altura por defecto', async () => {
+    const query = vi.fn().mockResolvedValueOnce({
+      rows: [
+        {
+          id: 'cmp-ms_buildings-1',
+          fuente: 'ms_buildings',
+          confianza_geo: 'media',
+          confianza_valor: null,
+          registro_fuente: null,
+          area_m2: 78,
+          regularizacion: 'rectangulo',
+          atributos: {},
+          altura_m: 3,
+          origen_altura: 'estimada_default',
+          altura_cobertura: null,
+          altura_muestras: null,
+          licencia: 'ODbL-1.0',
+          version_fusion: 'fusion-x',
+          geometria: { type: 'Polygon', coordinates: [] },
+        },
+      ],
+    });
+    const element = await createBaguaMasterRepository({
+      query,
+    } as unknown as Pool).complementElement('cmp-ms_buildings-1');
+    expect(element?.tabla).toBe('edificio_complemento');
+    expect(element?.alturaM).toBeNull();
+    expect(element?.complemento).toMatchObject({
+      fuente: 'ms_buildings',
+      confianzaGeo: 'media',
+      alturaM: 3,
+      origenAltura: 'estimada_default',
+    });
+    expect(query.mock.calls[0]?.[1]).toEqual(['cmp-ms_buildings-1']);
+  });
+
+  it('devuelve null si la huella no existe y consulta solo la tabla complementaria', async () => {
+    const query = vi.fn().mockResolvedValue({ rows: [] });
+    const repository = createBaguaMasterRepository({ query } as unknown as Pool);
+    expect(await repository.complementElement('nada')).toBeNull();
+    expect(String(query.mock.calls[0]?.[0])).toContain('edificio_complemento');
+    expect(String(query.mock.calls[0]?.[0])).not.toMatch(/bagua_master\.edificio\s+WHERE/);
+  });
+
+  it('el mapa expone solo propiedades ligeras por huella', async () => {
+    const query = vi.fn().mockResolvedValueOnce({
+      rows: [
+        {
+          id: 'c1',
+          fuente: 'google_presencia',
+          confianza_geo: 'baja',
+          altura_m: 4.5,
+          origen_altura: 'google_temporal',
+          area_m2: 40,
+          geometry: { type: 'Polygon', coordinates: [] },
+        },
+      ],
+    });
+    const map = await createBaguaMasterRepository({ query } as unknown as Pool).complementMap();
+    expect(map.features[0]?.properties).toEqual({
+      id: 'c1',
+      fuente: 'google_presencia',
+      confianza: 'baja',
+      altura_m: 4.5,
+      origen_altura: 'google_temporal',
+      area_m2: 40,
+    });
+  });
+});

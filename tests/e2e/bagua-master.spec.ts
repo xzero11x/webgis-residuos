@@ -1,4 +1,5 @@
 import { expect, test, type Page, type Request } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 import { readFileSync } from 'node:fs';
 
 // BAGUA MASTER: 15 verificaciones del módulo nuevo y 7 de no regresión del mapa municipal.
@@ -46,7 +47,7 @@ async function waitIdle(page: Page) {
 
 test.describe('BAGUA MASTER', () => {
   test('BM-01 entrada en la barra lateral y ruta propia', async ({ page }) => {
-    await page.goto('/');
+    await openMunicipalViewer(page);
     if (await page.getByRole('button', { name: 'Abrir navegación' }).isVisible())
       await page.getByRole('button', { name: 'Abrir navegación' }).click();
     const link = page.getByRole('link', { name: /BAGUA MASTER/ });
@@ -294,7 +295,7 @@ test.describe('BAGUA MASTER', () => {
 test.describe('Mapa municipal sin regresiones', () => {
   test('MAP-01 el mapa municipal sigue cargando en /', async ({ page }) => {
     const { errors } = track(page);
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });
@@ -303,7 +304,7 @@ test.describe('Mapa municipal sin regresiones', () => {
 
   test('MAP-02 el mapa municipal no carga nada de BAGUA MASTER', async ({ page }) => {
     const { requests } = track(page);
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });
@@ -311,15 +312,22 @@ test.describe('Mapa municipal sin regresiones', () => {
     expect(requests.filter((r) => /bagua-master|pmtiles/.test(r.url()))).toEqual([]);
   });
 
-  test('MAP-03 la navegación vuelve al mapa general', async ({ page }) => {
-    // El acceso al mapa general histórico vive en el menú de la cuenta.
+  test('MAP-03 el visor histórico está retirado: / lleva a BAGUA MASTER', async ({ page }) => {
+    await page.goto('/');
+    await expect(page).toHaveURL(/\/bagua-master$/);
+    await expect(page.getByTestId('bagua-master-map')).toHaveAttribute('data-ready', 'true', {
+      timeout: 60_000,
+    });
     const source = readFileSync('artifacts/accesos-locales/admin-bagua.txt', 'utf8');
     await page.goto('/bagua-master/expedientes');
     if (
       await page
         .getByLabel('Contraseña', { exact: true })
-        .isVisible({ timeout: 3000 })
-        .catch(() => false)
+        .waitFor({ state: 'visible', timeout: 5000 })
+        .then(
+          () => true,
+          () => false,
+        )
     ) {
       await page.getByLabel('Usuario', { exact: true }).fill(source.match(/^Usuario: (.+)$/m)![1]!);
       await page
@@ -328,18 +336,14 @@ test.describe('Mapa municipal sin regresiones', () => {
       await page.getByRole('button', { name: 'Ingresar', exact: true }).click();
     }
     await page.getByRole('button', { name: /^Cuenta de / }).click();
-    await page.getByRole('menuitem', { name: /Mapa general · histórico/ }).click();
-    await expect(page).toHaveURL(/\/$/);
-    await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
-      timeout: 60_000,
-    });
+    await expect(page.getByRole('menuitem', { name: /Mapa general/ })).toHaveCount(0);
   });
 
   test('MAP-04 la búsqueda territorial sigue en el mapa general y no en BAGUA MASTER', async ({
     page,
   }, info) => {
     test.skip(info.project.name === 'mobile', 'La búsqueda de cabecera se oculta en celular.');
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.locator('.header-search')).toBeVisible();
     await openMaster(page);
     await expect(page.locator('.header-search')).toHaveCount(0);
@@ -363,7 +367,7 @@ test.describe('Mapa municipal sin regresiones', () => {
 
   test('MAP-07 ir y volver entre módulos no produce errores', async ({ page }) => {
     const { errors } = track(page);
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });

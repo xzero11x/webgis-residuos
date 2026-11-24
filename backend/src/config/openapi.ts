@@ -82,6 +82,60 @@ export const openapi = {
         },
       },
     },
+    '/bagua-master/servicio/programacion': {
+      get: {
+        tags: ['BAGUA MASTER'],
+        summary:
+          'Programación de rutas: servicio, días, ventana horaria, turno, sectores y operador',
+        responses: { 200: { description: 'Lista de programaciones vigentes' } },
+      },
+    },
+    '/bagua-master/servicio/consulta': {
+      get: {
+        tags: ['BAGUA MASTER'],
+        summary: '¿Qué servicio pasa por este punto y a qué hora aproximada?',
+        parameters: [
+          { name: 'lon', in: 'query', required: true, schema: { type: 'number' } },
+          { name: 'lat', in: 'query', required: true, schema: { type: 'number' } },
+        ],
+        responses: {
+          200: { description: 'Servicios con hora estimada (base: plano o recorrido)' },
+          400: { description: 'Fuera de Bagua' },
+        },
+      },
+    },
+    '/bagua-master/qr/{codigo}': {
+      get: {
+        tags: ['BAGUA MASTER'],
+        summary:
+          'Página pública del sticker QR: horario de recolección del predio, sin datos personales',
+        parameters: [{ name: 'codigo', in: 'path', required: true, schema: { type: 'string' } }],
+        responses: {
+          200: {
+            description:
+              'Sector y servicios con días y hora estimada; activo=false si fue reemplazado',
+          },
+          400: { description: 'Código mal escrito (falla el dígito de control)' },
+          404: { description: 'Código no registrado' },
+        },
+      },
+    },
+    '/bagua-master/infraestructura': {
+      get: {
+        tags: ['BAGUA MASTER'],
+        summary: 'Contenedores, puntos limpios, centro de acopio y planta de compostaje (GeoJSON)',
+        responses: { 200: { description: 'FeatureCollection' } },
+      },
+    },
+    '/bagua-master/correcciones': {
+      get: {
+        tags: ['BAGUA MASTER'],
+        summary:
+          'Correcciones cartográficas locales vigentes (ocultos, lugares movidos, edificaciones agregadas)',
+        description: 'Público y sin autoría; el detalle con autor y motivo requiere sesión.',
+        responses: { 200: { description: 'Identificadores ocultos y dos FeatureCollection' } },
+      },
+    },
     '/bagua-master/resumen': {
       get: {
         tags: ['BAGUA MASTER'],

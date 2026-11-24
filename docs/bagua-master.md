@@ -398,7 +398,8 @@ con restricciones CHECK (`ruta_fuente_dwg`, `ruta_sin_pdf`, `ruta_flecha_fuente_
 `ruta_marcador_fuente_dwg`). Cada ruta guarda su procedencia (archivo de trazos, de flechas y de marcadores)
 y la ficha la muestra.
 
-- Los trazos se copian tal cual: **no se ajustan a las calles de Overture**. La longitud es la suma de
+- Los trazos se ajustan a la red vial para que circulen por las calles (ver
+  [coherencia interna](coherencia-interna.md)); el trazo DWG original se conserva. La longitud es la suma de
   trazos (puede repetir calles), no la distancia de recorrido. «Georreferenciada» no acredita vigencia
   operativa ni precisión topográfica; no hay horarios ni frecuencias validados. Las rutas en revisión
   necesitan además confirmar su identificación.

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 // Capturas de BAGUA MASTER para la documentación (CAPTURAS=1). No forma parte de la suite normal.
 const dir = 'artifacts/screenshots/bagua-master';
@@ -36,7 +37,7 @@ test.describe('Capturas de BAGUA MASTER', () => {
     await page.getByRole('button', { name: 'Cerrar información' }).click();
     await page.getByTestId('bm-modo-3d').hover({ force: true });
     await page.screenshot({ path: `${dir}/${p}-04-estado-2-5d.png` });
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });

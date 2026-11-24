@@ -1,6 +1,10 @@
 import { useState } from 'react';
+import { routeColor } from '../map/rutas-layers';
 import { ArrowLeft, ChevronDown, X } from 'lucide-react';
-import type { RouteStatus, RouteSummary, RoutesResponse } from '../types';
+import type { RouteStatus, RouteSummary, RoutesResponse, ServiceProgram } from '../types';
+import { useServicePrograms } from '../hooks/use-bagua-master';
+import { SERVICE_COLOR, SERVICE_LABEL, formatDays } from './service-format';
+import './service-schedule.css';
 
 const STATUS: Record<RouteStatus, { label: string; detail: string }> = {
   georreferenciada: {
@@ -26,7 +30,7 @@ function Swatch({ route }: { route: RouteSummary }) {
         y1="4"
         x2="26"
         y2="4"
-        stroke={route.color}
+        stroke={routeColor(route.codigo, route.color)}
         strokeWidth="4"
         strokeLinecap={route.estado === 'revision' ? 'butt' : 'round'}
         strokeDasharray={route.estado === 'revision' ? '5 3' : undefined}
@@ -44,10 +48,36 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   );
 }
 
-function Ficha({ route }: { route: RouteSummary }) {
+function Ficha({ route, programs }: { route: RouteSummary; programs: ServiceProgram[] }) {
   const arrows = route.flechas;
   return (
     <dl data-testid="bm-ruta-ficha">
+      {programs.length > 0 && (
+        <Row label="Servicio y horario">
+          <ul className="bm-ruta-programas" data-testid="bm-ruta-programas">
+            {programs.map((p) => (
+              <li key={p.id}>
+                <span
+                  className="bm-horario-tipo"
+                  style={{ background: SERVICE_COLOR[p.servicio] }}
+                  aria-hidden="true"
+                />
+                <span>
+                  <strong>{SERVICE_LABEL[p.servicio]}</strong> · {formatDays(p.dias)} ·{' '}
+                  {p.horaInicio}–{p.horaFin}
+                  <br />
+                  <span className="bm-horario-nota">
+                    {p.vehiculo} · {p.operador}
+                    {p.tiemposPlano > 0 && p.servicio === 'convencional'
+                      ? ` · ${p.tiemposPlano} tiempos de paso en el plano`
+                      : ''}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Row>
+      )}
       <Row label="Estado">
         <strong>{STATUS[route.estado].label}</strong> · {STATUS[route.estado].detail}
       </Row>
@@ -65,7 +95,7 @@ function Ficha({ route }: { route: RouteSummary }) {
           ? `${arrows.dibujadas} flechas del plano, verificadas contra el trazo. ${route.sentidoEstado}.`
           : 'Sin flechas recuperadas del plano: no se indica sentido de recorrido.'}
       </Row>
-      <Row label="Horario">{route.horarioEstado}</Row>
+      {programs.length === 0 && <Row label="Horario">{route.horarioEstado}</Row>}
       <Row label="Fuente documental">
         DWG municipal
         <br />
@@ -113,6 +143,8 @@ export function RoutesPanel({
 }) {
   const [collapsed, setCollapsed] = useState(false);
   const current = routes?.rutas.find((r) => r.codigo === selected);
+  const programs = useServicePrograms().data?.programaciones ?? [];
+  const programsOf = (code: string) => programs.filter((p) => p.ruta === code);
   return (
     <aside
       className={`bm-info bm-rutas ${collapsed ? 'is-collapsed' : ''}`}
@@ -182,13 +214,20 @@ export function RoutesPanel({
                         </span>
                         {formatKm(route.longitudTrazosM)}
                       </span>
+                      {programsOf(route.codigo).length > 0 && (
+                        <span className="bm-ruta-servicios">
+                          {programsOf(route.codigo)
+                            .map((p) => `${SERVICE_LABEL[p.servicio]} ${formatDays(p.dias)}`)
+                            .join(' · ')}
+                        </span>
+                      )}
                     </button>
                   </li>
                 ))}
               </ul>
             </>
           )}
-          {routes && current && <Ficha route={current} />}
+          {routes && current && <Ficha route={current} programs={programsOf(current.codigo)} />}
           {routes?.aviso && <p className="bm-rutas-aviso">{routes.aviso}</p>}
         </div>
       )}

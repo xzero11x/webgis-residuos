@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 test('archivo municipal: rutas persistidas, procedencia y separación de datos', async ({
   request,
@@ -55,7 +56,7 @@ test('buscar rutas, seleccionar, revisar procedencia y activar CAD en todos los 
 }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/');
+  await openMunicipalViewer(page);
   await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
     timeout: 60000,
   });

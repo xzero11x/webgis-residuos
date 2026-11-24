@@ -23,8 +23,11 @@ async function signIn(page: Page, name: string) {
   if (
     await page
       .getByLabel('Contraseña', { exact: true })
-      .isVisible({ timeout: 3000 })
-      .catch(() => false)
+      .waitFor({ state: 'visible', timeout: 5000 })
+      .then(
+        () => true,
+        () => false,
+      )
   ) {
     await page.getByLabel('Usuario', { exact: true }).fill(account.usuario);
     await page.getByLabel('Contraseña', { exact: true }).fill(account.password);

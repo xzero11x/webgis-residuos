@@ -3,12 +3,12 @@
 > Registro de incrementos con cortes históricos. Para el estado actual consultar
 > el [avance único](avance-verificado.md); los límites y conteos de cada corte no
 > acreditan que sigan pendientes o hayan sido reprobados hoy. La interacción objetivo
-> se define en [entorno integrado](../VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
+> se define en [entorno integrado](archive/VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
 
 ## Decisión vigente
 
 La decisión del usuario se consolida como reglas ejecutables en
-[VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md](../VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
+[VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md](archive/VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
 Prevalece sobre la propuesta anterior de una sidebar con módulos permanentes.
 AGENTS.md, CLAUDE.md, PRODUCT.md y ambas skills propias de Bagua incorporan la
 decisión: mapa primero, acciones según contexto y complejidad bajo demanda.

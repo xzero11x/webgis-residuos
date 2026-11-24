@@ -36,6 +36,13 @@ function setup(overrides: Partial<Record<keyof BaguaMasterRepository, unknown>> 
     heightMap: vi.fn().mockResolvedValue({ type: 'FeatureCollection', features: [] }),
     summary: vi.fn().mockResolvedValue({ modulo: 'BAGUA MASTER' }),
     element: vi.fn().mockResolvedValue({ id: 'a', tabla: 'edificio' }),
+    complementMap: vi.fn().mockResolvedValue({ type: 'FeatureCollection', features: [] }),
+    complementElement: vi.fn().mockResolvedValue({ id: 'cmp-1', tabla: 'edificio_complemento' }),
+    corrections: vi.fn().mockResolvedValue({
+      ocultos: { lugar: [], edificio: ['manual'], edificio_complemento: [] },
+      lugaresMovidos: { type: 'FeatureCollection', features: [] },
+      edificiosAgregados: { type: 'FeatureCollection', features: [] },
+    }),
     search: vi.fn().mockResolvedValue([]),
     routes: vi.fn().mockResolvedValue({ aviso: 'documental', rutas: [{ codigo: 'MUN-1001' }] }),
     routeMap: vi.fn().mockResolvedValue({
@@ -45,13 +52,32 @@ function setup(overrides: Partial<Record<keyof BaguaMasterRepository, unknown>> 
     }),
     ...overrides,
   } as unknown as BaguaMasterRepository;
+  const dir = dataDir();
   return {
     repository,
-    app: createApp(health, undefined, undefined, { repository, dataDir: dataDir() }),
+    dir,
+    app: createApp(health, undefined, undefined, { repository, dataDir: dir }),
   };
 }
 
 describe('BAGUA MASTER (módulo independiente)', () => {
+  it('publica las correcciones locales sumando los ocultos automáticos, sin caché', async () => {
+    const { app, dir } = setup();
+    const empty = await request(app).get('/api/bagua-master/correcciones');
+    expect(empty.status).toBe(200);
+    expect(empty.body.ocultos.edificio).toEqual(['manual']);
+    expect(empty.headers['cache-control']).toBe('no-store');
+    mkdirSync(path.join(dir, 'coherencia'));
+    writeFileSync(
+      path.join(dir, 'coherencia', 'ocultos_automaticos.json'),
+      JSON.stringify({ regla: 'plazas', edificio: ['glorieta', 'manual'] }),
+    );
+    const merged = await request(app).get('/api/bagua-master/correcciones');
+    expect(merged.body.ocultos.edificio).toEqual(['manual', 'glorieta']);
+    // Sin autoría en la lectura pública.
+    expect(JSON.stringify(merged.body)).not.toMatch(/autor|motivo|usuario/);
+  });
+
   it('expone las alturas derivadas de solo lectura con caché acotada', async () => {
     const { app, repository } = setup();
     const response = await request(app).get('/api/bagua-master/alturas/mapa');
@@ -138,5 +164,40 @@ describe('BAGUA MASTER (módulo independiente)', () => {
     expect(
       (await request(app).delete('/api/bagua-master/teselas/bagua-master.pmtiles')).status,
     ).toBe(404);
+  });
+});
+
+describe('Capa complementaria de edificaciones', () => {
+  it('publica las huellas complementarias de solo lectura con caché acotada', async () => {
+    const { app, repository } = setup();
+    const response = await request(app).get('/api/bagua-master/complemento/mapa');
+    expect(response.status).toBe(200);
+    expect(response.headers['cache-control']).toBe('public, max-age=300');
+    expect(repository.complementMap).toHaveBeenCalledTimes(1);
+  });
+
+  it('no declara caché pública cuando la consulta falla', async () => {
+    const { app } = setup({ complementMap: vi.fn().mockRejectedValue(new Error('db caída')) });
+    const response = await request(app).get('/api/bagua-master/complemento/mapa');
+    expect(response.status).toBe(500);
+    expect(response.headers['cache-control'] ?? '').not.toMatch(/public/);
+  });
+
+  it('resuelve la ficha de una huella complementaria sin pasar por Overture', async () => {
+    const { app, repository } = setup();
+    const response = await request(app).get(
+      '/api/bagua-master/elementos/edificio_complemento/cmp-ms_buildings-abc123',
+    );
+    expect(response.status).toBe(200);
+    expect(repository.complementElement).toHaveBeenCalledWith('cmp-ms_buildings-abc123');
+    expect(repository.element).not.toHaveBeenCalled();
+  });
+
+  it('responde 404 si la huella complementaria no existe', async () => {
+    const { app } = setup({ complementElement: vi.fn().mockResolvedValue(null) });
+    const response = await request(app).get(
+      '/api/bagua-master/elementos/edificio_complemento/cmp-x',
+    );
+    expect(response.status).toBe(404);
   });
 });

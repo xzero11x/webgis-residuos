@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 // Se ejecuta con scripts/bagua-master/independencia.mjs, que compila el frontend con un
 // módulo desactivado (INDEPENDENCIA=sin-bagua-master | sin-mapa-municipal).
@@ -13,7 +14,7 @@ test.describe('Independencia de los módulos cartográficos', () => {
     const errors: string[] = [];
     page.on('request', (r) => requests.push(r.url()));
     page.on('pageerror', (e) => errors.push(e.message));
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });
@@ -35,7 +36,7 @@ test.describe('Independencia de los módulos cartográficos', () => {
     const errors: string[] = [];
     page.on('request', (r) => requests.push(r.url()));
     page.on('pageerror', (e) => errors.push(e.message));
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page).toHaveURL(/\/bagua-master$/);
     await expect(page.getByTestId('bagua-master-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,

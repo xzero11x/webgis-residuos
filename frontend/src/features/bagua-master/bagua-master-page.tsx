@@ -15,16 +15,20 @@ import { MapControls } from './components/map-controls';
 import { InfoPanel } from './components/info-panel';
 import { RoutesPanel } from './components/routes-panel';
 import { StylePicker } from './components/style-picker';
+import { CorrectionsPanel, DrawBar } from './components/map-corrections';
+import { useCanEditMap, useMapCorrections } from './hooks/use-map-corrections';
 import { OVERTURE_VERSION } from './config';
 import {
   useBaguaMasterRouteMap,
+  useBaguaMasterComplement,
   useBaguaMasterHeights,
+  useInfrastructure,
   useBaguaMasterRoutes,
   useBaguaMasterSummary,
 } from './hooks/use-bagua-master';
 import { DEFAULT_THEME, type MapTheme } from './map/themes';
 import { BaguaMasterMap } from './map/bagua-master-map';
-import type { BaguaMasterTable, Selection } from './types';
+import type { BaguaMasterTable, LngLat, MapDrawing, MapView, Selection } from './types';
 
 // Página del módulo BAGUA MASTER (/bagua-master). Se carga de forma diferida y no depende
 // de ningún componente, estado ni consulta del mapa municipal.
@@ -47,7 +51,12 @@ export function BaguaMasterPage() {
   const [map, setMap] = useState<MapLibreMap | null>(null);
   const [selection, setSelection] = useState<Selection | null>(null);
   const [theme, setTheme] = useState<MapTheme>(DEFAULT_THEME);
-  const [mode3d, setMode3d] = useState(false);
+  const [view, setView] = useState<MapView>('2d');
+  const mode3d = view !== '2d';
+  const [correctionsOn, setCorrectionsOn] = useState(false);
+  const [drawing, setDrawing] = useState<MapDrawing | null>(null);
+  const corrections = useMapCorrections();
+  const canEdit = useCanEditMap();
   const [showSimulated, setShowSimulated] = useState(false);
   const [failed, setFailed] = useState(false);
   const [routesOn, setRoutesOn] = useState(searchParams.get('explorar') === 'rutas');
@@ -58,6 +67,8 @@ export function BaguaMasterPage() {
     (summary.data?.alturas.conEstimacion ?? 0) +
     (summary.data?.alturas.conSimulacion ?? 0);
   const heightMap = useBaguaMasterHeights(mode3d);
+  const complementMap = useBaguaMasterComplement(true);
+  const infrastructure = useInfrastructure();
   // Las rutas se piden solo al activarlas: abrir BAGUA MASTER no cuesta nada extra.
   const routeList = useBaguaMasterRoutes(routesOn);
   const routeMap = useBaguaMasterRouteMap(routesOn);
@@ -177,6 +188,29 @@ export function BaguaMasterPage() {
     );
   }, [routeIntent, map, routeList.data, selectRoute, setSearchParams]);
   const onFailure = useCallback(() => setFailed(true), []);
+  // Edición del mapa: cada clic ubica el lugar o agrega una esquina; Escape la cancela.
+  const onDrawClick = useCallback(
+    (point: LngLat) =>
+      setDrawing((current) =>
+        current?.tipo === 'mover'
+          ? { ...current, punto: point }
+          : current?.tipo === 'agregar'
+            ? { ...current, puntos: [...current.puntos, point] }
+            : current,
+      ),
+    [],
+  );
+  useEffect(() => {
+    if (!drawing) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDrawing(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [drawing]);
+  const relocated = new Set(
+    (corrections.data?.lugaresMovidos.features ?? []).map((f) => String(f.properties?.id)),
+  );
 
   if (legacy) return <Navigate to={legacy} replace />;
 
@@ -186,10 +220,15 @@ export function BaguaMasterPage() {
         <section className="bm-stage" aria-label="Mapa urbano de Bagua">
           <BaguaMasterMap
             selection={selection}
-            mode3d={mode3d}
+            view={view}
             theme={theme}
             heights={heightMap.data}
             showSimulated={showSimulated}
+            complement={complementMap.data}
+            corrections={corrections.data}
+            infrastructure={infrastructure.data}
+            drawing={drawing}
+            onDrawClick={onDrawClick}
             routes={{ visible: routesOn, selected: routeCode, data: routeMap.data }}
             onSelectRoute={selectRoute}
             onSelect={selectElement}
@@ -198,11 +237,18 @@ export function BaguaMasterPage() {
           />
           <MapControls
             map={map}
-            mode3d={mode3d}
+            view={view}
             heightsAvailable={heights}
             routesOn={routesOn}
-            onToggle3d={() => setMode3d((value) => !value)}
+            canEdit={canEdit}
+            correctionsOn={correctionsOn}
+            onView={setView}
             onToggleRoutes={toggleRoutes}
+            onToggleCorrections={() => {
+              setCorrectionsOn((on) => !on);
+              setDrawing(null);
+              setSelection(null);
+            }}
           />
           <StylePicker theme={theme} onChange={setTheme} />
           <ExploreViews
@@ -215,7 +261,15 @@ export function BaguaMasterPage() {
           </p>
           {mode3d && (
             <details className="bm-height-notice" open={heightMap.isError || undefined}>
-              <summary>Vista 2.5D · origen de las alturas</summary>
+              <summary>
+                {view === '3d' ? 'Vista 3D libre' : 'Vista 2.5D'} · origen de las alturas
+              </summary>
+              {view === '3d' && (
+                <span className="bm-height-observed">
+                  Gira e inclina con clic derecho o Ctrl + arrastrar; en pantalla táctil, con dos
+                  dedos.
+                </span>
+              )}
               {heightMap.isError ? (
                 <>
                   No se pudieron cargar las alturas.{' '}
@@ -254,7 +308,32 @@ export function BaguaMasterPage() {
               disponible.
             </div>
           )}
-          {routesOn && !selection && !administrativeId && !personId && (
+          {correctionsOn && !selection && !administrativeId && !personId && (
+            <CorrectionsPanel
+              map={map}
+              onClose={() => {
+                setCorrectionsOn(false);
+                setDrawing(null);
+              }}
+              onAddBuilding={() => setDrawing({ tipo: 'agregar', puntos: [] })}
+            />
+          )}
+          {drawing && (
+            <DrawBar
+              key={drawing.tipo}
+              drawing={drawing}
+              onUndoPoint={() =>
+                setDrawing((current) =>
+                  current?.tipo === 'agregar'
+                    ? { ...current, puntos: current.puntos.slice(0, -1) }
+                    : current,
+                )
+              }
+              onCancel={() => setDrawing(null)}
+              onSaved={() => setDrawing(null)}
+            />
+          )}
+          {routesOn && !correctionsOn && !selection && !administrativeId && !personId && (
             <RoutesPanel
               routes={routeList.data}
               loading={routeList.isLoading}
@@ -269,10 +348,17 @@ export function BaguaMasterPage() {
               key={`${selection.tabla}-${selection.id}`}
               selection={selection}
               onClose={() => setSelection(null)}
+              canEdit={canEdit}
+              relocated={selection.tabla === 'lugar' && relocated.has(selection.id)}
+              onMove={(nombre) =>
+                setDrawing({ tipo: 'mover', elementoId: selection.id, nombre, punto: null })
+              }
             />
           )}
         </section>
-        {!administrativeId && !personId && !selection && !routesOn && <ExploreWelcome />}
+        {!administrativeId && !personId && !selection && !routesOn && !correctionsOn && (
+          <ExploreWelcome />
+        )}
         {administrativeId && searchParams.get('unidad') && !spatialReview && (
           <UnitReference predio={administrativeId} id={searchParams.get('unidad')!} />
         )}

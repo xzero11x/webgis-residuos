@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 const TOMAQUE = 'RUTA TOMAQUE - BRUJO PATA - CASUARINAS.dwg';
 type Feature = { properties: Record<string, unknown> };
@@ -93,7 +94,7 @@ test('modo Técnico: capas de la segunda pasada apagadas, ficha con procedencia'
   test.skip(info.project.name === 'tablet', 'Escritorio y móvil cubren los dos diseños.');
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/');
+  await openMunicipalViewer(page);
   const map = page.getByTestId('territorial-map');
   await expect(map).toHaveAttribute('data-ready', 'true', { timeout: 60000 });
   await openLayers(page);

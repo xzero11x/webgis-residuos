@@ -14,6 +14,9 @@ import { createDeliveryCorrectionsRouter } from './gestion.delivery-corrections.
 import { createServiceOperationRouter } from './gestion.service-operation.js';
 import { createAuditRouter } from './gestion.audit.js';
 import { createImportReversalRouter } from './gestion.import-reversal.js';
+import { createMapCorrectionsRouter } from './gestion.map-corrections.js';
+import { createOperationRouter } from './gestion.operacion.js';
+import { createQrRouter } from './gestion.qr.js';
 import { AppError } from '../../shared/app-error.js';
 import { env } from '../../config/env.js';
 import { assertFixtureTarget, fixtureTargetConfigured } from '../../db/fixture-target.js';
@@ -73,6 +76,9 @@ export function createGestionRouter(pool: Pool) {
     await assertFixtureTarget(pool, env);
     return res.json({ fixturesPermitidos: true, accesoLibre: open });
   });
+  // Correcciones cartográficas del mapa: no son datos del padrón, así que van antes del control
+  // de fixtures (solo exigen sesión con permiso de escritura).
+  router.use(createMapCorrectionsRouter(pool, auth.write));
   router.use(async (req, _res, next) => {
     // Todas las escrituras de este contrato aún son exclusivamente sintéticas.
     if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method)) await assertFixtureTarget(pool, env);
@@ -101,6 +107,8 @@ export function createGestionRouter(pool: Pool) {
   router.use(createServiceOperationRouter(pool));
   router.use(createAuditRouter(pool));
   router.use(createImportReversalRouter(pool));
+  router.use(createOperationRouter(pool, auth));
+  router.use(createQrRouter(pool, auth));
   router.get('/predios/:id', async (req, res) =>
     res.json(await repo.detail(z.uuid().parse(req.params.id), res.locals.user)),
   );

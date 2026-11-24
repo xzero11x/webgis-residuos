@@ -1,4 +1,4 @@
-import { THEME_NAMES } from './themes';
+import { MAP_THEMES, THEME_NAMES } from './themes';
 import { describe, expect, it, vi } from 'vitest';
 import {
   createPropertyExpression,
@@ -65,7 +65,8 @@ describe('Estilo de BAGUA MASTER: anchura de vías', () => {
   it('usa anchuras cartográficas plausibles a escala de calle', () => {
     // Píxeles por metro a zoom 20 en Bagua (5,64° S): 2^20 / 77 892.
     const pxPerMeter = 2 ** 20 / 77_892;
-    expect(width(20, 'residential') / pxPerMeter).toBeCloseTo(6.5, 5);
+    // 6 m: el mismo corredor de calzada que usa el ajuste de coherencia (docs/coherencia-interna.md).
+    expect(width(20, 'residential') / pxPerMeter).toBeCloseTo(6, 5);
     expect(width(20, 'primary') / pxPerMeter).toBeCloseTo(9, 5);
     expect(width(12, 'residential')).toBeLessThan(1);
     // Doble calzada: separación mínima entre ejes paralelos en Overture = 9,2 m; cada calzada
@@ -175,5 +176,87 @@ describe('Selector de temas locales sobre Overture', () => {
     expect(new Set(backgrounds.map((layer) => JSON.stringify(layer.paint))).size).toBe(
       THEME_NAMES.length,
     );
+  });
+});
+
+describe('Capa complementaria de edificaciones', () => {
+  const style = buildStyle();
+  const layer = (id: string) => style.layers.find((l) => l.id === id)!;
+
+  it('usa una fuente GeoJSON propia y no toca la base vectorial de Overture', () => {
+    expect(style.sources['bm-complemento']).toMatchObject({ type: 'geojson' });
+    for (const id of [
+      'bm-complemento',
+      'bm-complemento-borde',
+      'bm-complemento-3d',
+      'bm-complemento-seleccion',
+    ])
+      expect(layer(id)).toMatchObject({ source: 'bm-complemento' });
+  });
+
+  it('se dibujan con la misma apariencia que las huellas de Overture', () => {
+    expect(layer('bm-complemento-borde').paint).not.toHaveProperty('line-dasharray');
+    expect(JSON.stringify(layer('bm-complemento').paint)).not.toContain('baja');
+    expect(style.layers.some((l) => l.id === 'bm-complemento-borde-baja')).toBe(false);
+  });
+
+  it('las alturas provisionales se dibujan como no observadas en 2.5D', () => {
+    expect(JSON.stringify(layer('bm-complemento-3d').paint)).toContain('estimada_default');
+    expect(layer('bm-complemento-3d').layout).toMatchObject({ visibility: 'none' });
+  });
+});
+
+describe('legibilidad cartográfica', () => {
+  it.each(THEME_NAMES)(
+    '%s: edificios por tamaño, calles con borde por jerarquía y lugares por tipo',
+    (name) => {
+      const style = buildStyle(name);
+      const paint = (id: string) =>
+        JSON.stringify((style.layers.find((l) => l.id === id) as { paint: unknown }).paint);
+      // Casas pequeñas y galpones no comparten color, igual en Overture y en la capa complementaria.
+      expect(paint('bm-edificios')).toContain('area_m2');
+      expect(paint('bm-edificios')).toBe(paint('bm-complemento'));
+      // Avenidas con borde propio, distinto del de las calles locales.
+      expect(paint('bm-vias-borde')).toContain('primary');
+      // Cada grupo de lugares tiene su color.
+      for (const group of ['restaurant', 'hotel', 'school', 'hospital', 'historic_site'])
+        expect(paint('bm-lugares')).toContain(group);
+      expect(validateStyleMin(style)).toEqual([]);
+    },
+  );
+
+  it('los colores de edificios y calles se distinguen del fondo en cada tema', () => {
+    for (const name of THEME_NAMES) {
+      const { palette } = MAP_THEMES[name];
+      expect(palette.edificio).not.toBe(palette.fondo);
+      expect(palette.local).not.toBe(palette.fondo);
+      expect(palette.edificioBorde).not.toBe(palette.edificio);
+    }
+  });
+});
+
+describe('avenidas de doble calzada', () => {
+  it('cada calzada deja visible la berma central según la separación real', () => {
+    const layer = buildStyle().layers.find((l) => l.id === 'bm-vias') as {
+      paint: Record<string, unknown>;
+    };
+    const compiled = createPropertyExpression(
+      layer.paint['line-width'],
+      'line-width',
+      latest.paint_line['line-width'] as StylePropertySpecification,
+    );
+    if (compiled.result !== 'success') throw new Error(JSON.stringify(compiled.value));
+    const pxPerMeter = (zoom: number) => 2 ** zoom / 77_892;
+    const width = (zoom: number, properties: Record<string, unknown>) =>
+      compiled.value.evaluate({ zoom }, { type: 'LineString', properties } as never) /
+      pxPerMeter(zoom);
+    const avenida = { clase: 'primary', doble_calzada: 1, separacion_m: 10.7 };
+    // 10,7 m entre ejes: calzadas de 7,2 m y 3,5 m de berma, en cualquier zoom de calle.
+    for (const zoom of [16, 18, 20]) expect(width(zoom, avenida)).toBeCloseTo(7.2, 5);
+    // Muy juntas: nunca menos de 3 m; muy separadas: el ancho normal de su clase.
+    expect(width(18, { ...avenida, separacion_m: 5 })).toBeCloseTo(3, 5);
+    expect(width(18, { ...avenida, separacion_m: 20 })).toBeCloseTo(9, 5);
+    // Una avenida de una sola calzada no cambia.
+    expect(width(18, { clase: 'primary' })).toBeCloseTo(9, 5);
   });
 });

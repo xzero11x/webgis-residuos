@@ -8,7 +8,14 @@ import type {
 } from 'maplibre-gl';
 import { loadMapRuntime } from './runtime';
 import { CENTER, DOWNLOAD_EXTENT, INITIAL_ZOOM, MAX_ZOOM, MIN_ZOOM } from '../config';
-import type { RouteMapData, Selection } from '../types';
+import type {
+  LngLat,
+  MapCorrections,
+  MapDrawing,
+  MapView,
+  RouteMapData,
+  Selection,
+} from '../types';
 import {
   addRouteLayers,
   focusRoute,
@@ -27,6 +34,42 @@ import { buildStyle, SELECTABLE_LAYERS } from './style';
  * otro espacio, el mapa reaparece donde estaba. No persiste tras recargar la página.
  */
 let camera: { center: [number, number]; zoom: number; pitch: number } | null = null;
+
+/** Filtro que excluye los elementos marcados como inexistentes por una corrección local. */
+const notIn = (ids: string[]): FilterSpecification =>
+  ['!', ['in', ['get', 'id'], ['literal', ids]]] as FilterSpecification;
+
+/** Límites de inclinación por vista: 2.5D fija la inclinación; 3D libre la deja mover. */
+const PITCH: Record<MapView, readonly [number, number]> = {
+  '2d': [0, 0],
+  '2.5d': [58, 58],
+  '3d': [0, 85],
+};
+
+/** Geometría de la edición en curso para la capa de dibujo. */
+function sketch(drawing: MapDrawing | null | undefined): FeatureCollection {
+  const features: FeatureCollection['features'] = [];
+  const point = (c: LngLat) =>
+    features.push({ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: c } });
+  if (drawing?.tipo === 'mover' && drawing.punto) point(drawing.punto);
+  if (drawing?.tipo === 'agregar') {
+    const pts = drawing.puntos;
+    if (pts.length >= 3)
+      features.push({
+        type: 'Feature',
+        properties: {},
+        geometry: { type: 'Polygon', coordinates: [[...pts, pts[0]!]] },
+      });
+    else if (pts.length === 2)
+      features.push({
+        type: 'Feature',
+        properties: {},
+        geometry: { type: 'LineString', coordinates: pts },
+      });
+    pts.forEach(point);
+  }
+  return { type: 'FeatureCollection', features };
+}
 
 /** Elemento seleccionable más prioritario bajo un punto de pantalla. */
 function pickAt(map: MapLibreMap, point: PointLike): Selection | null {
@@ -99,10 +142,19 @@ function sampleRoutePoint(map: MapLibreMap) {
 
 interface Props {
   selection: Selection | null;
-  mode3d: boolean;
+  view: MapView;
   theme: MapTheme;
   heights?: FeatureCollection;
   showSimulated: boolean;
+  /** Huellas complementarias (otras fuentes abiertas): datos y visibilidad, independientes de Overture. */
+  complement?: FeatureCollection;
+  /** Correcciones cartográficas locales: ocultan, reubican o agregan elementos sobre Overture. */
+  corrections?: MapCorrections;
+  /** Infraestructura del servicio (GeoJSON propio). */
+  infrastructure?: FeatureCollection;
+  /** Edición en curso: mientras exista, un clic en el mapa marca un punto en vez de seleccionar. */
+  drawing?: MapDrawing | null;
+  onDrawClick?: (point: LngLat) => void;
   routes: RoutesLayerState;
   onSelectRoute: (code: string) => void;
   onSelect: (selection: Selection | null) => void;
@@ -112,10 +164,15 @@ interface Props {
 
 export function BaguaMasterMap({
   selection,
-  mode3d,
+  view,
   theme,
   heights,
   showSimulated,
+  complement,
+  corrections,
+  infrastructure,
+  drawing,
+  onDrawClick,
   routes,
   onSelectRoute,
   onSelect,
@@ -124,14 +181,17 @@ export function BaguaMasterMap({
 }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
-  const callbacks = useRef({ onSelect, onSelectRoute, onMap, onFailure });
+  const callbacks = useRef({ onSelect, onSelectRoute, onMap, onFailure, onDrawClick });
   const routesRef = useRef(routes);
+  const drawingRef = useRef(drawing);
+  const mode3d = view !== '2d';
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    callbacks.current = { onSelect, onSelectRoute, onMap, onFailure };
+    callbacks.current = { onSelect, onSelectRoute, onMap, onFailure, onDrawClick };
     routesRef.current = routes;
-  }, [onSelect, onSelectRoute, onMap, onFailure, routes]);
+    drawingRef.current = drawing;
+  }, [onSelect, onSelectRoute, onMap, onFailure, onDrawClick, routes, drawing]);
 
   useEffect(() => {
     const element = container.current;
@@ -152,14 +212,15 @@ export function BaguaMasterMap({
           pitch: camera?.pitch ?? 0,
           minZoom: MIN_ZOOM,
           maxZoom: MAX_ZOOM,
-          maxPitch: 72,
+          maxPitch: 85,
           maxBounds: [
             [w - 0.01, s - 0.01],
             [e + 0.01, n + 0.01],
           ],
           attributionControl: { compact: true },
           dragRotate: false,
-          pitchWithRotate: false,
+          // Arrastrar con el botón derecho (o Ctrl) gira e inclina; cada vista limita la inclinación.
+          pitchWithRotate: true,
           fadeDuration: 250,
         });
         mapRef.current = map;
@@ -194,6 +255,7 @@ export function BaguaMasterMap({
             map!.queryRenderedFeatures({ layers: layers.filter((l) => map!.getLayer(l)) }).length;
           element.dataset.calles = String(count(['bm-vias']));
           element.dataset.edificios = String(count(['bm-edificios']));
+          element.dataset.complemento = String(count(['bm-complemento']));
           element.dataset.lugares = String(count(['bm-lugares']));
           element.dataset.rotulos = String(count(['bm-calles-texto']));
           element.dataset.rutasTrazos = String(
@@ -202,6 +264,11 @@ export function BaguaMasterMap({
           element.dataset.rutasFlechas = String(count(['bm-rutas-flechas']));
           element.dataset.muestraRuta = sampleRoutePoint(map);
           element.dataset.muestraEdificio = samplePoint(map, 'bm-edificios', 'edificio');
+          element.dataset.muestraComplemento = samplePoint(
+            map,
+            'bm-complemento',
+            'edificio_complemento',
+          );
           element.dataset.muestraVia = samplePoint(map, 'bm-vias', 'red_vial');
         });
         map.on('error', (event) => {
@@ -211,6 +278,11 @@ export function BaguaMasterMap({
         });
         map.on('click', (event) => {
           if (!map) return;
+          // Edición en curso: el clic marca un punto, no selecciona.
+          if (drawingRef.current) {
+            callbacks.current.onDrawClick?.([event.lngLat.lng, event.lngLat.lat]);
+            return;
+          }
           // Con las rutas visibles, un clic sobre un trazo selecciona la ruta, no la calle de abajo.
           if (routesRef.current.visible && map.getLayer(ROUTE_HIT_LAYER)) {
             const code = map.queryRenderedFeatures(event.point, { layers: [ROUTE_HIT_LAYER] })[0]
@@ -231,8 +303,11 @@ export function BaguaMasterMap({
             routesRef.current.visible &&
             !!map.getLayer(ROUTE_HIT_LAYER) &&
             map.queryRenderedFeatures(event.point, { layers: [ROUTE_HIT_LAYER] }).length > 0;
-          map.getCanvas().style.cursor =
-            overRoute || map.queryRenderedFeatures(event.point, { layers }).length ? 'pointer' : '';
+          map.getCanvas().style.cursor = drawingRef.current
+            ? 'crosshair'
+            : overRoute || map.queryRenderedFeatures(event.point, { layers }).length
+              ? 'pointer'
+              : '';
         });
       })
       .catch(() => {
@@ -310,13 +385,92 @@ export function BaguaMasterMap({
     if (map && ready && heights) (map.getSource('bm-alturas') as GeoJSONSource).setData(heights);
   }, [heights, ready]);
 
+  // Capa complementaria: datos propios, sin las huellas marcadas como inexistentes.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready || !complement) return;
+    const hidden = new Set(corrections?.ocultos.edificio_complemento ?? []);
+    (map.getSource('bm-complemento') as GeoJSONSource).setData(
+      hidden.size
+        ? {
+            ...complement,
+            features: complement.features.filter((f) => !hidden.has(String(f.properties?.id))),
+          }
+        : complement,
+    );
+  }, [complement, corrections, ready]);
+
+  // Correcciones locales: ocultar edificios y lugares de Overture, reubicar lugares y agregar
+  // edificaciones. Solo cambian filtros y fuentes propias; las teselas no se tocan.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    const buildings = corrections?.ocultos.edificio ?? [];
+    for (const layer of ['bm-edificios', 'bm-edificios-borde', 'bm-edificios-sombra'])
+      map.setFilter(layer, notIn(buildings));
+    map.setFilter('bm-edificios-3d', [
+      'all',
+      ['has', 'altura_m'],
+      notIn(buildings),
+    ] as FilterSpecification);
+    const moved = (corrections?.lugaresMovidos.features ?? []).map((f) => String(f.properties?.id));
+    const places = notIn([...(corrections?.ocultos.lugar ?? []), ...moved]);
+    map.setFilter('bm-lugares', places);
+    map.setFilter('bm-lugares-texto', places);
+    const empty: FeatureCollection = { type: 'FeatureCollection', features: [] };
+    (map.getSource('bm-lugares-movidos') as GeoJSONSource).setData(
+      corrections?.lugaresMovidos ?? empty,
+    );
+    (map.getSource('bm-agregados') as GeoJSONSource).setData(
+      corrections?.edificiosAgregados ?? empty,
+    );
+    if (container.current) {
+      const ocultos = corrections?.ocultos;
+      container.current.dataset.ocultos = String(
+        (ocultos?.edificio.length ?? 0) +
+          (ocultos?.edificio_complemento.length ?? 0) +
+          (ocultos?.lugar.length ?? 0),
+      );
+      container.current.dataset.agregados = String(
+        corrections?.edificiosAgregados.features.length ?? 0,
+      );
+    }
+  }, [corrections, ready]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (map && ready && infrastructure)
+      (map.getSource('bm-infra') as GeoJSONSource).setData(infrastructure);
+  }, [infrastructure, ready]);
+
+  // Trazo de la edición en curso.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    (map.getSource('bm-dibujo') as GeoJSONSource).setData(sketch(drawing));
+    map.getCanvas().style.cursor = drawing ? 'crosshair' : '';
+    if (container.current) container.current.dataset.edicion = drawing?.tipo ?? '';
+  }, [drawing, ready]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !ready) return;
+    map.setLayoutProperty('bm-complemento-3d', 'visibility', mode3d ? 'visible' : 'none');
+    map.setLayoutProperty('bm-agregados-3d', 'visibility', mode3d ? 'visible' : 'none');
+    map.setFilter('bm-complemento-seleccion', [
+      '==',
+      ['get', 'id'],
+      selection?.tabla === 'edificio_complemento' ? selection.id : '',
+    ]);
+  }, [mode3d, selection, ready]);
+
   // El usuario puede ocultar toda simulación sin ocultar las estimaciones satelitales.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !ready) return;
-    const visible: FilterSpecification = showSimulated
-      ? ['all']
-      : ['!=', ['get', 'tipo'], 'simulada'];
+    const hidden = notIn(corrections?.ocultos.edificio ?? []);
+    const visible = (
+      showSimulated ? ['all', hidden] : ['all', hidden, ['!=', ['get', 'tipo'], 'simulada']]
+    ) as FilterSpecification;
     map.setFilter('bm-alturas-3d', visible);
     map.setFilter('bm-alturas-sombra', visible);
     map.setFilter('bm-alturas-seleccion', [
@@ -324,31 +478,45 @@ export function BaguaMasterMap({
       visible,
       ['==', ['get', 'id'], selection?.tabla === 'edificio' ? selection.id : ''],
     ] as FilterSpecification);
-  }, [showSimulated, selection, ready]);
+  }, [showSimulated, selection, corrections, ready]);
 
-  // 2.5D: las simulaciones se mantienen identificadas y se pueden ocultar.
+  // Vistas: 2D plano; 2.5D con inclinación fija y giro; 3D libre con inclinación (hasta 85°) y giro.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !ready) return;
-    map.setLayoutProperty('bm-edificios-3d', 'visibility', mode3d ? 'visible' : 'none');
-    map.setLayoutProperty('bm-alturas-3d', 'visibility', mode3d ? 'visible' : 'none');
-    map.setLayoutProperty('bm-alturas-sombra', 'visibility', mode3d ? 'visible' : 'none');
-    map.setLayoutProperty('bm-alturas-seleccion', 'visibility', mode3d ? 'visible' : 'none');
+    for (const layer of [
+      'bm-edificios-3d',
+      'bm-alturas-3d',
+      'bm-alturas-sombra',
+      'bm-alturas-seleccion',
+    ])
+      map.setLayoutProperty(layer, 'visibility', mode3d ? 'visible' : 'none');
     if (mode3d) {
       map.dragRotate.enable();
       map.touchZoomRotate.enableRotation();
+      map.touchPitch.enable();
     } else {
       map.dragRotate.disable();
       map.touchZoomRotate.disableRotation();
+      map.touchPitch.disable();
     }
+    const [minPitch, maxPitch] = PITCH[view];
+    const target = view === '3d' ? Math.max(map.getPitch(), 68) : minPitch;
+    // Se amplía el margen de inclinación, se anima la cámara y al terminar se fija el de la vista.
+    map.setMinPitch(0);
+    map.setMaxPitch(85);
     map.easeTo({
-      pitch: mode3d ? 58 : 0,
+      pitch: target,
       // Entrada en perspectiva con un giro leve; si el usuario ya giró el mapa, se respeta.
       bearing: mode3d ? map.getBearing() || -20 : 0,
       zoom: mode3d ? Math.max(16.2, map.getZoom()) : map.getZoom(),
       duration: 900,
     });
-  }, [mode3d, ready]);
+    map.once('moveend', () => {
+      map.setMinPitch(minPitch);
+      map.setMaxPitch(maxPitch);
+    });
+  }, [view, mode3d, ready]);
 
   return (
     <div
@@ -357,7 +525,7 @@ export function BaguaMasterMap({
       data-testid="bagua-master-map"
       data-ready="false"
       data-theme={theme}
-      data-modo={mode3d ? '2.5d' : '2d'}
+      data-modo={view}
       data-rutas={routes.visible ? 'visibles' : 'ocultas'}
       data-ruta-seleccionada={routes.selected}
     />

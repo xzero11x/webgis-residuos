@@ -1,0 +1,424 @@
+/* Stickers QR: escáner, visita por QR, página del vecino, tarjeta del expediente y etiquetas. */
+.qr-svg {
+  display: block;
+  border-radius: 6px;
+}
+.qr-scan {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(2 6 23 / 70%);
+}
+.qr-scan-panel {
+  display: grid;
+  width: min(440px, 100%);
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--background);
+  box-shadow: var(--shadow-panel);
+}
+.qr-scan-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.qr-scan-panel header strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+.qr-scan-panel header button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted-foreground);
+}
+.qr-scan-video {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  aspect-ratio: 1;
+  background: #0b1220;
+}
+.qr-scan-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.qr-scan-marco {
+  position: absolute;
+  inset: 18%;
+  border: 3px solid #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 0 0 999px rgb(2 6 23 / 35%);
+}
+.qr-scan-hint {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
+}
+.qr-scan-error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--destructive);
+}
+.qr-scan-manual {
+  display: grid;
+  gap: 6px;
+}
+.qr-scan-manual label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--muted-foreground);
+}
+.qr-scan-manual div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+.qr-scan-manual input {
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+  font:
+    600 17px ui-monospace,
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+.qr-scan-manual input[aria-invalid='true'] {
+  border-color: var(--destructive);
+}
+.qr-scan-manual button,
+.qr-boton,
+.qr-predio-acciones button,
+.qr-predio-vacio button,
+.qr-predio-reemplazo button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--background);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+.qr-scan-manual button,
+.qr-boton.is-primary,
+.qr-predio-vacio button.is-primary,
+.qr-predio-reemplazo button.is-primary {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+.qr-scan-manual button:disabled,
+.qr-boton:disabled,
+.qr-predio-acciones button:disabled,
+.qr-predio-vacio button:disabled,
+.qr-predio-reemplazo button:disabled {
+  opacity: 0.5;
+}
+
+/* Visita por QR (dentro de Campo) */
+.qr-visita {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0;
+  padding: 14px;
+  border: 2px solid var(--primary);
+  border-radius: 14px;
+  background: var(--background);
+}
+.qr-visita header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.qr-visita header div {
+  display: grid;
+  gap: 2px;
+}
+.qr-visita header strong {
+  font-size: 17px;
+}
+.qr-visita header span {
+  font-size: 12.5px;
+  color: var(--muted-foreground);
+}
+.qr-visita header button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted-foreground);
+}
+.qr-visita-lista {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qr-visita-lista li {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.qr-visita-lista li.is-hoy {
+  border-color: #16a34a;
+}
+.qr-visita-programa {
+  display: grid;
+  gap: 2px;
+}
+.qr-visita-programa span {
+  font-size: 12.5px;
+  color: var(--muted-foreground);
+}
+
+/* Página que abre el sticker */
+.qr-landing {
+  display: grid;
+  min-height: 100vh;
+  align-content: start;
+  gap: 16px;
+  padding: 20px 16px 40px;
+  background: var(--surface-subtle, #f8fafc);
+  color: var(--foreground);
+}
+.qr-landing header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+}
+.qr-landing header div {
+  display: grid;
+}
+.qr-landing header small {
+  font-size: 11.5px;
+  color: var(--muted-foreground);
+}
+.qr-landing-marca {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--foreground);
+  color: var(--background);
+}
+.qr-landing-card {
+  display: grid;
+  gap: 10px;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--background);
+  box-shadow: var(--shadow-panel);
+}
+.qr-landing-card h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.qr-landing-codigo {
+  margin: 0;
+  font:
+    600 12px ui-monospace,
+    monospace;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+.qr-landing-sector,
+.qr-landing-nota {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.qr-landing-accion {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #16a34a;
+  font-weight: 650;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Tarjeta del expediente */
+.qr-predio {
+  padding: 16px 20px;
+}
+.qr-predio-titulo {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 650;
+}
+.qr-predio-cuerpo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.qr-predio-datos {
+  display: grid;
+  gap: 3px;
+  font-size: 12.5px;
+  color: var(--muted-foreground);
+}
+.qr-predio-datos strong {
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  color: var(--foreground);
+}
+.qr-predio-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.qr-predio-vacio {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.qr-predio-reemplazo {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 12.5px;
+}
+.qr-predio-reemplazo input {
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  font: inherit;
+  color: var(--foreground);
+}
+
+/* Etiquetas */
+.qr-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.qr-toolbar select {
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--background);
+  font: inherit;
+  color: var(--foreground);
+}
+.qr-faltan {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-subtle);
+  font-size: 13px;
+}
+.qr-grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+.qr-grilla li {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 12px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 12px;
+}
+.qr-grilla li span {
+  color: var(--muted-foreground);
+}
+
+/* Botones QR en Campo */
+.cp-qr {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.cp-escanear {
+  display: inline-flex;
+  flex: 1;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--foreground);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--background);
+}
+.cp-stickers {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: none;
+}

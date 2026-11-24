@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 test('símbolos documentales: excluye leyendas y conserva evidencia de dirección', async ({
   request,
@@ -52,7 +53,7 @@ test('símbolos documentales: excluye leyendas y conserva evidencia de direcció
 test('modo Operativo y Técnico: ruta, leyenda, capas y ficha adaptable', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/');
+  await openMunicipalViewer(page);
   const map = page.getByTestId('territorial-map');
   await expect(map).toHaveAttribute('data-ready', 'true', { timeout: 60000 });
   await expect(map).toHaveAttribute('data-mode', 'operativo');

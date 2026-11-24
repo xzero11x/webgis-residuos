@@ -1,0 +1,78 @@
+/* Horario de recolección ------------------------------------------------------------------ */
+.bm-recoleccion {
+  margin: 4px 0 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-subtle);
+}
+.bm-recoleccion h3 {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.bm-horario {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bm-horario li,
+.bm-ruta-programas li {
+  display: grid;
+  grid-template-columns: 10px 1fr;
+  align-items: start;
+  gap: 8px;
+}
+.bm-horario-tipo {
+  width: 10px;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--background);
+}
+.bm-horario-cuerpo {
+  display: grid;
+  gap: 1px;
+  font-size: 12px;
+  color: var(--foreground);
+}
+.bm-horario-cuerpo strong {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12.5px;
+}
+.bm-horario-ruta {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+.bm-horario-cuerpo b {
+  font-weight: 650;
+}
+.bm-horario-nota {
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.bm-horario-vacio {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.bm-ruta-programas {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bm-ruta-servicios {
+  grid-column: 2 / -1;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}

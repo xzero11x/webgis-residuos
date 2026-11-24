@@ -56,3 +56,47 @@ export function useBaguaMasterHeights(enabled: boolean) {
     staleTime: 600_000,
   });
 }
+
+/** Huellas complementarias de otras fuentes abiertas; se piden solo si la capa está activa. */
+export function useBaguaMasterComplement(enabled: boolean) {
+  return useQuery({
+    queryKey: ['bagua-master', 'complemento', 'mapa'],
+    queryFn: ({ signal }) => baguaMasterApi.complementMap(signal),
+    enabled,
+    staleTime: 600_000,
+  });
+}
+
+/** Programación de las rutas (servicio, días, horario). */
+export function useServicePrograms(enabled = true) {
+  return useQuery({
+    queryKey: ['bagua-master', 'servicio', 'programacion'],
+    queryFn: ({ signal }) => baguaMasterApi.servicePrograms(signal),
+    enabled,
+    staleTime: 600_000,
+  });
+}
+
+/** Servicios que pasan por un punto y su hora estimada. */
+export function useServiceAt(point: [number, number] | null) {
+  return useQuery({
+    queryKey: [
+      'bagua-master',
+      'servicio',
+      'consulta',
+      point?.[0].toFixed(5),
+      point?.[1].toFixed(5),
+    ],
+    queryFn: ({ signal }) => baguaMasterApi.serviceAt(point![0], point![1], signal),
+    enabled: !!point,
+    staleTime: 600_000,
+  });
+}
+
+export function useInfrastructure() {
+  return useQuery({
+    queryKey: ['bagua-master', 'infraestructura'],
+    queryFn: ({ signal }) => baguaMasterApi.infrastructure(signal),
+    staleTime: 600_000,
+  });
+}

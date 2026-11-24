@@ -30,6 +30,12 @@ const space =
 const baguaMasterRoutes: RouteObject[] = baguaMasterEnabled
   ? [
       {
+        // Sticker QR: horario para el vecino y acceso directo a la visita para el promotor.
+        path: '/bagua-master/q/:codigo',
+        lazy: space(() => import('@/features/qr/qr-landing'), 'QrLandingPage'),
+        errorElement: pageError,
+      },
+      {
         // Enlace anterior; la gestión ya no es una pantalla aparte.
         path: '/bagua-master/gestion',
         lazy: () => import('@/features/gestion/gestion-page'),
@@ -69,6 +75,16 @@ const baguaMasterRoutes: RouteObject[] = baguaMasterEnabled
           {
             path: 'servicios',
             lazy: space(() => import('@/features/product/spaces'), 'ServiciosPage'),
+            errorElement: pageError,
+          },
+          {
+            path: 'campo',
+            lazy: space(() => import('@/features/product/campo'), 'CampoPage'),
+            errorElement: pageError,
+          },
+          {
+            path: 'campo/etiquetas',
+            lazy: space(() => import('@/features/qr/qr-etiquetas'), 'QrEtiquetasPage'),
             errorElement: pageError,
           },
           {

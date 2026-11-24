@@ -6,6 +6,151 @@ ver el último corte «Producto visible y recorridos reales». Los cierres técn
 anteriores son evidencia histórica, no sustituyen validación de usabilidad ni
 aceptación municipal. Los registros administrativos de prueba son sintéticos.
 
+## Stickers QR del predio · 22/11/2026
+
+Detalle en [operación del servicio](operacion-servicio.md#stickers-qr-del-predio).
+
+- [x] Migración 037: un sticker vigente por predio, historial de reemplazos con motivo, escaneos y
+      origen de cada visita (`lista`, `qr`, `codigo`).
+- [x] Código de 8 caracteres con dígito de control (mismo algoritmo en backend, frontend y
+      simulación); el QR solo lleva la URL pública, sin datos personales.
+- [x] Escaneo: página pública del vecino con el horario; en Campo, cámara (lector nativo o jsQR) o
+      código escrito, y visita en un toque con el programa del día destacado.
+- [x] Generación: en el expediente (generar y reemplazar con motivo) y en lote por programa, con
+      hoja A4 de stickers para imprimir.
+- [x] Simulación: 728 stickers (88 % de los inscritos) desde el 01/09/2026; 7 598 visitas por QR.
+- [x] Pruebas: 171 unitarias (nuevas: código y lectura del QR impreso, rutas QR), 5 e2e nuevas
+      (página del vecino, visita por escaneo, código escrito, reemplazo, hoja de stickers). E2E completo
+      contra `:8080` con imágenes reconstruidas: 127 aprobadas en escritorio, tableta y móvil, 0 fallos.
+
+## Reglas actualizadas y visor histórico retirado · 22/11/2026
+
+- [x] `AGENTS.md` reescrito: solo reglas de protección (datos personales, aprobación para push y
+      operaciones destructivas, migraciones, datos simulados en local/test, sin arbitrios) y las
+      decisiones vigentes del usuario (un solo producto, avanzar con simulación realista, mapa sin
+      avisos de duda, coherencia interna). Nuevo `PRODUCT.md` con la definición actual.
+- [x] Documentos de visión anteriores archivados en `docs/archive/` (historia, no instrucciones).
+- [x] Visor municipal histórico retirado: `MUNICIPAL_MAP_ENABLED=false` por defecto (código, Docker y
+      `.env`); `/` lleva a BAGUA MASTER y el menú ya no lo ofrece. Sus pruebas se omiten.
+- [x] E2E contra `:8080`: escritorio 55 aprobadas, tableta y móvil 62 aprobadas, 0 fallos.
+- [ ] Pendiente: eliminar el código del visor histórico (pantallas y endpoints que solo él usa); las
+      tablas de datos se conservan porque BAGUA MASTER usa sus tiempos de paso y sectores.
+
+## Operación del servicio con simulación realista · 22/11/2026
+
+Por indicación del gerente, el producto avanza con datos simulados realistas mientras no haya
+información oficial. Detalle en [operación del servicio](operacion-servicio.md).
+
+- [x] Modelo: programación de rutas, infraestructura, actores y valorización, padrón MINAM y visitas
+      con resultado (migraciones 034–036); función de hora estimada de paso por punto.
+- [x] Datos reales incorporados: 406 tiempos de paso del plano «RUTAS CON TIEMPO» y 16 sectores
+      rotulados en los planos.
+- [x] Simulación (fuente sintética): 1.129 predios sobre edificios reales, 1.370 personas, 900
+      inscripciones al padrón, ~25 000 visitas, ~26 000 entregas (~48 t), 90 comprobantes de
+      valorización, 24 elementos de infraestructura, 10 programaciones.
+- [x] Interfaz: «Recolección aquí» en la ficha del mapa, programación en rutas, capa de
+      infraestructura, servicio y participación en el expediente, recorrido de campo móvil
+      (`/bagua-master/campo`), resultados de la operación con detalle por cifra y padrón descargable.
+- [x] Pruebas: 160 unitarias (6 nuevas de visitas y padrón), 69 e2e de escritorio contra `:8080`
+      sin fallos (5 nuevas: consulta de horario, ficha y ruta, expediente, registro y corrección en
+      campo, resultados y padrón). Tableta y móvil: 83 aprobadas; fallan las 2 del visor municipal
+      histórico ya conocidas.
+- [ ] Días de recolección, rutas selectivas y comercial, padrón, visitas y toneladas son simulados
+      hasta recibir la información de la Gerencia.
+
+## Calles, formas, tema Monocromo y rutas · 22/11/2026
+
+- [x] Calles con el ancho del espacio entre fachadas (792 tramos, mediana 7,5 m) y dibujadas
+      debajo de los edificios; avenidas de doble calzada con la berma siempre visible.
+- [x] Huellas suavizadas (sin dientes ni espigas, esquinas levemente redondeadas) en 2D y 2.5D/3D
+      (migración 033); la huella original de Overture no cambia.
+- [x] Tema **Monocromo**: blancos, grises y negro, con huellas y volúmenes translúcidos.
+- [x] Rutas rediseñadas: un color claramente distinto por ruta (antes había tres naranjas), sombra
+      suave, borde blanco, insignias de sentido del color de cada ruta con chevrón blanco, píldoras
+      «Inicio»/«Fin» y paradas blancas con borde del color de la ruta.
+- [x] 154 unitarias y 64 e2e de escritorio contra `:8080` sin fallos (una prueba actualizada: ahora
+      hay 6 temas).
+- [ ] Las rutas conservan sus colores en el tema Monocromo para seguir distinguiéndose.
+
+## Correcciones locales y vista 3D libre · 22/11/2026
+
+- [x] Regla de plazas, parques y canchas: 14 huellas de Overture ocultas en 2D y 2.5D/3D (incluidas
+      la glorieta y el estrado de la Plaza de Armas) y 1 complementaria retirada.
+- [x] Correcciones cartográficas desde el mapa (botón **Corregir**, con sesión de escritura): marcar
+      un lugar o una edificación como inexistente, mover un lugar y dibujar una edificación que
+      falta. Motivo obligatorio, autoría y anulación sin borrado (migración 031,
+      `bagua_master.correccion`); lectura pública sin autoría; la búsqueda las respeta.
+- [x] Vistas: 2.5D (inclinación fija de 58°, con giro) y 3D libre (inclinación 0–85° y giro con
+      clic derecho o Ctrl + arrastrar; dos dedos en pantalla táctil).
+- [x] Pruebas: 151 unitarias (7 nuevas del router de correcciones y 1 de la ruta pública), 9 del
+      ajuste en Python y 64 e2e de escritorio contra `:8080` sin fallos (5 nuevas: plaza, ocultar y
+      deshacer, mover, dibujar, vistas). Tableta y móvil: 82 aprobadas; fallan 2 pruebas del visor
+      municipal histórico (`/`, flechas de sentido de la Ruta 1001 en pantallas pequeñas), ajenas a
+      este cambio, cuyo código no se tocó.
+- [x] 3D sin edificios sobre la calle: los volúmenes usan la forma recortada (migración 032,
+      1.168 huellas). Avenidas de doble calzada: 86 tramos marcados con su separación; cada calzada
+      se dibuja más estrecha que ella y la berma central se ve siempre. 152 unitarias y 64 e2e de
+      escritorio contra `:8080`, sin fallos.
+- [ ] Las correcciones aún no tienen revisión por un segundo usuario ni exportación.
+
+## Coherencia interna del mapa · 22/11/2026
+
+Calles, edificios y rutas alineados entre sí con la red vial de Overture como referencia (los DWG/CAD
+municipales son deficientes según la gerencia). Diagnóstico: desfase sistemático de las calles de
+2,5 m (uniforme, ±0,8 m entre sectores). Ajuste: calles y capas asociadas trasladadas; 385 huellas
+complementarias en plena calzada retiradas y 1.170 recortadas (quedan 6.160); Overture recortado solo
+en teselas (1.168), sin tocar la base; las 7 rutas DWG ajustadas a las calles (mediana 0 m), con el
+trazo original guardado. Detalle en [coherencia interna](coherencia-interna.md).
+
+- [x] `diagnostico_coherencia.py`, `ajustar_coherencia.py` (idempotente, originales conservados) y 8
+      pruebas; teselas regeneradas; complemento y rutas reimportados.
+- [x] Capturas: rutas sobre el eje de las calles y edificios fuera de la calzada.
+- [ ] Sin puntos GPS de campo: la posición absoluta del conjunto no está verificada. Quedan 84 huellas
+      de Overture sobre ≥ 40 % de calzada y solapes entre huellas de distintas fuentes.
+
+## Rediseño visual del mapa · 22/11/2026
+
+Temas Positron (blanco), Dark y Liberty rehechos para identificar los elementos de un vistazo:
+edificios con cuatro tonos según su superficie (igual en Overture y en la capa complementaria),
+calles con borde propio y color por jerarquía (avenidas en ámbar o brillante, locales neutras),
+parques y canchas con verdes distintos, colegios en lavanda, salud en rosa, agua más definida y
+lugares con un color por grupo (comida, hospedaje, educación, salud, comercio, cultura, ocio,
+servicios). Solo cambia la apariencia: fuentes Overture, geometrías y PMTiles intactas.
+
+- [x] `themes.ts` y `style.ts`; 26 pruebas del estilo (validación del estilo en los 5 temas).
+- [x] Capturas antes/después en escritorio, tres temas, a escala de ciudad y de manzana.
+- [x] E2E de escritorio contra `:8080` (stack reconstruido): 59 aprobadas, 0 fallos tras corregir la espera del
+      formulario de ingreso en dos pruebas (`isVisible` no espera); 25 omitidas por diseño.
+- [x] Imágenes Docker de backend y frontend reconstruidas: el stack en `:8080` sirve la capa
+      complementaria y el estilo nuevo.
+- [ ] Sin revisar en móvil ni con usuarios; Bright y Fjord solo recibieron los nuevos tonos de edificios.
+
+## Edificaciones complementarias · 21/11/2026
+
+Capa aditiva con 6.545 huellas de fuentes abiertas que Overture no tiene (5.181 de Google
+Open Buildings crudo, 146 de Microsoft y 1.218 de presencia satelital de Google; OSM no
+aportó nada nuevo). Con Overture suman 20.902. Overture, sus identificadores y sus PMTiles
+no cambian. Los lotes CAD con alguna huella pasan de 86,5 % a 96,9 %. Método, cifras, precisión relativa y límites en
+[Edificaciones complementarias](edificaciones-complementarias.md).
+
+- [x] Migración 030 (`edificio_complemento`), importador transaccional e idempotente,
+      API (`/complemento/mapa`, ficha por `edificio_complemento`) y capa en el visor con
+      una sola apariencia visual, sin interruptores ni avisos de duda; el origen va en la ficha.
+- [x] Pruebas: 137 unitarias (backend y frontend), 12 de las reglas de fusión en Python y
+      75 e2e aprobadas en escritorio, tableta y móvil (Edge) sobre mapa, controles,
+      recorrido de aceptación y la capa nueva; 15 omitidas por diseño; 0 fallos.
+- [x] Tesela cruda de Google v3 (`91b`, 491 MB, íntegra con `gzip -t`) fusionada: 20.733
+      huellas leídas, 13.875 ya estaban en Overture y **5.181 son nuevas** (confianza 0,65–0,95,
+      mediana 0,776). El 66,6 % de las nuevas dentro de zonas CAD cae dentro de un lote, frente
+      al 61,9 % de Overture. La hipótesis previa de «aporte casi nulo» era incorrecta.
+- [ ] Sin hacer: polígonos de GlobalBuildingAtlas (2,4 GB, CC BY-NC), segmentación con IA
+      (sin imagen con licencia), manzanas INEI, botón «Registrar punto sin polígono» y
+      vínculo de predios con estas huellas (la clave de `vinculo_espacial` solo admite Overture).
+- Las huellas de presencia (`baja`) tienen una precisión relativa de ≈ 58 % respecto de
+  Overture frente a lotes CAD; no hay verificación en campo. OSM y Microsoft son ODbL.
+- Para ejecutar la API desde el host hay que publicar la base con `npm run db:dev`; la
+  imagen Docker del backend no se reconstruyó, así que el stack en `:8080` aún no sirve la capa.
+
 ## Aplicación de cuatro espacios · estilo Vercel · 18/11/2026
 
 Se rediseñó la interfaz como una aplicación y no como un mapa con tarjetas flotantes. Los

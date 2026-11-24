@@ -2,20 +2,21 @@ import { describe, expect, it } from 'vitest';
 import { frontendEnvSchema } from './env';
 
 describe('Configuración del frontend', () => {
-  it('arranca sin proveedor y utiliza el proxy del mismo origen', () => {
+  it('arranca en BAGUA MASTER, sin proveedor y con el proxy del mismo origen', () => {
     expect(frontendEnvSchema.parse({})).toEqual({
       VITE_API_BASE_URL: '/api',
       VITE_MAP_STYLE_URL: '',
-      VITE_MUNICIPAL_MAP_ENABLED: 'true',
+      VITE_MUNICIPAL_MAP_ENABLED: 'false',
       VITE_BAGUA_MASTER_ENABLED: 'true',
     });
   });
   it('permite ocultar cada módulo cartográfico por separado', () => {
     const sinMaster = frontendEnvSchema.parse({ VITE_BAGUA_MASTER_ENABLED: 'false' });
     expect(sinMaster.VITE_BAGUA_MASTER_ENABLED).toBe('false');
-    expect(sinMaster.VITE_MUNICIPAL_MAP_ENABLED).toBe('true');
-    const sinMunicipal = frontendEnvSchema.parse({ VITE_MUNICIPAL_MAP_ENABLED: 'false' });
-    expect(sinMunicipal.VITE_MUNICIPAL_MAP_ENABLED).toBe('false');
+    expect(sinMaster.VITE_MUNICIPAL_MAP_ENABLED).toBe('false');
+    const conMunicipal = frontendEnvSchema.parse({ VITE_MUNICIPAL_MAP_ENABLED: 'true' });
+    expect(conMunicipal.VITE_MUNICIPAL_MAP_ENABLED).toBe('true');
+    const sinMunicipal = frontendEnvSchema.parse({});
     expect(sinMunicipal.VITE_BAGUA_MASTER_ENABLED).toBe('true');
     expect(frontendEnvSchema.safeParse({ VITE_BAGUA_MASTER_ENABLED: 'sí' }).success).toBe(false);
   });

@@ -1,22 +1,29 @@
 import type { Map as MapLibreMap } from 'maplibre-gl';
-import { Box, Crosshair, Maximize2, Minus, Plus, Route } from 'lucide-react';
+import { Box, Crosshair, Maximize2, Minus, Orbit, PenLine, Plus, Route } from 'lucide-react';
+import type { MapView } from '../types';
 import { CENTER, URBAN_EXTENT } from '../config';
 
-// Controles pequeños: zoom, centrar en Bagua, extensión urbana y 2D/2.5D.
+// Controles pequeños: zoom, centrar en Bagua, extensión urbana, rutas, vistas 2.5D/3D y correcciones.
 export function MapControls({
   map,
-  mode3d,
+  view,
   heightsAvailable,
   routesOn,
-  onToggle3d,
+  canEdit = false,
+  correctionsOn = false,
+  onView,
   onToggleRoutes,
+  onToggleCorrections,
 }: {
   map: MapLibreMap | null;
-  mode3d: boolean;
+  view: MapView;
   heightsAvailable: number;
   routesOn: boolean;
-  onToggle3d: () => void;
+  canEdit?: boolean;
+  correctionsOn?: boolean;
+  onView: (view: MapView) => void;
   onToggleRoutes: () => void;
+  onToggleCorrections?: () => void;
 }) {
   const disabled = !map;
   const no3d = heightsAvailable === 0;
@@ -77,19 +84,53 @@ export function MapControls({
         type="button"
         className="bm-controls-3d"
         data-testid="bm-modo-3d"
-        aria-pressed={mode3d}
+        aria-pressed={view === '2.5d'}
         aria-label={no3d ? 'Vista 2.5D no disponible: no hay alturas disponibles' : 'Vista 2.5D'}
         title={
           no3d
             ? 'No hay alturas disponibles para los edificios de Bagua.'
-            : `Vista 2.5D · alturas satelitales y simuladas (${heightsAvailable} edificios)`
+            : `Vista 2.5D · inclinación fija, se puede girar (${heightsAvailable} edificios con altura)`
         }
         disabled={disabled || no3d}
-        onClick={onToggle3d}
+        onClick={() => onView(view === '2.5d' ? '2d' : '2.5d')}
       >
         <Box size={16} />
-        <span>{mode3d ? '2D' : '3D'}</span>
+        <span>2.5D</span>
       </button>
+      <button
+        type="button"
+        className="bm-controls-3d"
+        data-testid="bm-modo-3d-libre"
+        aria-pressed={view === '3d'}
+        aria-label={no3d ? 'Vista 3D no disponible: no hay alturas disponibles' : 'Vista 3D libre'}
+        title={
+          no3d
+            ? 'No hay alturas disponibles para los edificios de Bagua.'
+            : 'Vista 3D libre · clic derecho o Ctrl + arrastrar para girar e inclinar'
+        }
+        disabled={disabled || no3d}
+        onClick={() => onView(view === '3d' ? '2d' : '3d')}
+      >
+        <Orbit size={16} />
+        <span>3D</span>
+      </button>
+      {canEdit && (
+        <>
+          <span className="bm-controls-sep" aria-hidden="true" />
+          <button
+            type="button"
+            className="bm-controls-3d"
+            data-testid="bm-corregir-boton"
+            aria-pressed={correctionsOn}
+            aria-label="Corregir el mapa"
+            title="Corregir el mapa: ocultar lo que no existe, mover lugares o agregar edificaciones"
+            onClick={onToggleCorrections}
+          >
+            <PenLine size={16} />
+            <span>Corregir</span>
+          </button>
+        </>
+      )}
     </div>
   );
 }

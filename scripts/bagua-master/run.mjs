@@ -5,7 +5,29 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const root = path.resolve(import.meta.dirname, '..', '..');
+// Pasos con rasterio: se ejecutan en la imagen de alturas (Python con rasterio/shapely/pyproj).
+const inHeightsImage = (script) => [
+  'docker',
+  'run',
+  '--rm',
+  '-v',
+  `${root}/scripts:/app/scripts:ro`,
+  '-v',
+  `${root}/data/bagua-master:/app/data/bagua-master`,
+  'bagua-webgis-heights:latest',
+  'python',
+  `scripts/bagua-master/${script}`,
+];
 const steps = {
+  'fusionar-edificaciones': ['python', 'fusionar_edificaciones.py'],
+  'fusionar-edificaciones-presencia': ['python', 'fusionar_edificaciones.py', '--presencia'],
+  'presencia-google': inHeightsImage('preparar_presencia.py'),
+  'alturas-complemento': inHeightsImage('alturas_complemento.py'),
+  'importar-complemento': ['python', 'importar_complemento.py'],
+  'diagnostico-coherencia': ['python', 'diagnostico_coherencia.py'],
+  'ajustar-coherencia': ['python', 'ajustar_coherencia.py'],
+  'importar-geometria-mapa': ['python', 'importar_geometria_mapa.py'],
+  'simular-operacion': ['python', 'simular_operacion.py'],
   alturas: ['python', 'estimate_heights.py', '--importar'],
   'descargar-alturas-gba': ['python', 'download_gba.py'],
   'importar-alturas-gba': ['python', 'import_gba_heights.py', '--importar'],

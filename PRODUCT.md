@@ -1,68 +1,57 @@
-# WEBGIS BAGUA — producto
+# WEBGIS BAGUA · servicio y participación en residuos sólidos
 
-## Identidad, problema y valor
+> Resumen descriptivo de lo construido. No dirige el proyecto: las decisiones las toma el usuario.
 
-Sistema municipal de gestión territorial de predios y servicios de residuos sólidos
-para la Municipalidad Provincial de Bagua. **BAGUA MASTER es el producto central.**
-Relaciona información dispersa de padrones, planos y registros para que el personal
-autorizado pueda consultar, registrar, corregir y analizar con contexto territorial
-y evidencia. No presupone fallos del servicio municipal ni pérdidas cuantificadas.
+**En una frase:** un sistema sobre el mapa de Bagua donde la Gerencia de Gestión Ambiental ve cómo,
+cuándo y por dónde presta cada servicio de recolección, quién participa en la recolección
+selectiva, y obtiene sin trabajo extra los datos que debe reportar.
 
-## Personas y tareas
+## Problema
 
-- Personal de consulta: encontrar un predio o dirección y comprender sus relaciones
-  y servicios autorizados, incluso cuando su ubicación esté pendiente.
-- Personal de registro/campo: verificar referencias y registrar participación y
-  entregas desde computadora o celular, con confirmación y trazabilidad.
-- Responsables de Gestión Ambiental: revisar asignaciones, rutas, programación y
-  reportes respaldados, identificando información incompleta o pendiente.
-- Administración: mantener cuentas, catálogos, importaciones, auditoría y operación.
+1. Información dispersa: rutas y horarios en DWG, padrones en Excel, reportes armados a mano.
+2. «El camión no pasa»: el vecino no conoce el horario; afecta la percepción del servicio y la
+   morosidad.
+3. Participación sin seguimiento: no se sabe quién entrega, cada cuánto ni en qué zonas.
+4. Reportes poco confiables (SIGERSOL, plan provincial, padrones de recolección selectiva).
 
-Son perfiles funcionales; sus permisos y responsabilidades institucionales necesitan
-validación. Rentas y Catastro son posibles fuentes autorizadas, no operadores por defecto.
+## Usuarios
 
-## Experiencia esperada
+- **Gerente:** ver el estado del servicio, decidir y reportar.
+- **Técnico del área:** mantiene rutas, horarios, padrón y actores.
+- **Promotor o reciclador de campo:** empadrona y registra visitas desde el celular.
+- **Atención al vecino:** responde en segundos qué día y a qué hora pasa el camión.
 
-WEBGIS BAGUA debe ser potente internamente y sencillo externamente. Una persona que utiliza la aplicación por primera vez debe poder buscar un predio, comprender su ficha, consultar sus servicios y encontrar las acciones habituales sin estudiar su arquitectura. La información debe utilizar lenguaje humano y revelar detalles técnicos solamente cuando sean necesarios.
+## Cuatro pilares unidos por el mapa
 
-WEBGIS BAGUA es una aplicación con cuatro espacios de trabajo conectados por la misma
-sesión, la misma búsqueda y la misma ficha de cada registro: **Explorar** (el mapa),
-**Expedientes** (consultar a fondo un predio, una persona o una unidad), **Servicios**
-(asignaciones, participaciones y registro de entregas) y **Resultados** (lo registrado por
-periodo, servicio y material). **Administración** (cuentas, catálogos, importaciones,
-auditoría y contraseña) queda en el menú de la cuenta.
+1. **Servicio:** rutas por tipo (convencional, comercial, orgánicos, reciclables), días, horarios y
+   sectores; infraestructura (contenedores, puntos limpios, centro de acopio, planta); «¿cuándo
+   pasa?» en cualquier punto.
+2. **Padrón:** predios y participantes georreferenciados, domiciliarios y no domiciliarios, con
+   representante y roles (contribuyente, propietario, arrendatario); exportable en los formatos
+   03-A a 03-D del MINAM.
+3. **Campo:** empadronar y registrar visitas (entregó, no entregó, ausente; materiales y kilos si se
+   pesan) en segundos.
+4. **Resultados:** participación, cobertura y toneladas por mes, material y actor; cada cifra abre
+   los registros que la producen.
 
-La búsqueda universal es la entrada común: un nombre, un código, un documento ficticio,
-una dirección, una ruta o un lugar. Una persona con varios predios nunca salta sola a uno:
-se elige cuál consultar. Desde un predio el mapa se acerca a la edificación Overture con
-vínculo espacial confirmado y la resalta; desde una edificación se llega a sus predios o se
-dice, sin inventarlos, que no tiene relación predial confirmada. Cada registro tiene dos
-niveles: la ficha rápida junto al mapa y el expediente completo (identidad, ubicación,
-relaciones, servicios, cadena de información e historial). Se puede ir y volver entre
-ambos sin perder la posición del mapa.
+Un registro, muchas vistas: la visita anotada en campo aparece en el expediente, en la
+participación y en los resultados.
 
-La simplicidad visual conserva capacidades y hace descubribles las funciones: el inicio
-explica qué se puede buscar y cómo comenzar. La estética sigue el sistema Geist de Vercel
-(blanco y negro, tema claro y oscuro, azul para lo verificado, ámbar para lo que requiere
-revisión, violeta para lo sintético o ficticio). Sin dashboard obligatorio de entrada.
+## Recorridos clave
 
-La claridad de Vercel (Geist) y macOS orienta jerarquía, consistencia y sobriedad, sin
-copiar sus marcas. Cada componente facilita una tarea o explica un dato; no hay decoración
-que compita con el trabajo. En móvil se adapta la interacción, no se encoge el escritorio.
+1. Vecino al teléfono: dirección → ruta, día y hora.
+2. Gerente: DNI o código → el mapa va al predio → ficha con personas, servicios, horario y visitas.
+3. Tocar una edificación en el mapa → su ficha y su horario.
+4. Campo: predios de la ruta del día → registrar la visita.
+5. Fin de mes: toneladas por actor → reporte y padrón listos.
 
-## Confianza y alcance
+## Fuera del alcance por ahora
 
-La ficha permite entender qué entidad se ve, qué se sabe, qué falta, qué fuente lo
-respalda y qué se puede hacer. «Sin información» no significa «sin servicio».
-Los detalles de dominio y restricciones se definen en la
-[visión maestra](VISION_MAESTRA_PRODUCTO_FINAL_WEBGIS_BAGUA.md); la interacción en
-[entorno integrado](VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
+Incidencias y reportes vecinales (otro practicante), arbitrios y Rentas, GPS de vehículos y
+catastro completo. El 3D es un complemento, no el eje.
 
-El primer mapa/demo es legado independiente. El objetivo no incluye gestión
-tributaria financiera. Rentas aún no tiene una entrega oficial acreditada: las
-muestras administrativas se identifican y aíslan como sintéticas. La cartografía
-Overture y las rutas documentales DWG conservan su procedencia.
+## Datos
 
-Este documento define el producto esperado, no certifica su disponibilidad.
-Consultar [avance verificado](docs/avance-verificado.md) para capacidades probadas,
-límites y decisiones pendientes, y [criterios](CRITERIOS_ACEPTACION_CODEX.md) para aceptación.
+Mientras no llegue la información oficial, el producto funciona con una simulación realista anclada
+en el Bagua real ([operación del servicio](docs/operacion-servicio.md)). Se reemplaza por partes
+sin cambiar la interfaz.

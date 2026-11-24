@@ -5,6 +5,9 @@ import { spatialProposal, spatialDecision } from './gestion.spatial.js';
 import { resetPasswordInput } from './gestion.users.js';
 import { reversalInput } from './gestion.import-reversal.js';
 import { deliveryCorrection } from './gestion.delivery-corrections.js';
+import { mapCorrectionAnnul, mapCorrectionInput } from './gestion.map-corrections.js';
+import { valorizationInput, visitInput } from './gestion.operacion.js';
+import { qrBatchInput, qrRevokeInput } from './gestion.qr.js';
 import {
   predioInput,
   predioUpdate,
@@ -30,6 +33,13 @@ const headers = [
       'Cabecera requerida en escrituras para proteger frente a solicitudes de otros orígenes.',
   },
 ];
+const qrCode = {
+  in: 'path',
+  name: 'codigo',
+  required: true,
+  description: '8 caracteres Crockford base32 con dígito de control; se acepta XXXX-XXXX',
+  schema: { type: 'string', pattern: '^[0-9A-Za-z-]{8,9}$' },
+};
 const id = { in: 'path', name: 'id', required: true, schema: { type: 'string', format: 'uuid' } };
 function op(summary: string, body?: z.ZodType, hasId = false) {
   return {
@@ -339,6 +349,95 @@ export const gestionPaths = {
   },
   '/gestion/entregas': {
     post: op('Registrar evento con clave de idempotencia, medición opcional', deliveryInput),
+  },
+  '/gestion/predios/{id}/operacion': {
+    get: op(
+      'Horario de recolección del predio y su participación (padrón, tasa de entrega, visitas)',
+      undefined,
+      true,
+    ),
+  },
+  '/gestion/campo': {
+    get: op('Recorrido de campo del día por servicio, ordenado por hora estimada de paso'),
+  },
+  '/gestion/qr/etiquetas': {
+    get: {
+      ...op('Stickers QR vigentes de los inscritos por programa y sector, y cuántos faltan'),
+      parameters: [
+        {
+          in: 'query',
+          name: 'servicio',
+          schema: { type: 'string', enum: ['organicos', 'reciclables'] },
+        },
+        { in: 'query', name: 'sector', schema: { type: 'string' } },
+      ],
+    },
+  },
+  '/gestion/qr/{codigo}': {
+    get: {
+      ...op(
+        'Resolver un sticker escaneado: predio, programas del día con hora estimada y visita registrada',
+      ),
+      parameters: [
+        qrCode,
+        { in: 'query', name: 'fecha', schema: { type: 'string', format: 'date' } },
+      ],
+    },
+  },
+  '/gestion/qr/{codigo}/revocar': {
+    post: {
+      ...op(
+        'Reemplazar un sticker perdido o dañado (el anterior deja de funcionar)',
+        qrRevokeInput,
+      ),
+      parameters: [qrCode, ...headers],
+    },
+  },
+  '/gestion/qr/lote': {
+    post: op('Generar los stickers que faltan a los inscritos de un programa', qrBatchInput),
+  },
+  '/gestion/predios/{id}/qr': {
+    get: op('Sticker QR vigente del predio e historial de reemplazos', undefined, true),
+    post: op('Generar el sticker QR del predio si aún no tiene uno', z.object({}), true),
+  },
+  '/gestion/visitas': {
+    post: op(
+      'Registrar una visita (entregó, no entregó o ausente) con sus entregas; idempotente por clave',
+      visitInput,
+    ),
+  },
+  '/gestion/visitas/{id}/anular': {
+    post: op(
+      'Anular una visita y sus entregas sin borrarlas',
+      z.object({ motivo: z.string().min(5) }),
+      true,
+    ),
+  },
+  '/gestion/resultados/operacion': {
+    get: op(
+      'Participación, kilos por mes, sector y material, y valorización por actor en un periodo',
+    ),
+  },
+  '/gestion/resultados/visitas': {
+    get: op('Visitas que sustentan una cifra de resultados'),
+  },
+  '/gestion/padron.csv': {
+    get: op('Padrón de participantes en el formato MINAM (anexos 03-A a 03-D)'),
+  },
+  '/gestion/actores': { get: op('Asociaciones de recicladores, EO-RS y planta municipal') },
+  '/gestion/valorizacion': {
+    get: op('Comprobantes de valorización del periodo'),
+    post: op('Registrar toneladas valorizadas con su comprobante', valorizationInput),
+  },
+  '/gestion/correcciones-mapa': {
+    get: op('Correcciones cartográficas vigentes, con autor y motivo'),
+    post: op(
+      'Ocultar un lugar o edificación inexistente, mover un lugar o agregar una edificación',
+      mapCorrectionInput,
+    ),
+  },
+  '/gestion/correcciones-mapa/{id}/anular': {
+    post: op('Anular una corrección cartográfica sin borrarla', mapCorrectionAnnul, true),
   },
   '/gestion/entregas/{id}/anular': {
     post: op('Anular sin eliminar el historial', z.object({ motivo: z.string().min(5) }), true),

@@ -35,8 +35,8 @@ const PX_PER_M_Z16 = 2 ** 16 / 77_892;
 const ROAD_HIERARCHY = [
   { clases: ['motorway', 'trunk', 'primary'], z12: 1.8, z14: 4.5, metros: 9, rango: 4 },
   { clases: ['secondary', 'tertiary'], z12: 1.3, z14: 3.4, metros: 7.5, rango: 3 },
-  { clases: ['residential', 'unclassified', 'unknown'], z12: 0.6, z14: 2.2, metros: 6.5, rango: 2 },
-  { clases: ['service', 'living_street'], z12: 0.4, z14: 1.3, metros: 4.5, rango: 1 },
+  { clases: ['residential', 'unclassified', 'unknown'], z12: 0.7, z14: 2.6, metros: 6, rango: 2 },
+  { clases: ['service', 'living_street'], z12: 0.4, z14: 1.3, metros: 4, rango: 1 },
   {
     clases: ['footway', 'path', 'track', 'steps', 'pedestrian', 'cycleway'],
     z12: 0.4,
@@ -54,19 +54,49 @@ const byClass = (value: (h: (typeof ROAD_HIERARCHY)[number]) => number): Express
     value(ROAD_HIERARCHY[2]),
   ] as unknown as ExpressionSpecification;
 
+/*
+ * Avenidas de doble calzada (`doble_calzada`, marcadas por ajustar_coherencia.py con la separación
+ * real entre ejes `separacion_m`): cada calzada mide la separación menos 3,5 m de berma, entre 3 m
+ * y el ancho de su clase, para que la berma central se vea siempre. A escala de ciudad cada
+ * calzada se dibuja al 60 % y la pareja se lee como una sola avenida.
+ *
+ * Las demás calles con edificios a ambos lados traen `ancho_m`: el espacio libre entre fachadas,
+ * acotado por clase. Se dibujan debajo de los edificios, así que nunca los pisan.
+ */
+const DUAL: ExpressionSpecification = ['==', ['get', 'doble_calzada'], 1];
+const dualMeters: ExpressionSpecification = [
+  'max',
+  3,
+  ['min', byClass((h) => h.metros), ['-', ['coalesce', ['get', 'separacion_m'], 12], 3.5]],
+];
+const atScale = (zoom: number, extra: number): ExpressionSpecification => [
+  'case',
+  DUAL,
+  ['+', ['*', dualMeters, PX_PER_M_Z16 * 2 ** (zoom - 16)], extra],
+  [
+    '+',
+    [
+      '*',
+      ['coalesce', ['get', 'ancho_m'], byClass((h) => h.metros)],
+      PX_PER_M_Z16 * 2 ** (zoom - 16),
+    ],
+    extra,
+  ],
+];
+
 /** Anchura en píxeles por clase y zoom; `extra` añade un margen fijo (p. ej. el resaltado). */
 const roadWidth = (extra = 0): ExpressionSpecification => [
   'interpolate',
   ['exponential', 2],
   ['zoom'],
   12,
-  byClass((h) => h.z12 + extra),
+  ['case', DUAL, byClass((h) => h.z12 * 0.6 + extra), byClass((h) => h.z12 + extra)],
   14,
-  byClass((h) => h.z14 + extra),
+  ['case', DUAL, byClass((h) => h.z14 * 0.6 + extra), byClass((h) => h.z14 + extra)],
   16,
-  byClass((h) => h.metros * PX_PER_M_Z16 + extra),
+  atScale(16, extra),
   MAX_ZOOM_STYLE,
-  byClass((h) => h.metros * PX_PER_M_Z16 * 2 ** (MAX_ZOOM_STYLE - 16) + extra),
+  atScale(MAX_ZOOM_STYLE, extra),
 ];
 
 /** Las vías de mayor jerarquía se dibujan encima en los cruces. */
@@ -78,11 +108,11 @@ const ROAD_CASING: ExpressionSpecification = [
   ['linear'],
   ['zoom'],
   12,
-  0.4,
+  0.5,
   16,
-  1.2,
+  1.4,
   MAX_ZOOM_STYLE,
-  2.6,
+  3,
 ];
 
 /**
@@ -134,6 +164,74 @@ const PATHS: ExpressionSpecification = [
   false,
 ];
 
+type Colors = (typeof MAP_THEMES)[MapTheme]['palette'];
+
+/** Relleno de edificios por superficie de huella: las casas pequeñas se leen distinto de los galpones. */
+const buildingFill = (P: Colors): ExpressionSpecification => [
+  'interpolate',
+  ['linear'],
+  ['coalesce', ['get', 'area_m2'], 60],
+  20,
+  P.edificioChico,
+  120,
+  P.edificio,
+  400,
+  P.edificioGrande,
+  1500,
+  P.edificioMax,
+];
+
+/** Color de cada lugar por grupo de categoría Overture (comida, hospedaje, educación, salud…). */
+const placeColor = (P: Colors): ExpressionSpecification => [
+  'match',
+  ['get', 'categoria'],
+  [
+    'restaurant',
+    'bar_and_grill_restaurant',
+    'chinese_restaurant',
+    'fast_food_restaurant',
+    'chicken_restaurant',
+    'cafe',
+    'bakery',
+    'cupcake_shop',
+    'dance_club',
+    'liquor_store',
+  ],
+  P.poiComida,
+  ['hotel', 'hostel', 'lodging', 'spa'],
+  P.poiHospedaje,
+  ['school', 'college_university'],
+  P.poiEducacion,
+  ['hospital', 'pharmacy', 'dental_clinic', 'outpatient_care_facility', 'health_care'],
+  P.poiSalud,
+  [
+    'clothing_store',
+    'shopping',
+    'electronics_store',
+    'department_store',
+    'shopping_mall',
+    'sportswear_store',
+    'womens_clothing_store',
+    'beauty_supply_store',
+    'arts_crafts_and_hobby_store',
+    'beauty_salon',
+  ],
+  P.poiComercio,
+  ['historic_site', 'cultural_center', 'christian_place_of_worship', 'religious_organization'],
+  P.poiCultura,
+  ['park', 'public_plaza', 'stadium_arena', 'gym', 'sport_or_fitness_facility'],
+  P.poiOcio,
+  [
+    'government_office',
+    'community_and_government',
+    'social_or_community_service',
+    'fire_protection_service',
+    'notary_public',
+  ],
+  P.poiServicio,
+  P.poiOtro,
+];
+
 export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
   const PALETTE = MAP_THEMES[theme].palette;
   const roadColor: ExpressionSpecification = [
@@ -178,6 +276,20 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         attribution:
           'Alturas: © Google 2023 (CC BY 4.0) · © GlobalBuildingAtlas/TUM 2019 (CC BY-NC 4.0)',
       },
+      // Huellas complementarias de otras fuentes abiertas (capa aditiva, vacía hasta que se pida).
+      'bm-complemento': {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [] },
+        attribution:
+          'Edificaciones complementarias: © OpenStreetMap (ODbL) · © Microsoft (ODbL) · © Google 2023 (CC BY 4.0)',
+      },
+      // Correcciones locales (bagua_master.correccion): edificaciones agregadas a mano, lugares
+      // reubicados y el trazo de una edición en curso.
+      'bm-agregados': { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
+      'bm-lugares-movidos': { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
+      'bm-dibujo': { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
+      // Infraestructura del servicio de residuos (contenedores, puntos limpios, acopio, planta).
+      'bm-infra': { type: 'geojson', data: { type: 'FeatureCollection', features: [] } },
     },
     layers: [
       { id: 'bm-fondo', type: 'background', paint: { 'background-color': PALETTE.fondo } },
@@ -198,7 +310,9 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
           'fill-color': [
             'match',
             ['get', 'clase'],
-            ['park', 'pitch', 'stadium', 'resort', 'grass', 'garden', 'recreation_ground'],
+            ['pitch', 'stadium'],
+            PALETTE.deporte,
+            ['park', 'resort', 'grass', 'garden', 'recreation_ground'],
             PALETTE.verde,
             'cemetery',
             PALETTE.cementerio,
@@ -208,7 +322,7 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
             PALETTE.salud,
             PALETTE.residencial,
           ],
-          'fill-opacity': 0.95,
+          'fill-opacity': 1,
         },
       },
       {
@@ -237,47 +351,7 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: { 'line-color': PALETTE.aguaLinea, 'line-width': zoomWidth(1.5, 4, 14) },
       },
-      // Sombra corta bajo cada edificio: separa las manzanas del suelo sin recargar el mapa.
-      {
-        id: 'bm-edificios-sombra',
-        type: 'fill',
-        source: SOURCE,
-        'source-layer': 'edificios',
-        minzoom: 15,
-        paint: {
-          'fill-color': PALETTE.edificioSombra,
-          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.5],
-          'fill-translate': shadowOffset(1.1, LIGHT_AZIMUTH - 180),
-          'fill-translate-anchor': 'map',
-        },
-      },
-      {
-        id: 'bm-edificios',
-        type: 'fill',
-        source: SOURCE,
-        'source-layer': 'edificios',
-        minzoom: 13.5,
-        paint: {
-          'fill-color': [
-            'case',
-            ['>=', ['coalesce', ['get', 'area_m2'], 0], 300],
-            PALETTE.edificioGrande,
-            PALETTE.edificio,
-          ],
-          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 13.5, 0, 14.5, 0.95],
-        },
-      },
-      {
-        id: 'bm-edificios-borde',
-        type: 'line',
-        source: SOURCE,
-        'source-layer': 'edificios',
-        minzoom: 15,
-        paint: {
-          'line-color': PALETTE.edificioBorde,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.3, 18, 0.9],
-        },
-      },
+      // Calles debajo de los edificios: la fachada marca el borde de la calle.
       {
         id: 'bm-senderos',
         type: 'line',
@@ -310,7 +384,13 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         filter: MAJOR_ROADS,
         layout: { 'line-cap': 'round', 'line-join': 'round', 'line-sort-key': ROAD_SORT_KEY },
         paint: {
-          'line-color': PALETTE.viaBorde,
+          'line-color': [
+            'match',
+            ['get', 'clase'],
+            ['motorway', 'trunk', 'primary', 'secondary'],
+            PALETTE.viaBordeMayor,
+            PALETTE.viaBorde,
+          ],
           'line-gap-width': roadWidth(),
           'line-width': ROAD_CASING,
         },
@@ -323,6 +403,108 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         filter: MAJOR_ROADS,
         layout: { 'line-cap': 'round', 'line-join': 'round', 'line-sort-key': ROAD_SORT_KEY },
         paint: { 'line-color': roadColor, 'line-width': roadWidth() },
+      },
+      // Sombra corta bajo cada edificio: separa las manzanas del suelo sin recargar el mapa.
+      {
+        id: 'bm-edificios-sombra',
+        type: 'fill',
+        source: SOURCE,
+        'source-layer': 'edificios',
+        minzoom: 15,
+        paint: {
+          'fill-color': PALETTE.edificioSombra,
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 15, 0, 16, 0.5],
+          'fill-translate': shadowOffset(1.1, LIGHT_AZIMUTH - 180),
+          'fill-translate-anchor': 'map',
+        },
+      },
+      {
+        id: 'bm-edificios',
+        type: 'fill',
+        source: SOURCE,
+        'source-layer': 'edificios',
+        minzoom: 13.5,
+        paint: {
+          'fill-color': buildingFill(PALETTE),
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13.5,
+            0,
+            14.5,
+            PALETTE.opacidadEdificio,
+          ],
+        },
+      },
+      {
+        id: 'bm-edificios-borde',
+        type: 'line',
+        source: SOURCE,
+        'source-layer': 'edificios',
+        minzoom: 15,
+        paint: {
+          'line-color': PALETTE.edificioBorde,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.4, 18, 1.1],
+        },
+      },
+      // Huellas complementarias: se dibujan igual que las de Overture (una sola capa visual).
+      {
+        id: 'bm-complemento',
+        type: 'fill',
+        source: 'bm-complemento',
+        minzoom: 13.5,
+        paint: {
+          'fill-color': buildingFill(PALETTE),
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13.5,
+            0,
+            14.5,
+            PALETTE.opacidadEdificio,
+          ],
+        },
+      },
+      {
+        id: 'bm-complemento-borde',
+        type: 'line',
+        source: 'bm-complemento',
+        minzoom: 15,
+        paint: {
+          'line-color': PALETTE.edificioBorde,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.4, 18, 1.1],
+        },
+      },
+      // Edificaciones agregadas por corrección local: misma apariencia que el resto.
+      {
+        id: 'bm-agregados',
+        type: 'fill',
+        source: 'bm-agregados',
+        minzoom: 13.5,
+        paint: {
+          'fill-color': buildingFill(PALETTE),
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13.5,
+            0,
+            14.5,
+            PALETTE.opacidadEdificio,
+          ],
+        },
+      },
+      {
+        id: 'bm-agregados-borde',
+        type: 'line',
+        source: 'bm-agregados',
+        minzoom: 15,
+        paint: {
+          'line-color': PALETTE.edificioBorde,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 0.4, 18, 1.1],
+        },
       },
       {
         id: 'bm-conectores',
@@ -349,7 +531,7 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         paint: {
           'fill-extrusion-color': PALETTE.edificioGrande,
           'fill-extrusion-height': ['get', 'altura_m'],
-          'fill-extrusion-opacity': 0.85,
+          'fill-extrusion-opacity': Math.min(0.85, PALETTE.opacidadVolumen),
         },
       },
       // Sombra en el suelo de los volúmenes 2.5D (misma capa derivada, mismo filtro).
@@ -394,7 +576,7 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
             ],
           ],
           'fill-extrusion-vertical-gradient': true,
-          'fill-extrusion-opacity': 1,
+          'fill-extrusion-opacity': PALETTE.opacidadVolumen,
         },
       },
       {
@@ -409,6 +591,60 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
           'fill-extrusion-color': PALETTE.seleccion,
           'fill-extrusion-opacity': 0.95,
         },
+      },
+      // 2.5D de las huellas complementarias: los 3 m provisionales se dibujan como "no observados"
+      // (mismo color que las alturas simuladas); solo las alturas satelitales usan la escala.
+      {
+        id: 'bm-complemento-3d',
+        type: 'fill-extrusion',
+        source: 'bm-complemento',
+        minzoom: 15,
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-extrusion-height': ['get', 'altura_m'],
+          'fill-extrusion-base': 0,
+          'fill-extrusion-color': [
+            'case',
+            ['==', ['get', 'origen_altura'], 'estimada_default'],
+            PALETTE.simulada,
+            [
+              'interpolate',
+              ['linear'],
+              ['get', 'altura_m'],
+              2,
+              PALETTE.volumenBajo,
+              8,
+              PALETTE.volumenMedio,
+              20,
+              PALETTE.volumenAlto,
+              40,
+              PALETTE.volumenMaximo,
+            ],
+          ],
+          'fill-extrusion-vertical-gradient': true,
+          'fill-extrusion-opacity': PALETTE.opacidadVolumen,
+        },
+      },
+      {
+        id: 'bm-agregados-3d',
+        type: 'fill-extrusion',
+        source: 'bm-agregados',
+        minzoom: 15,
+        layout: { visibility: 'none' },
+        paint: {
+          'fill-extrusion-height': ['get', 'altura_m'],
+          'fill-extrusion-base': 0,
+          'fill-extrusion-color': PALETTE.simulada,
+          'fill-extrusion-vertical-gradient': true,
+          'fill-extrusion-opacity': PALETTE.opacidadVolumen,
+        },
+      },
+      {
+        id: 'bm-complemento-seleccion',
+        type: 'line',
+        source: 'bm-complemento',
+        filter: ['==', ['get', 'id'], ''],
+        paint: { 'line-color': PALETTE.seleccion, 'line-width': 3 },
       },
       {
         id: 'bm-seleccion-area',
@@ -560,10 +796,10 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         'source-layer': 'lugares',
         minzoom: 15.5,
         paint: {
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.5, 2, 18, 4],
-          'circle-color': PALETTE.lugar,
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.5, 3, 18, 6],
+          'circle-color': placeColor(PALETTE),
           'circle-stroke-color': PALETTE.halo,
-          'circle-stroke-width': 1.6,
+          'circle-stroke-width': 1.8,
         },
       },
       {
@@ -571,20 +807,133 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
         type: 'symbol',
         source: SOURCE,
         'source-layer': 'lugares',
-        minzoom: 16.5,
+        minzoom: 16,
         layout: {
           'text-field': ['get', 'nombre'],
-          'text-font': ['Noto Sans Regular'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 16.5, 10.5, 18, 12],
+          'text-font': ['Noto Sans Medium'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 16, 10.5, 18, 12.5],
           'text-offset': [0, 1.1],
           'text-anchor': 'top',
           'text-max-width': 10,
           'text-optional': true,
         },
         paint: {
-          'text-color': PALETTE.textoSecundario,
+          'text-color': PALETTE.texto,
           'text-halo-color': PALETTE.halo,
           'text-halo-width': 1.8,
+        },
+      },
+      // Lugares reubicados por corrección local: mismo símbolo que los de Overture.
+      {
+        id: 'bm-lugares-movidos',
+        type: 'circle',
+        source: 'bm-lugares-movidos',
+        minzoom: 15.5,
+        paint: {
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 15.5, 3, 18, 6],
+          'circle-color': placeColor(PALETTE),
+          'circle-stroke-color': PALETTE.halo,
+          'circle-stroke-width': 1.8,
+        },
+      },
+      {
+        id: 'bm-lugares-movidos-texto',
+        type: 'symbol',
+        source: 'bm-lugares-movidos',
+        minzoom: 16,
+        layout: {
+          'text-field': ['get', 'nombre'],
+          'text-font': ['Noto Sans Medium'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 16, 10.5, 18, 12.5],
+          'text-offset': [0, 1.1],
+          'text-anchor': 'top',
+          'text-max-width': 10,
+          'text-optional': true,
+        },
+        paint: {
+          'text-color': PALETTE.texto,
+          'text-halo-color': PALETTE.halo,
+          'text-halo-width': 1.8,
+        },
+      },
+      {
+        id: 'bm-infra',
+        type: 'circle',
+        source: 'bm-infra',
+        minzoom: 14,
+        paint: {
+          'circle-radius': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            14,
+            ['match', ['get', 'tipo'], 'contenedor', 2.5, 'punto_limpio', 4, 6],
+            19,
+            ['match', ['get', 'tipo'], 'contenedor', 7, 'punto_limpio', 9, 12],
+          ],
+          'circle-color': [
+            'match',
+            ['get', 'tipo'],
+            'contenedor',
+            '#475569',
+            'punto_limpio',
+            '#16a34a',
+            'centro_acopio',
+            '#b45309',
+            'planta_organicos',
+            '#65a30d',
+            '#334155',
+          ],
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': ['match', ['get', 'tipo'], 'contenedor', 1.5, 2.5],
+        },
+      },
+      {
+        id: 'bm-infra-texto',
+        type: 'symbol',
+        source: 'bm-infra',
+        minzoom: 15.5,
+        filter: ['!=', ['get', 'tipo'], 'contenedor'],
+        layout: {
+          'text-field': ['get', 'nombre'],
+          'text-font': ['Noto Sans Medium'],
+          'text-size': 11,
+          'text-offset': [0, 1.2],
+          'text-anchor': 'top',
+          'text-max-width': 12,
+          'text-optional': true,
+        },
+        paint: {
+          'text-color': PALETTE.texto,
+          'text-halo-color': PALETTE.halo,
+          'text-halo-width': 1.8,
+        },
+      },
+      // Trazo de la edición en curso (ubicar un lugar o dibujar una edificación).
+      {
+        id: 'bm-dibujo-relleno',
+        type: 'fill',
+        source: 'bm-dibujo',
+        filter: ['==', ['geometry-type'], 'Polygon'],
+        paint: { 'fill-color': PALETTE.seleccion, 'fill-opacity': 0.18 },
+      },
+      {
+        id: 'bm-dibujo-linea',
+        type: 'line',
+        source: 'bm-dibujo',
+        filter: ['!=', ['geometry-type'], 'Point'],
+        paint: { 'line-color': PALETTE.seleccion, 'line-width': 2.5, 'line-dasharray': [2, 1] },
+      },
+      {
+        id: 'bm-dibujo-puntos',
+        type: 'circle',
+        source: 'bm-dibujo',
+        filter: ['==', ['geometry-type'], 'Point'],
+        paint: {
+          'circle-radius': 6,
+          'circle-color': PALETTE.seleccion,
+          'circle-stroke-color': PALETTE.halo,
+          'circle-stroke-width': 2,
         },
       },
     ],
@@ -594,14 +943,27 @@ export function buildStyle(theme: MapTheme = 'positron'): StyleSpecification {
 /** Capas consultables al tocar el mapa, de la más específica a la más general, y su tabla en la API. */
 export const SELECTABLE_LAYERS: {
   layer: string;
-  tabla: 'lugar' | 'conector' | 'red_vial' | 'edificio' | 'agua' | 'uso_suelo' | 'terreno';
+  tabla:
+    | 'lugar'
+    | 'conector'
+    | 'red_vial'
+    | 'edificio'
+    | 'edificio_complemento'
+    | 'agua'
+    | 'uso_suelo'
+    | 'terreno'
+    | 'infraestructura';
 }[] = [
+  { layer: 'bm-infra', tabla: 'infraestructura' },
+  { layer: 'bm-complemento-3d', tabla: 'edificio_complemento' },
   { layer: 'bm-alturas-3d', tabla: 'edificio' },
+  { layer: 'bm-lugares-movidos', tabla: 'lugar' },
   { layer: 'bm-lugares', tabla: 'lugar' },
   { layer: 'bm-conectores', tabla: 'conector' },
   { layer: 'bm-vias', tabla: 'red_vial' },
   { layer: 'bm-senderos', tabla: 'red_vial' },
   { layer: 'bm-edificios', tabla: 'edificio' },
+  { layer: 'bm-complemento', tabla: 'edificio_complemento' },
   { layer: 'bm-agua-linea', tabla: 'agua' },
   { layer: 'bm-agua-area', tabla: 'agua' },
   { layer: 'bm-usos', tabla: 'uso_suelo' },

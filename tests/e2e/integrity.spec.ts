@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 test('selección directa de un polígono y una ruta sobre el mapa', async ({
   page,
@@ -11,7 +12,7 @@ test('selección directa de un polígono y una ruta sobre el mapa', async ({
   const predios = await (await request.get('/api/predios?q=DEMO-')).json();
   const layers = await (await request.get('/api/capas')).json();
   for (const kind of ['predio', 'ruta']) {
-    await page.goto('/');
+    await openMunicipalViewer(page);
     await expect(page.getByTestId('territorial-map')).toHaveAttribute('data-ready', 'true', {
       timeout: 60_000,
     });

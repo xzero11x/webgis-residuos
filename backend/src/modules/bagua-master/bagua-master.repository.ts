@@ -27,9 +27,29 @@ const ELEMENT_COLUMNS: Record<BaguaMasterTable, string[]> = {
 };
 
 export function createBaguaMasterRepository(pool: Pool) {
+  const complementSummary = async () => {
+    const result = await pool.query(
+      `SELECT fuente,confianza_geo,licencia,count(*)::int AS total,
+              count(*) FILTER (WHERE origen_altura='estimada_default')::int AS altura_por_defecto,
+              max(version_fusion) AS version_fusion
+       FROM bagua_master.edificio_complemento GROUP BY fuente,confianza_geo,licencia ORDER BY fuente`,
+    );
+    return {
+      total: result.rows.reduce((sum, r) => sum + (r.total as number), 0),
+      versionFusion: (result.rows[0]?.version_fusion as string | undefined) ?? null,
+      fuentes: result.rows.map((r) => ({
+        fuente: r.fuente as string,
+        confianza: r.confianza_geo as 'alta' | 'media' | 'baja',
+        licencia: r.licencia as string,
+        total: r.total as number,
+        alturaPorDefecto: r.altura_por_defecto as number,
+      })),
+    };
+  };
+
   return {
     async summary() {
-      const [version, sets, counts, heights] = await Promise.all([
+      const [version, sets, counts, heights, complemento] = await Promise.all([
         pool.query(
           `SELECT version_overture,esquema_overture,atribucion,extraccion_utc,descarga_bbox,ventana_urbana,
             manifiesto_sha256,paquete_sha256,importado_en,resumen FROM bagua_master.version WHERE id='bagua-master'`,
@@ -61,6 +81,7 @@ export function createBaguaMasterRepository(pool: Pool) {
              ) t) AS fuentes_estimacion
            FROM bagua_master.edificio`,
         ),
+        complementSummary(),
       ]);
       const row = version.rows[0];
       return {
@@ -102,6 +123,7 @@ export function createBaguaMasterRepository(pool: Pool) {
           conSimulacion: heights.rows[0].con_simulacion,
           fuentesEstimacion: heights.rows[0].fuentes_estimacion,
         },
+        complemento,
       };
     },
     async heightMap() {
@@ -109,8 +131,10 @@ export function createBaguaMasterRepository(pool: Pool) {
         `SELECT e.id,coalesce(e.altura_m,a.altura_m,s.altura_m) AS altura_m,
                 CASE WHEN e.altura_m IS NOT NULL THEN 'publicada'
                      WHEN a.edificio_id IS NOT NULL THEN 'estimada' ELSE 'simulada' END AS tipo,
-                ST_AsGeoJSON(e.geom,7)::json AS geometry
+                -- Forma cartográfica recortada contra la calzada si existe (igual que las teselas 2D).
+                ST_AsGeoJSON(coalesce(m.geom,e.geom),7)::json AS geometry
          FROM bagua_master.edificio e
+         LEFT JOIN bagua_master.edificio_geom_mapa m ON m.edificio_id=e.id
          LEFT JOIN bagua_master.altura_estimada a ON e.id=a.edificio_id
          LEFT JOIN bagua_master.altura_simulada s ON e.id=s.edificio_id
          WHERE e.geom_valida AND coalesce(e.altura_m,a.altura_m,s.altura_m)>0 ORDER BY e.id`,
@@ -123,6 +147,227 @@ export function createBaguaMasterRepository(pool: Pool) {
           geometry: r.geometry,
           properties: { id: r.id, altura_m: r.altura_m, tipo: r.tipo },
         })),
+      };
+    },
+    /**
+     * Capa complementaria de edificaciones (OSM, Microsoft, Google, presencia satelital): huellas
+     * que Overture no tiene. Aditiva, solo lectura; nunca sustituye a `edificio` ni se vincula a
+     * predios (los vínculos espaciales referencian únicamente edificios de Overture).
+     */
+    async complementMap() {
+      const result = await pool.query(
+        `SELECT id,fuente,confianza_geo,altura_m,origen_altura,round(area_m2)::int AS area_m2,
+                ST_AsGeoJSON(geom,7)::json AS geometry
+         FROM bagua_master.edificio_complemento ORDER BY id`,
+      );
+      return {
+        type: 'FeatureCollection',
+        features: result.rows.map((r) => ({
+          type: 'Feature',
+          id: r.id,
+          geometry: r.geometry,
+          properties: {
+            id: r.id,
+            fuente: r.fuente,
+            confianza: r.confianza_geo,
+            altura_m: r.altura_m,
+            origen_altura: r.origen_altura,
+            area_m2: r.area_m2,
+          },
+        })),
+      };
+    },
+    complementSummary,
+    /** Programación de las rutas: servicio, días, ventana horaria, turno, sectores y operador. */
+    async servicePrograms() {
+      const result = await pool.query(
+        `SELECT g.id,g.ruta_codigo AS ruta,r.nombre AS "rutaNombre",r.color,g.servicio,g.nombre,g.dias,
+                to_char(g.hora_inicio,'HH24:MI') AS "horaInicio",to_char(g.hora_fin,'HH24:MI') AS "horaFin",
+                g.turno,g.sectores,g.vehiculo,g.operador,g.nota,g.sintetico,
+                (SELECT count(*)::int FROM bagua_master.ruta_hora_paso h WHERE h.ruta_codigo=g.ruta_codigo) AS "tiemposPlano"
+         FROM bagua_master.ruta_programacion g JOIN bagua_master.ruta r ON r.codigo=g.ruta_codigo
+         WHERE g.vigente ORDER BY r.orden,g.servicio`,
+      );
+      return { programaciones: result.rows };
+    },
+    /** Servicios que pasan por un punto y hora estimada de paso (función bagua_master.recoleccion_en_punto). */
+    async serviceAt(lon: number, lat: number) {
+      const result = await pool.query(
+        `SELECT programacion_id AS id,ruta_codigo AS ruta,ruta_nombre AS "rutaNombre",color,servicio,nombre,dias,
+                to_char(hora_inicio,'HH24:MI') AS "horaInicio",to_char(hora_fin,'HH24:MI') AS "horaFin",turno,
+                operador,vehiculo,distancia_m::float8 AS "distanciaM",
+                to_char(hora_estimada,'HH24:MI') AS "horaEstimada",base
+         FROM bagua_master.recoleccion_en_punto(ST_SetSRID(ST_MakePoint($1,$2),4326))`,
+        [lon, lat],
+      );
+      return { servicios: result.rows };
+    },
+    /** Sticker QR escaneado sin sesión: solo el horario de recolección de ese punto, sin datos personales. */
+    async qrSchedule(codigo: string) {
+      const row = (
+        await pool.query(
+          `SELECT q.codigo,q.estado,p.sector,p.ubicacion FROM gestion.codigo_qr q
+           JOIN gestion.predio p ON p.id=q.predio_id WHERE q.codigo=$1`,
+          [codigo],
+        )
+      ).rows[0];
+      if (!row) return null;
+      const point = row.ubicacion as { coordinates: [number, number] } | null;
+      const servicios =
+        row.estado === 'activo' && point
+          ? (await this.serviceAt(point.coordinates[0], point.coordinates[1])).servicios
+          : [];
+      return {
+        codigo: row.codigo as string,
+        activo: row.estado === 'activo',
+        sector: row.sector as string | null,
+        servicios,
+      };
+    },
+    /** Infraestructura del servicio (contenedores, puntos limpios, centro de acopio, planta). */
+    async infrastructure() {
+      const result = await pool.query(
+        `SELECT id,tipo,nombre,horario,materiales,ST_AsGeoJSON(geom,7)::json AS geometry
+         FROM bagua_master.infraestructura ORDER BY id`,
+      );
+      return {
+        type: 'FeatureCollection',
+        features: result.rows.map((r) => ({
+          type: 'Feature',
+          id: r.id,
+          geometry: r.geometry,
+          properties: { id: r.id, tipo: r.tipo, nombre: r.nombre },
+        })),
+      };
+    },
+    async infrastructureElement(id: string) {
+      const row = (
+        await pool.query(
+          `SELECT id,tipo,nombre,descripcion,horario,materiales,sintetico,ST_AsGeoJSON(geom,8)::json AS geometria
+           FROM bagua_master.infraestructura WHERE id=$1`,
+          [id],
+        )
+      ).rows[0];
+      if (!row) return null;
+      return {
+        tabla: 'infraestructura' as const,
+        id: row.id as string,
+        tipo: row.tipo as string,
+        subtipo: null,
+        subclase: null,
+        categoria: null,
+        nombre: row.nombre as string,
+        nombres: {},
+        alturaM: null,
+        numPisos: null,
+        alturaSimulada: null,
+        alturaEstimada: null,
+        longitudM: null,
+        areaM2: null,
+        geometriaValida: true,
+        geometria: row.geometria,
+        atributos: {},
+        fuentes: [],
+        archivoOverture: null,
+        nombreComplementario: null,
+        infraestructura: {
+          descripcion: row.descripcion as string,
+          horario: row.horario as string,
+          materiales: row.materiales as string[],
+          sintetico: row.sintetico as boolean,
+        },
+      };
+    },
+    /**
+     * Correcciones cartográficas locales vigentes (bagua_master.correccion), listas para dibujar:
+     * qué ocultar, dónde quedan los lugares movidos y qué edificaciones se agregaron. Sin autor
+     * ni motivo: esos datos solo se ven con sesión en /api/gestion/correcciones-mapa.
+     */
+    async corrections() {
+      const result = await pool.query(
+        `SELECT c.id,c.tabla,c.elemento_id,c.accion,c.nombre,l.nombre AS lugar_nombre,l.categoria,
+                round(ST_Area(ST_Transform(c.geom,32717)))::int AS area_m2,
+                ST_AsGeoJSON(c.geom,7)::json AS geometry
+         FROM bagua_master.correccion c
+         LEFT JOIN bagua_master.lugar l ON c.tabla='lugar' AND l.id=c.elemento_id
+         WHERE c.anulada_en IS NULL ORDER BY c.creado_en`,
+      );
+      const ocultos: Record<'lugar' | 'edificio' | 'edificio_complemento', string[]> = {
+        lugar: [],
+        edificio: [],
+        edificio_complemento: [],
+      };
+      const moved: unknown[] = [];
+      const added: unknown[] = [];
+      for (const r of result.rows) {
+        if (r.accion === 'ocultar') ocultos[r.tabla as keyof typeof ocultos].push(r.elemento_id);
+        else if (r.accion === 'mover')
+          moved.push({
+            type: 'Feature',
+            id: r.elemento_id,
+            geometry: r.geometry,
+            properties: { id: r.elemento_id, nombre: r.lugar_nombre, categoria: r.categoria },
+          });
+        else
+          added.push({
+            type: 'Feature',
+            id: r.id,
+            geometry: r.geometry,
+            properties: { id: r.id, nombre: r.nombre, area_m2: r.area_m2, altura_m: 3 },
+          });
+      }
+      return {
+        ocultos,
+        lugaresMovidos: { type: 'FeatureCollection', features: moved },
+        edificiosAgregados: { type: 'FeatureCollection', features: added },
+      };
+    },
+    async complementElement(id: string) {
+      const result = await pool.query(
+        `SELECT id,fuente,confianza_geo,confianza_valor,registro_fuente,round(area_m2)::int AS area_m2,regularizacion,
+                atributos,altura_m,origen_altura,altura_cobertura,altura_muestras,licencia,version_fusion,
+                ST_AsGeoJSON(geom,8)::json AS geometria
+         FROM bagua_master.edificio_complemento WHERE id=$1`,
+        [id],
+      );
+      const row = result.rows[0];
+      if (!row) return null;
+      return {
+        tabla: 'edificio_complemento' as const,
+        id: row.id as string,
+        tipo:
+          ((row.atributos as Record<string, string>).osm_building as string | undefined) ??
+          'building',
+        subtipo: null,
+        subclase: null,
+        categoria: null,
+        nombre: ((row.atributos as Record<string, string>).nombre as string | undefined) ?? null,
+        nombres: {},
+        alturaM: null,
+        numPisos: null,
+        alturaSimulada: null,
+        alturaEstimada: null,
+        longitudM: null,
+        areaM2: row.area_m2 as number,
+        geometriaValida: true,
+        geometria: row.geometria,
+        atributos: {},
+        fuentes: [],
+        archivoOverture: null,
+        nombreComplementario: null,
+        complemento: {
+          fuente: row.fuente as string,
+          confianzaGeo: row.confianza_geo as 'alta' | 'media' | 'baja',
+          confianzaValor: (row.confianza_valor as number | null) ?? null,
+          registroFuente: (row.registro_fuente as string | null) ?? null,
+          regularizacion: row.regularizacion as string,
+          alturaM: row.altura_m as number,
+          origenAltura: row.origen_altura as 'google_temporal' | 'estimada_default' | 'dron_dsm',
+          alturaCobertura: (row.altura_cobertura as number | null) ?? null,
+          alturaMuestras: (row.altura_muestras as number | null) ?? null,
+          licencia: row.licencia as string,
+          versionFusion: row.version_fusion as string,
+        },
       };
     },
     async element(table: BaguaMasterTable, id: string) {
@@ -229,8 +474,16 @@ export function createBaguaMasterRepository(pool: Pool) {
       const pattern = `%${query.toLowerCase().replace(/[%_]/g, (c) => `\\${c}`)}%`;
       const result = await pool.query(
         `SELECT * FROM (
-           SELECT 'lugar' AS tabla,id,categoria AS tipo,nombre,ST_AsGeoJSON(geom,6)::json AS geometria
-             FROM bagua_master.lugar WHERE lower(nombre) LIKE $1 AND nombre IS NOT NULL
+           -- Los lugares respetan las correcciones locales: los inexistentes no salen y los movidos
+           -- se ubican donde se corrigieron.
+           SELECT 'lugar' AS tabla,l.id,l.categoria AS tipo,l.nombre,
+                  ST_AsGeoJSON(coalesce(m.geom,l.geom),6)::json AS geometria
+             FROM bagua_master.lugar l
+             LEFT JOIN bagua_master.correccion m ON m.tabla='lugar' AND m.elemento_id=l.id
+                  AND m.accion='mover' AND m.anulada_en IS NULL
+             WHERE lower(l.nombre) LIKE $1 AND l.nombre IS NOT NULL
+               AND NOT EXISTS (SELECT 1 FROM bagua_master.correccion o WHERE o.tabla='lugar'
+                  AND o.elemento_id=l.id AND o.accion='ocultar' AND o.anulada_en IS NULL)
            UNION ALL
            -- Una calle aparece una sola vez aunque Overture la divida en varios segmentos:
            -- se devuelve el punto medio de su segmento más largo.

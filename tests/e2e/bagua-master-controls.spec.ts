@@ -8,7 +8,8 @@ test('apariencia bajo demanda, teclado y cámara conservada', async ({ page }) =
   const trigger = page.getByRole('button', { name: 'Estilo del mapa: Positron', exact: true });
   await expect(page.getByRole('menuitemradio')).toHaveCount(0);
   await trigger.click();
-  await expect(page.getByRole('menuitemradio')).toHaveCount(5);
+  await expect(page.getByRole('menuitemradio')).toHaveCount(6);
+  await expect(page.getByRole('menuitemradio', { name: 'Monocromo', exact: true })).toBeVisible();
   await page.getByRole('menuitemradio', { name: 'Dark', exact: true }).click();
   await expect(map).toHaveAttribute('data-theme', 'dark');
   await expect(map).toHaveAttribute('data-zoom', zoom!);

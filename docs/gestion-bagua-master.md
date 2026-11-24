@@ -3,7 +3,7 @@
 > Registro de incrementos con cortes históricos. Para el estado actual consultar
 > el [avance único](avance-verificado.md); los límites y conteos de cada corte no
 > acreditan que sigan pendientes o hayan sido reprobados hoy. La interacción objetivo
-> se define en [entorno integrado](../VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
+> se define en [entorno integrado](archive/VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md).
 
 La continuación vigente incorpora conciliación selectiva de importaciones, archivo
 reversible y unidades administrativas. Ver el último corte de

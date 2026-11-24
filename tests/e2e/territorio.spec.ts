@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { openMunicipalViewer } from './helpers/municipal';
 
 // Territorio unificado: integridad de la base, reglas de identidad y visualización en el mapa.
 const WINDOW = 'bbox=-78.5450,-5.6460,-78.5260,-5.6250';
@@ -87,7 +88,7 @@ test('territorio unificado: capas, Técnico y ficha única en el mapa', async ({
   );
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  await page.goto('/');
+  await openMunicipalViewer(page);
   const map = page.getByTestId('territorial-map');
   await expect(map).toHaveAttribute('data-ready', 'true', { timeout: 60000 });
   await page.getByRole('button', { name: 'Zoom in' }).click();

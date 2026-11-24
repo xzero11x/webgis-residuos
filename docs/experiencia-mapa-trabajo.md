@@ -11,10 +11,10 @@ requiere datos de Rentas ni convierte el DEMO histórico en padrón nuevo.
 
 ## Referencias y antecedente
 
-- [Visión maestra](../VISION_MAESTRA_PRODUCTO_FINAL_WEBGIS_BAGUA.md): dominio y restricciones.
+- [Visión maestra](archive/VISION_MAESTRA_PRODUCTO_FINAL_WEBGIS_BAGUA.md): dominio y restricciones.
 - [Experiencia anterior archivada](archive/VISION_EXPERIENCIA_WEBGIS_BAGUA.md):
   antecedente del incremento; no guía la navegación actual ni acredita datos.
-- [Interacción vigente](../VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md) y
+- [Interacción vigente](archive/VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md) y
   [producto](../PRODUCT.md) definen la experiencia objetivo.
 
 Las visiones describen el producto objetivo. Este documento registra únicamente

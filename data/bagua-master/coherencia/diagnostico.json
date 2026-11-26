@@ -1,0 +1,706 @@
+{
+  "referencia": "Red vial Overture (ejes); semianchos mínimos de calzada por clase",
+  "semiancho_m": {
+    "motorway": 4.5,
+    "trunk": 4.5,
+    "primary": 4.5,
+    "secondary": 3.75,
+    "tertiary": 3.75,
+    "residential": 3.0,
+    "unclassified": 3.0,
+    "unknown": 3.0,
+    "living_street": 3.0,
+    "service": 2.0
+  },
+  "sector_m": 600,
+  "invasion": {
+    "google_ob_raw": {
+      "huellas": 5181,
+      "sin_invasion": 3616,
+      "leve_1_10": 295,
+      "media_10_40": 784,
+      "severa_40_mas": 486,
+      "superficie_invadida_m2": 42036
+    },
+    "google_presencia": {
+      "huellas": 1218,
+      "sin_invasion": 1051,
+      "leve_1_10": 47,
+      "media_10_40": 40,
+      "severa_40_mas": 80,
+      "superficie_invadida_m2": 3099
+    },
+    "ms_buildings": {
+      "huellas": 146,
+      "sin_invasion": 107,
+      "leve_1_10": 3,
+      "media_10_40": 12,
+      "severa_40_mas": 24,
+      "superficie_invadida_m2": 1178
+    },
+    "overture": {
+      "huellas": 14357,
+      "sin_invasion": 12463,
+      "leve_1_10": 903,
+      "media_10_40": 919,
+      "severa_40_mas": 72,
+      "superficie_invadida_m2": 24461
+    },
+    "todas": {
+      "huellas": 20902,
+      "sin_invasion": 17237,
+      "leve_1_10": 1248,
+      "media_10_40": 1755,
+      "severa_40_mas": 662,
+      "superficie_invadida_m2": 70775
+    }
+  },
+  "desfase": {
+    "muestras_calzada": 895433,
+    "overture": {
+      "huellas": 14357,
+      "muestras_invadidas_sin_mover": 11951,
+      "desfase_global_vias_m": [
+        0.0,
+        -2.5
+      ],
+      "desfase_global_modulo_m": 2.5,
+      "muestras_invadidas_con_desfase": 6174,
+      "reduccion_global_pct": 48.3,
+      "sectores_estimados": 14,
+      "dispersion_sectores_m": [
+        0.8,
+        0.82
+      ],
+      "sectores": [
+        {
+          "sector": 398,
+          "centro_utm": [
+            778288,
+            9372740
+          ],
+          "muestras_invadidas": 203,
+          "desfase_vias_m": [
+            2.0,
+            -2.0
+          ],
+          "reduccion_pct": 98.0
+        },
+        {
+          "sector": 559,
+          "centro_utm": [
+            772888,
+            9375740
+          ],
+          "muestras_invadidas": 372,
+          "desfase_vias_m": [
+            1.0,
+            -2.0
+          ],
+          "reduccion_pct": 59.9
+        },
+        {
+          "sector": 560,
+          "centro_utm": [
+            773488,
+            9375740
+          ],
+          "muestras_invadidas": 879,
+          "desfase_vias_m": [
+            1.0,
+            -3.0
+          ],
+          "reduccion_pct": 69.2
+        },
+        {
+          "sector": 561,
+          "centro_utm": [
+            774088,
+            9375740
+          ],
+          "muestras_invadidas": 1141,
+          "desfase_vias_m": [
+            1.0,
+            -3.0
+          ],
+          "reduccion_pct": 87.9
+        },
+        {
+          "sector": 589,
+          "centro_utm": [
+            770488,
+            9376340
+          ],
+          "muestras_invadidas": 272,
+          "desfase_vias_m": [
+            0.0,
+            -1.0
+          ],
+          "reduccion_pct": 2.2
+        },
+        {
+          "sector": 592,
+          "centro_utm": [
+            772288,
+            9376340
+          ],
+          "muestras_invadidas": 687,
+          "desfase_vias_m": [
+            -1.0,
+            -2.0
+          ],
+          "reduccion_pct": 57.4
+        },
+        {
+          "sector": 593,
+          "centro_utm": [
+            772888,
+            9376340
+          ],
+          "muestras_invadidas": 880,
+          "desfase_vias_m": [
+            1.0,
+            -3.0
+          ],
+          "reduccion_pct": 86.8
+        },
+        {
+          "sector": 594,
+          "centro_utm": [
+            773488,
+            9376340
+          ],
+          "muestras_invadidas": 1808,
+          "desfase_vias_m": [
+            1.0,
+            -4.0
+          ],
+          "reduccion_pct": 77.5
+        },
+        {
+          "sector": 595,
+          "centro_utm": [
+            774088,
+            9376340
+          ],
+          "muestras_invadidas": 1701,
+          "desfase_vias_m": [
+            1.0,
+            -3.0
+          ],
+          "reduccion_pct": 86.4
+        },
+        {
+          "sector": 596,
+          "centro_utm": [
+            774688,
+            9376340
+          ],
+          "muestras_invadidas": 230,
+          "desfase_vias_m": [
+            2.0,
+            -1.0
+          ],
+          "reduccion_pct": 51.3
+        },
+        {
+          "sector": 627,
+          "centro_utm": [
+            772888,
+            9376940
+          ],
+          "muestras_invadidas": 625,
+          "desfase_vias_m": [
+            0.0,
+            -3.0
+          ],
+          "reduccion_pct": 64.8
+        },
+        {
+          "sector": 628,
+          "centro_utm": [
+            773488,
+            9376940
+          ],
+          "muestras_invadidas": 1266,
+          "desfase_vias_m": [
+            0.0,
+            -3.0
+          ],
+          "reduccion_pct": 78.4
+        },
+        {
+          "sector": 629,
+          "centro_utm": [
+            774088,
+            9376940
+          ],
+          "muestras_invadidas": 308,
+          "desfase_vias_m": [
+            1.0,
+            -3.0
+          ],
+          "reduccion_pct": 57.1
+        },
+        {
+          "sector": 659,
+          "centro_utm": [
+            771688,
+            9377540
+          ],
+          "muestras_invadidas": 288,
+          "desfase_vias_m": [
+            0.0,
+            -2.0
+          ],
+          "reduccion_pct": 24.3
+        }
+      ],
+      "segundos": 120.6
+    },
+    "complemento": {
+      "huellas": 6545,
+      "muestras_invadidas_sin_mover": 23345,
+      "desfase_global_vias_m": [
+        0.75,
+        -4.75
+      ],
+      "desfase_global_modulo_m": 4.81,
+      "muestras_invadidas_con_desfase": 11950,
+      "reduccion_global_pct": 48.8,
+      "sectores_estimados": 25,
+      "dispersion_sectores_m": [
+        3.38,
+        4.13
+      ],
+      "sectores": [
+        {
+          "sector": 358,
+          "centro_utm": [
+            774688,
+            9372140
+          ],
+          "muestras_invadidas": 242,
+          "desfase_vias_m": [
+            -3.0,
+            5.0
+          ],
+          "reduccion_pct": 71.5
+        },
+        {
+          "sector": 398,
+          "centro_utm": [
+            778288,
+            9372740
+          ],
+          "muestras_invadidas": 168,
+          "desfase_vias_m": [
+            3.0,
+            -1.0
+          ],
+          "reduccion_pct": 69.0
+        },
+        {
+          "sector": 527,
+          "centro_utm": [
+            774088,
+            9375140
+          ],
+          "muestras_invadidas": 222,
+          "desfase_vias_m": [
+            5.0,
+            -6.0
+          ],
+          "reduccion_pct": 72.5
+        },
+        {
+          "sector": 531,
+          "centro_utm": [
+            776488,
+            9375140
+          ],
+          "muestras_invadidas": 156,
+          "desfase_vias_m": [
+            -3.0,
+            3.0
+          ],
+          "reduccion_pct": 11.5
+        },
+        {
+          "sector": 559,
+          "centro_utm": [
+            772888,
+            9375740
+          ],
+          "muestras_invadidas": 451,
+          "desfase_vias_m": [
+            0.0,
+            -5.0
+          ],
+          "reduccion_pct": 67.8
+        },
+        {
+          "sector": 560,
+          "centro_utm": [
+            773488,
+            9375740
+          ],
+          "muestras_invadidas": 991,
+          "desfase_vias_m": [
+            1.0,
+            -4.0
+          ],
+          "reduccion_pct": 64.9
+        },
+        {
+          "sector": 561,
+          "centro_utm": [
+            774088,
+            9375740
+          ],
+          "muestras_invadidas": 2648,
+          "desfase_vias_m": [
+            1.0,
+            -6.0
+          ],
+          "reduccion_pct": 78.8
+        },
+        {
+          "sector": 588,
+          "centro_utm": [
+            769888,
+            9376340
+          ],
+          "muestras_invadidas": 183,
+          "desfase_vias_m": [
+            -2.0,
+            4.0
+          ],
+          "reduccion_pct": 18.0
+        },
+        {
+          "sector": 589,
+          "centro_utm": [
+            770488,
+            9376340
+          ],
+          "muestras_invadidas": 409,
+          "desfase_vias_m": [
+            -3.0,
+            6.0
+          ],
+          "reduccion_pct": 22.5
+        },
+        {
+          "sector": 592,
+          "centro_utm": [
+            772288,
+            9376340
+          ],
+          "muestras_invadidas": 2141,
+          "desfase_vias_m": [
+            -4.0,
+            -3.0
+          ],
+          "reduccion_pct": 53.3
+        },
+        {
+          "sector": 593,
+          "centro_utm": [
+            772888,
+            9376340
+          ],
+          "muestras_invadidas": 1477,
+          "desfase_vias_m": [
+            0.0,
+            -4.0
+          ],
+          "reduccion_pct": 56.8
+        },
+        {
+          "sector": 594,
+          "centro_utm": [
+            773488,
+            9376340
+          ],
+          "muestras_invadidas": 1434,
+          "desfase_vias_m": [
+            0.0,
+            -4.0
+          ],
+          "reduccion_pct": 59.8
+        },
+        {
+          "sector": 595,
+          "centro_utm": [
+            774088,
+            9376340
+          ],
+          "muestras_invadidas": 1503,
+          "desfase_vias_m": [
+            1.0,
+            -4.0
+          ],
+          "reduccion_pct": 74.2
+        },
+        {
+          "sector": 596,
+          "centro_utm": [
+            774688,
+            9376340
+          ],
+          "muestras_invadidas": 411,
+          "desfase_vias_m": [
+            6.0,
+            -5.0
+          ],
+          "reduccion_pct": 79.8
+        },
+        {
+          "sector": 597,
+          "centro_utm": [
+            775288,
+            9376340
+          ],
+          "muestras_invadidas": 324,
+          "desfase_vias_m": [
+            -6.0,
+            6.0
+          ],
+          "reduccion_pct": 32.4
+        },
+        {
+          "sector": 626,
+          "centro_utm": [
+            772288,
+            9376940
+          ],
+          "muestras_invadidas": 234,
+          "desfase_vias_m": [
+            -6.0,
+            -3.0
+          ],
+          "reduccion_pct": 53.8
+        },
+        {
+          "sector": 627,
+          "centro_utm": [
+            772888,
+            9376940
+          ],
+          "muestras_invadidas": 1795,
+          "desfase_vias_m": [
+            -1.0,
+            -5.0
+          ],
+          "reduccion_pct": 59.6
+        },
+        {
+          "sector": 628,
+          "centro_utm": [
+            773488,
+            9376940
+          ],
+          "muestras_invadidas": 2235,
+          "desfase_vias_m": [
+            1.0,
+            -5.0
+          ],
+          "reduccion_pct": 72.9
+        },
+        {
+          "sector": 629,
+          "centro_utm": [
+            774088,
+            9376940
+          ],
+          "muestras_invadidas": 1993,
+          "desfase_vias_m": [
+            3.0,
+            -6.0
+          ],
+          "reduccion_pct": 67.6
+        },
+        {
+          "sector": 659,
+          "centro_utm": [
+            771688,
+            9377540
+          ],
+          "muestras_invadidas": 1387,
+          "desfase_vias_m": [
+            2.0,
+            -6.0
+          ],
+          "reduccion_pct": 78.4
+        },
+        {
+          "sector": 660,
+          "centro_utm": [
+            772288,
+            9377540
+          ],
+          "muestras_invadidas": 273,
+          "desfase_vias_m": [
+            1.0,
+            -5.0
+          ],
+          "reduccion_pct": 70.0
+        },
+        {
+          "sector": 663,
+          "centro_utm": [
+            774088,
+            9377540
+          ],
+          "muestras_invadidas": 293,
+          "desfase_vias_m": [
+            4.0,
+            -6.0
+          ],
+          "reduccion_pct": 92.5
+        },
+        {
+          "sector": 695,
+          "centro_utm": [
+            772888,
+            9378140
+          ],
+          "muestras_invadidas": 220,
+          "desfase_vias_m": [
+            1.0,
+            -5.0
+          ],
+          "reduccion_pct": 84.1
+        },
+        {
+          "sector": 824,
+          "centro_utm": [
+            768688,
+            9380540
+          ],
+          "muestras_invadidas": 201,
+          "desfase_vias_m": [
+            -6.0,
+            -6.0
+          ],
+          "reduccion_pct": 34.8
+        },
+        {
+          "sector": 858,
+          "centro_utm": [
+            768688,
+            9381140
+          ],
+          "muestras_invadidas": 186,
+          "desfase_vias_m": [
+            5.0,
+            3.0
+          ],
+          "reduccion_pct": 60.8
+        }
+      ],
+      "segundos": 102.1
+    }
+  },
+  "rutas": {
+    "MUN-1001": {
+      "nombre": "Ruta 1001",
+      "longitud_m": 21664,
+      "muestras": 4366,
+      "distancia_mediana_m": 2.86,
+      "distancia_p90_m": 7.13,
+      "fuera_de_calle_10m_pct": 2.6,
+      "traslacion_optima_m": [
+        -3.0,
+        4.5
+      ],
+      "mediana_trasladada_m": 1.56,
+      "p90_trasladada_m": 4.59
+    },
+    "MUN-2001": {
+      "nombre": "Ruta 2001",
+      "longitud_m": 17833,
+      "muestras": 3602,
+      "distancia_mediana_m": 3.73,
+      "distancia_p90_m": 7.92,
+      "fuera_de_calle_10m_pct": 3.3,
+      "traslacion_optima_m": [
+        -3.0,
+        6.0
+      ],
+      "mediana_trasladada_m": 1.98,
+      "p90_trasladada_m": 8.09
+    },
+    "MUN-2002": {
+      "nombre": "Ruta 2002",
+      "longitud_m": 16542,
+      "muestras": 3325,
+      "distancia_mediana_m": 3.61,
+      "distancia_p90_m": 8.76,
+      "fuera_de_calle_10m_pct": 6.3,
+      "traslacion_optima_m": [
+        -4.5,
+        1.5
+      ],
+      "mediana_trasladada_m": 2.28,
+      "p90_trasladada_m": 6.56
+    },
+    "CAD-2026": {
+      "nombre": "Ruta 2026 · Tomaque, Brujo Pata y Casuarinas",
+      "longitud_m": 16470,
+      "muestras": 3326,
+      "distancia_mediana_m": 5.47,
+      "distancia_p90_m": 17.45,
+      "fuera_de_calle_10m_pct": 27.1,
+      "traslacion_optima_m": [
+        -9.0,
+        4.5
+      ],
+      "mediana_trasladada_m": 3.59,
+      "p90_trasladada_m": 16.86
+    },
+    "CAD-PRIMAVERA": {
+      "nombre": "La Primavera · trazo CAD",
+      "longitud_m": 7437,
+      "muestras": 1515,
+      "distancia_mediana_m": 5.98,
+      "distancia_p90_m": 11.82,
+      "fuera_de_calle_10m_pct": 18.4,
+      "traslacion_optima_m": [
+        10.5,
+        -4.5
+      ],
+      "mediana_trasladada_m": 2.38,
+      "p90_trasladada_m": 8.14
+    },
+    "CAD-RUTAS": {
+      "nombre": "Capa RUTAS · identificación pendiente",
+      "longitud_m": 7390,
+      "muestras": 1482,
+      "distancia_mediana_m": 7.76,
+      "distancia_p90_m": 328.11,
+      "fuera_de_calle_10m_pct": 42.2,
+      "traslacion_optima_m": [
+        3.0,
+        1.5
+      ],
+      "mediana_trasladada_m": 6.92,
+      "p90_trasladada_m": 330.88
+    },
+    "MUN-ORGANICA": {
+      "nombre": "Ruta orgánica · por confirmar",
+      "longitud_m": 7950,
+      "muestras": 1600,
+      "distancia_mediana_m": 3.04,
+      "distancia_p90_m": 7.86,
+      "fuera_de_calle_10m_pct": 1.6,
+      "traslacion_optima_m": [
+        -6.0,
+        4.5
+      ],
+      "mediana_trasladada_m": 1.8,
+      "p90_trasladada_m": 5.02
+    }
+  }
+}

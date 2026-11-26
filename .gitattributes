@@ -4,3 +4,9 @@
 *.pptx binary
 *.woff2 binary
 backups/*.7z.* filter=lfs diff=lfs merge=lfs -text
+*.pmtiles binary
+*.pbf binary
+*.gz binary
+*.tif binary
+*.parquet binary
+data/bagua-master/** -text

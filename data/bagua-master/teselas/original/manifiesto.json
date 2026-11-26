@@ -1,0 +1,40 @@
+{
+  "archivo": "bagua-master.pmtiles",
+  "bytes": 7190195,
+  "sha256": "83f21e62eb9eb24af1cd34c0bb2092098c8150baa8e94ef4d739051d182ab2e2",
+  "zoom": [
+    12,
+    16
+  ],
+  "capas": [
+    "red_vial",
+    "calles_rotulo",
+    "conectores",
+    "edificios",
+    "usos_suelo",
+    "agua",
+    "terreno",
+    "lugares"
+  ],
+  "capas_vacias_no_teseladas": [
+    "partes_edificio"
+  ],
+  "entradas_sha256": {
+    "red_vial": "039fcefcb297e7ff3f27af1cd2cc82aac7a79f24edbc681166df5f1c3d1f99bd",
+    "calles_rotulo": "64290e8396b642d39df2a90cfd08066d1ab3376065add4eb6b5c48736fb845f5",
+    "conectores": "932be3fa30a6dfe995e518cb5303379d305d00a8148560520176b51382d91256",
+    "edificios": "0850d6884fc58ba9a45bdac423e865e79db2e84dd8a0a8ed92bbda240213f8c9",
+    "usos_suelo": "d547537fac14182415e2b7cf4cd6d457bc2e5906780d5590663d32b8c4fdd989",
+    "agua": "20f79b07a34cd50c439704120ebb94bb2d0d69eabc88445818dac3b988f2e218",
+    "terreno": "5287ed8014c753d77c2e9cb8d4a67458adfd864babc5190fdcd8e3fc05a8c68b",
+    "lugares": "1fa6966e80a6c1723d6d3cbb9f0341ce0816a5676bf7a202869e06f5e70ee36b"
+  },
+  "herramientas": [
+    "tippecanoe v2.79.0",
+    "pmtiles 1.31.2, commit a3e4951ea6a0477b784c27c1dcbfd9c130878c5a, built at 2026-07-22T18:59:03Z"
+  ],
+  "nota_id": "El id Overture de cada elemento se conserva como propiedad id (tippecanoe no admite id de texto como id de entidad).",
+  "imagen": "bagua-master-tiles:2.79.0",
+  "atribucion": "Overture Maps Foundation 2026-09-23.1",
+  "generado_utc": "2026-10-20T18:08:37+00:00"
+}

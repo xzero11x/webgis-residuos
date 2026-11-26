@@ -1,0 +1,133 @@
+{
+  "traslacion_red_vial_m": [
+    0.0,
+    -2.5
+  ],
+  "capas_trasladadas": [
+    "red_vial",
+    "calles_rotulo",
+    "conectores",
+    "usos_suelo",
+    "agua"
+  ],
+  "complemento": {
+    "leidas": 6545,
+    "sin_invasion": 4989,
+    "recortadas": 1170,
+    "retiradas_en_calzada": 372,
+    "retiradas_por_recorte": 13,
+    "retiradas_en_parque": 1,
+    "conservadas": 6159,
+    "retiradas_por_fuente": {
+      "google_ob_raw": 252,
+      "google_presencia": 118,
+      "ms_buildings": 16
+    }
+  },
+  "overture_invasion_tras_traslacion": {
+    "sin_invasion": 13105,
+    "leve_1_10": 756,
+    "media_10_40": 412,
+    "severa_40_mas": 84,
+    "recortadas_en_teselas": 1168,
+    "ocultas_en_parques": 14
+  },
+  "anchos": {
+    "tramos_con_ancho": 792,
+    "ancho_mediano_m": 7.5
+  },
+  "overture_invasion_antes": {
+    "huellas": 14357,
+    "sin_invasion": 12463,
+    "leve_1_10": 903,
+    "media_10_40": 919,
+    "severa_40_mas": 72,
+    "superficie_invadida_m2": 24461
+  },
+  "rutas": {
+    "MUN-1001": {
+      "metodo": "traslación por ruta + ajuste a la red vial (map matching)",
+      "traslacion_m": [
+        -2.5,
+        2.5
+      ],
+      "distancia_mediana_antes_m": 2.41,
+      "distancia_p90_antes_m": 5.96,
+      "distancia_mediana_despues_m": 0.0,
+      "distancia_p90_despues_m": 0.0,
+      "tramos_sin_calle_m": 20
+    },
+    "MUN-2001": {
+      "metodo": "traslación por ruta + ajuste a la red vial (map matching)",
+      "traslacion_m": [
+        -2.5,
+        3.5
+      ],
+      "distancia_mediana_antes_m": 2.96,
+      "distancia_p90_antes_m": 6.9,
+      "distancia_mediana_despues_m": 0.0,
+      "distancia_p90_despues_m": 0.0,
+      "tramos_sin_calle_m": 5
+    },
+    "MUN-2002": {
+      "metodo": "traslación por ruta + ajuste a la red vial (map matching)",
+      "traslacion_m": [
+        -4.5,
+        -1.5
+      ],
+      "distancia_mediana_antes_m": 3.33,
+      "distancia_p90_antes_m": 9.41,
+      "distancia_mediana_despues_m": 0.0,
+      "distancia_p90_despues_m": 0.0,
+      "tramos_sin_calle_m": 75
+    },
+    "CAD-2026": {
+      "metodo": "traslación por ruta + ajuste a la red vial (map matching)",
+      "traslacion_m": [
+        -9.0,
+        2.5
+      ],
+      "distancia_mediana_antes_m": 5.72,
+      "distancia_p90_antes_m": 17.44,
+      "distancia_mediana_despues_m": 0.0,
+      "distancia_p90_despues_m": 0.01,
+      "tramos_sin_calle_m": 1230
+    },
+    "CAD-PRIMAVERA": {
+      "metodo": "traslación por ruta + ajuste a la red vial (map matching)",
+      "traslacion_m": [
+        12.0,
+        -6.0
+      ],
+      "distancia_mediana_antes_m": 6.0,
+      "distancia_p90_antes_m": 13.28,
+      "distancia_mediana_despues_m": 0.0,
+      "distancia_p90_despues_m": 0.0,
+      "tramos_sin_calle_m": 5
+    },
+    "CAD-RUTAS": {
+      "metodo": "traslación por ruta + ajuste a la red vial (map matching)",
+      "traslacion_m": [
+        3.5,
+        -1.0
+      ],
+      "distancia_mediana_antes_m": 7.81,
+      "distancia_p90_antes_m": 329.39,
+      "distancia_mediana_despues_m": 0.0,
+      "distancia_p90_despues_m": 328.42,
+      "tramos_sin_calle_m": 2485
+    },
+    "MUN-ORGANICA": {
+      "metodo": "traslación por ruta + ajuste a la red vial (map matching)",
+      "traslacion_m": [
+        -5.5,
+        1.5
+      ],
+      "distancia_mediana_antes_m": 3.05,
+      "distancia_p90_antes_m": 6.36,
+      "distancia_mediana_despues_m": 0.0,
+      "distancia_p90_despues_m": 0.0,
+      "tramos_sin_calle_m": 0
+    }
+  }
+}

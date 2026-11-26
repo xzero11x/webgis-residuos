@@ -1,0 +1,16 @@
+{
+  "metodo": "vecindario-satelital-ghsl-semilla-id-v2",
+  "satelitales": 1997,
+  "simuladas": 12360,
+  "total": 14357,
+  "percentiles_simuladas_m": [
+    3.1,
+    3.2,
+    6.1,
+    9.1,
+    15.4
+  ],
+  "ghsl": "https://jrc-ghsl.s3.eu-central-1.amazonaws.com/ghs-built-h-anbh/r2023a/4326/3asec/2018/GHS_BUILT_H_ANBH_E2018_GLOBE_R2023A_4326_3ss_V1_0.tif",
+  "semilla": "SHA256(version|id), primeros 64 bits",
+  "aviso": "Alturas SIMULADAS para completar visualmente. No son observaciones, pisos reales ni catastro."
+}

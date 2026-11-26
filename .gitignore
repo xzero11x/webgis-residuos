@@ -24,7 +24,11 @@ Thumbs.db
 
 data/cad/gis/
 # BAGUA MASTER: descargas de Overture, intermedios, teselas y glifos (locales, reproducibles).
-data/bagua-master/
+# Datos procesados del mapa versionados; se excluyen la descarga cruda de Google, el
+# respaldo de la base y las pruebas sueltas.
+data/bagua-master/complemento/crudo/
+data/bagua-master/*.dump
+data/bagua-master/probe/
 database/municipal/*.json
 database/municipal/*.gz
 **/__pycache__/

@@ -1,0 +1,54 @@
+{
+  "generado_utc": "2026-11-22T00:56:46+00:00",
+  "criterios": {
+    "presencia_min": 0.7,
+    "distancia_a_huellas_m": 3.0,
+    "area_m2": [
+      25.0,
+      5000.0
+    ],
+    "compacidad_min": 0.6,
+    "simplificar_m": 1.0
+  },
+  "poligonos": 2793,
+  "recortes": [
+    {
+      "recorte": "recorte-3b307c3bf56d.tif",
+      "sha256": "68c43196c54eaf13a0604140baf9b61a569077262e5486e907aa981db635f45a",
+      "celdas_candidatas": 131,
+      "poligonos": 9
+    },
+    {
+      "recorte": "recorte-3b47575cf299.tif",
+      "sha256": "426e2acbf0763068d483c59a2d30b7cbbf2f8936bd59cb4a26537d07df6571df",
+      "celdas_candidatas": 27774,
+      "poligonos": 1119
+    },
+    {
+      "recorte": "recorte-4f07d56bd539.tif",
+      "sha256": "96c03a930479fd19addbb593d6fd41148470242e6703ff9a00cedb6d8e2ac5f7",
+      "celdas_candidatas": 5560,
+      "poligonos": 232
+    },
+    {
+      "recorte": "recorte-b1edf57f9e85.tif",
+      "sha256": "83d9fb3ffea052f1740c4f7427ef71eb31f5a854fd9f30819189f386b6f84c27",
+      "celdas_candidatas": 4283,
+      "poligonos": 175
+    },
+    {
+      "recorte": "recorte-cbebac4dbef8.tif",
+      "sha256": "93bbb2401732784b6674563205772ed18eea8f45922fe054824ea79f128d29ac",
+      "celdas_candidatas": 6570,
+      "poligonos": 269
+    },
+    {
+      "recorte": "recorte-e51a2fe9b54e.tif",
+      "sha256": "0961f52796897b444c8ba1612cd4e70c8d58ea3b74291c57e26c53739543c2f9",
+      "celdas_candidatas": 29060,
+      "poligonos": 989
+    }
+  ],
+  "sha256": "4371df296e8168bf4088da057796fbe9c4bfa5566139bf58b4aaad868d9792c4",
+  "licencia_origen": "CC BY 4.0 (Google Research, Open Buildings 2.5D Temporal v1, 2023)"
+}

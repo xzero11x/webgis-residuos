@@ -1,0 +1,3282 @@
+{
+ "fuente": "RUTA TOMAQUE - BRUJO PATA - CASUARINAS.dwg",
+ "procedencia": {
+  "traslacion_m": {
+   "dE": 3.589,
+   "dN": 2.352
+  },
+  "entidades_sha256": "36f959645c5b1a48d529bfab853211b736f46f1ccacba3846cc627068a39b44d"
+ },
+ "version_overture": "2026-09-23.1",
+ "aviso": "Nombres documentales del DWG (planos de 2014–2018): no se declaran oficiales ni vigentes.",
+ "parametros": {
+  "dist_max_m": 15.0,
+  "angulo_max_grados": 12.0,
+  "giro_max_grados": 20.0
+ },
+ "textos": {
+  "estadisticas": {
+   "candidato": 878,
+   "descartado_no_calle": 28
+  },
+  "candidatos": 878,
+  "nombres_distintos_texto": 224,
+  "respaldo_por_texto": {
+   "respalda": 535,
+   "ambiguo_entre_paralelos": 45,
+   "sin_tramo_alineado": 275,
+   "lejos": 23
+  }
+ },
+ "calibracion_tramos_con_nombre_overture": {
+  "coincide": 330,
+  "discrepancia_de_nombre": 70,
+  "error_espacial_el_vecino_tiene_el_nombre": 8
+ },
+ "tramos_sin_nombre_overture": 741,
+ "recuperados_por_texto": 102,
+ "recuperados_por_continuidad": 11,
+ "ambiguos": 2,
+ "retenidos_por_discrepancia_local": 9,
+ "sin_correspondencia": 617,
+ "nombres_recuperados_distintos": 52,
+ "respaldo_rpu": {
+  "respaldado": 38,
+  "sin_cobertura": 75,
+  "no_confirmado": 0
+ },
+ "por_zona": {
+  "Núcleo 1 (-78.5633, -5.6371)": {
+   "sin_nombre_overture": 159,
+   "sin_correspondencia": 143,
+   "recuperado_continuidad": 2,
+   "recuperado_texto": 14
+  },
+  "Red interurbana y rural": {
+   "sin_nombre_overture": 119,
+   "sin_correspondencia": 111,
+   "ambiguo": 1,
+   "recuperado_texto": 7
+  },
+  "Núcleo 2 (-78.5457, -5.6271)": {
+   "sin_nombre_overture": 112,
+   "sin_correspondencia": 112
+  },
+  "Tomaque": {
+   "sin_nombre_overture": 99,
+   "sin_correspondencia": 46,
+   "recuperado_texto": 49,
+   "recuperado_continuidad": 4
+  },
+  "Bagua Capital": {
+   "sin_nombre_overture": 62,
+   "retenido_discrepancia": 9,
+   "sin_correspondencia": 37,
+   "recuperado_texto": 14,
+   "recuperado_continuidad": 1,
+   "ambiguo": 1
+  },
+  "Núcleo 4 (-78.5743, -5.5961)": {
+   "sin_nombre_overture": 58,
+   "sin_correspondencia": 58
+  },
+  "Núcleo 5 (-78.4881, -5.6692)": {
+   "sin_nombre_overture": 36,
+   "recuperado_texto": 18,
+   "sin_correspondencia": 14,
+   "recuperado_continuidad": 4
+  },
+  "Núcleo 6 (-78.5204, -5.6760)": {
+   "sin_nombre_overture": 28,
+   "sin_correspondencia": 28
+  },
+  "Núcleo 8 (-78.5517, -5.5908)": {
+   "sin_nombre_overture": 19,
+   "sin_correspondencia": 19
+  },
+  "Núcleo 7 (-78.5388, -5.6231)": {
+   "sin_nombre_overture": 18,
+   "sin_correspondencia": 18
+  },
+  "Núcleo 9 (-78.5258, -5.6710)": {
+   "sin_nombre_overture": 15,
+   "sin_correspondencia": 15
+  },
+  "Núcleo 11 (-78.4811, -5.6010)": {
+   "sin_nombre_overture": 9,
+   "sin_correspondencia": 9
+  },
+  "Núcleo 10 (-78.4804, -5.6872)": {
+   "sin_nombre_overture": 7,
+   "sin_correspondencia": 7
+  }
+ },
+ "asociaciones": {
+  "5113a73a-bacf-4740-9b5c-3a80ffa3fa9e": {
+   "nombre": "Jirón Mezones Muro",
+   "tipo": "Jirón",
+   "clave": "MEZONES MURO",
+   "textos": 1,
+   "texto_documental": "JR. MEZONES MURO",
+   "distancia_min_m": 1.7,
+   "diferencia_angulo_max": 3.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "62EEE",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. MEZONES MURO",
+     "distancia_m": 1.7,
+     "angulo": 3.1
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "fc5b7009-9731-48ff-91b6-1850fca02b8e": {
+   "nombre": "Calle Marañon",
+   "tipo": "Calle",
+   "clave": "MARANON",
+   "textos": 1,
+   "texto_documental": "CA. MARAÑON",
+   "distancia_min_m": 3.3,
+   "diferencia_angulo_max": 2.4,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "63008",
+     "capa": "Nomeclatura Lote",
+     "texto": "CA. MARAÑON",
+     "distancia_m": 3.3,
+     "angulo": 2.4
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "f889ece8-9141-46dc-9e0d-f4b6337b69e0": {
+   "nombre": "Jirón Motupe",
+   "tipo": "Jirón",
+   "clave": "MOTUPE",
+   "textos": 1,
+   "texto_documental": "JR. MOTUPE",
+   "distancia_min_m": 0.0,
+   "diferencia_angulo_max": 3.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "63009",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. MOTUPE",
+     "distancia_m": 0.0,
+     "angulo": 3.0
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "48b6192a-4402-4445-b82f-d8720bb48c53": {
+   "nombre": "Jirón Maslucan",
+   "tipo": "Jirón",
+   "clave": "MASLUCAN",
+   "textos": 1,
+   "texto_documental": "JR. MASLUCAN",
+   "distancia_min_m": 0.7,
+   "diferencia_angulo_max": 1.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "63022",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. MASLUCAN",
+     "distancia_m": 0.7,
+     "angulo": 1.0
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "6ed20e4a-8b76-4ac5-a409-ee7d9ca968ce": {
+   "nombre": "Jirón Maslucan",
+   "tipo": "Jirón",
+   "clave": "MASLUCAN",
+   "textos": 1,
+   "texto_documental": "JR. MASLUCAN",
+   "distancia_min_m": 1.8,
+   "diferencia_angulo_max": 0.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "6302B",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. MASLUCAN",
+     "distancia_m": 1.8,
+     "angulo": 0.0
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "926da75f-7707-4545-b67b-4e89c5405c85": {
+   "nombre": "Jirón Tumbes",
+   "tipo": "Jirón",
+   "clave": "TUMBES",
+   "textos": 1,
+   "texto_documental": "JR. TUMBES",
+   "distancia_min_m": 4.6,
+   "diferencia_angulo_max": 3.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "6302D",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. TUMBES",
+     "distancia_m": 4.6,
+     "angulo": 3.5
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "3ae73c60-bb67-4703-bd21-cb62fc331d73": {
+   "nombre": "Jirón Chulucanas",
+   "tipo": "Jirón",
+   "clave": "CHULUCANAS",
+   "textos": 1,
+   "texto_documental": "JR. CHULUCANAS",
+   "distancia_min_m": 5.0,
+   "diferencia_angulo_max": 0.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "6305A",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. CHULUCANAS",
+     "distancia_m": 5.0,
+     "angulo": 0.6
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "53136528-0a9b-4bfd-b030-eb7b8616945b": {
+   "nombre": "Jirón San Martin",
+   "tipo": "Jirón",
+   "clave": "SAN MARTIN",
+   "textos": 1,
+   "texto_documental": "JR. SAN MARTIN",
+   "distancia_min_m": 6.9,
+   "diferencia_angulo_max": 2.8,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "6305C",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. SAN MARTIN",
+     "distancia_m": 6.9,
+     "angulo": 2.8
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "34d78af0-d1a1-4e89-898e-60995f5e2ffe": {
+   "nombre": "Jirón Basilio Bejarano",
+   "tipo": "Jirón",
+   "clave": "BASILIO BEJARANO",
+   "textos": 1,
+   "texto_documental": "JR. BASILIO BEJARANO",
+   "distancia_min_m": 1.2,
+   "diferencia_angulo_max": 0.9,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "63061",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. BASILIO BEJARANO",
+     "distancia_m": 1.2,
+     "angulo": 0.9
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "7fcc89bb-127f-4832-913a-2bafe7b148d1": {
+   "nombre": "Jirón Felicindo Alvarado",
+   "tipo": "Jirón",
+   "clave": "FELICINDO ALVARADO",
+   "textos": 1,
+   "texto_documental": "JR. FELICINDO ALVARADO",
+   "distancia_min_m": 2.4,
+   "diferencia_angulo_max": 1.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "63149",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. FELICINDO ALVARADO",
+     "distancia_m": 2.4,
+     "angulo": 1.1
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "3b50d704-970d-48bb-b49f-69196059f05c": {
+   "nombre": "Avenida El Ejercito",
+   "tipo": "Avenida",
+   "clave": "EL EJERCITO",
+   "textos": 1,
+   "texto_documental": "AV. EL EJERCITO",
+   "distancia_min_m": 3.4,
+   "diferencia_angulo_max": 0.9,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "6314A",
+     "capa": "Nomeclatura Lote",
+     "texto": "AV. EL EJERCITO",
+     "distancia_m": 3.4,
+     "angulo": 0.9
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "515b05ac-6f8b-4006-94e6-08394b6e694c": {
+   "nombre": "Avenida El Ejercito",
+   "tipo": "Avenida",
+   "clave": "EL EJERCITO",
+   "textos": 1,
+   "texto_documental": "AV. EL EJERCITO",
+   "distancia_min_m": 1.2,
+   "diferencia_angulo_max": 0.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "6314B",
+     "capa": "Nomeclatura Lote",
+     "texto": "AV. EL EJERCITO",
+     "distancia_m": 1.2,
+     "angulo": 0.3
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "2ccb6104-8a4e-4171-85fe-dd8b28b0d285": {
+   "nombre": "Jirón Mezones Muro",
+   "tipo": "Jirón",
+   "clave": "MEZONES MURO",
+   "textos": 1,
+   "texto_documental": "JR. MEZONES MURO",
+   "distancia_min_m": 1.1,
+   "diferencia_angulo_max": 4.8,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "6350F",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. MEZONES MURO",
+     "distancia_m": 1.1,
+     "angulo": 4.8
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "c3221147-2d77-4c26-b6c0-87d9d94f49c7": {
+   "nombre": "Jirón Chulucanas",
+   "tipo": "Jirón",
+   "clave": "CHULUCANAS",
+   "textos": 1,
+   "texto_documental": "JR. CHULUCANAS",
+   "distancia_min_m": 5.4,
+   "diferencia_angulo_max": 5.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "635F1",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. CHULUCANAS",
+     "distancia_m": 5.4,
+     "angulo": 5.1
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "c981b269-9967-4011-b302-c63796abed0f": {
+   "nombre": "Pasaje Peru",
+   "tipo": "Pasaje",
+   "clave": "PERU",
+   "textos": 1,
+   "texto_documental": "PSJE. PERU",
+   "distancia_min_m": 6.8,
+   "diferencia_angulo_max": 0.1,
+   "nivel": "texto",
+   "concordancia_local": 0.87,
+   "pares_locales": 47,
+   "evidencia": [
+    {
+     "handle": "87022",
+     "capa": "Nomeclatura Lote",
+     "texto": "PSJE. PERU",
+     "distancia_m": 6.8,
+     "angulo": 0.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "72e9badc-2d8e-4ea9-be84-4e41b814d6d6": {
+   "nombre": "Jirón Las Ortencias",
+   "tipo": "Jirón",
+   "clave": "LAS ORTENCIAS",
+   "textos": 1,
+   "texto_documental": "Jr. LAS ORTENCIAS",
+   "distancia_min_m": 6.0,
+   "diferencia_angulo_max": 1.7,
+   "nivel": "texto",
+   "concordancia_local": 0.63,
+   "pares_locales": 46,
+   "evidencia": [
+    {
+     "handle": "91F95",
+     "capa": "Nomeclatura Lote",
+     "texto": "Jr. LAS ORTENCIAS",
+     "distancia_m": 6.0,
+     "angulo": 1.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "4c2afe67-5f26-4b58-b10a-9f599ee28d55": {
+   "nombre": "Jirón Roger S. Jibaja",
+   "tipo": "Jirón",
+   "clave": "ROGER S JIBAJA",
+   "textos": 1,
+   "texto_documental": "Jr: ROGER S. JIBAJA",
+   "distancia_min_m": 2.2,
+   "diferencia_angulo_max": 2.2,
+   "nivel": "texto",
+   "concordancia_local": 0.79,
+   "pares_locales": 14,
+   "evidencia": [
+    {
+     "handle": "D0B04",
+     "capa": "0",
+     "texto": "Jr: ROGER S. JIBAJA",
+     "distancia_m": 2.2,
+     "angulo": 2.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "21f46283-c753-4e51-a580-efa9c8a1f31b": {
+   "nombre": "Jirón Santa Rosa",
+   "tipo": "Jirón",
+   "clave": "SANTA ROSA",
+   "textos": 1,
+   "texto_documental": "JR. SANTA ROSA",
+   "distancia_min_m": 1.4,
+   "diferencia_angulo_max": 1.8,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "16028A",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. SANTA ROSA",
+     "distancia_m": 1.4,
+     "angulo": 1.8
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "a4c12fef-1206-4cf5-b615-31aa70786f13": {
+   "nombre": "Avenida Bagua",
+   "tipo": "Avenida",
+   "clave": "BAGUA",
+   "textos": 1,
+   "texto_documental": "AV. BAGUA",
+   "distancia_min_m": 12.5,
+   "diferencia_angulo_max": 7.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "16028B",
+     "capa": "Nomeclatura Lote",
+     "texto": "AV. BAGUA",
+     "distancia_m": 12.5,
+     "angulo": 7.5
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "b41b7339-ae89-426a-88a1-e449e80baece": {
+   "nombre": "Avenida Bolognesi",
+   "tipo": "Avenida",
+   "clave": "BOLOGNESI",
+   "textos": 1,
+   "texto_documental": "AV. BOLOGNESI",
+   "distancia_min_m": 13.9,
+   "diferencia_angulo_max": 1.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "16028C",
+     "capa": "Nomeclatura Lote",
+     "texto": "AV. BOLOGNESI",
+     "distancia_m": 13.9,
+     "angulo": 1.3
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "0747b509-b297-49a6-b932-bbf6829dbc97": {
+   "nombre": "Jirón La Union",
+   "tipo": "Jirón",
+   "clave": "LA UNION",
+   "textos": 1,
+   "texto_documental": "JR. LA UNION",
+   "distancia_min_m": 6.1,
+   "diferencia_angulo_max": 4.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "16028E",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. LA UNION",
+     "distancia_m": 6.1,
+     "angulo": 4.0
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "2076a4ea-94b4-4ced-ab90-17107f9a5f77": {
+   "nombre": "Calle Amazonas",
+   "tipo": "Calle",
+   "clave": "AMAZONAS",
+   "textos": 1,
+   "texto_documental": "CA. AMAZONAS",
+   "distancia_min_m": 11.4,
+   "diferencia_angulo_max": 2.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "16028F",
+     "capa": "Nomeclatura Lote",
+     "texto": "CA. AMAZONAS",
+     "distancia_m": 11.4,
+     "angulo": 2.5
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "2eb73f1a-e493-48e6-9489-710841b8da39": {
+   "nombre": "Jirón La Union",
+   "tipo": "Jirón",
+   "clave": "LA UNION",
+   "textos": 1,
+   "texto_documental": "JR. LA UNION",
+   "distancia_min_m": 8.0,
+   "diferencia_angulo_max": 0.2,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "160291",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. LA UNION",
+     "distancia_m": 8.0,
+     "angulo": 0.2
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "93fdbd28-96d5-4d89-a8e0-9525302049e2": {
+   "nombre": "Jirón La Union",
+   "tipo": "Jirón",
+   "clave": "LA UNION",
+   "textos": 1,
+   "texto_documental": "JR. LA UNION",
+   "distancia_min_m": 0.9,
+   "diferencia_angulo_max": 0.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "160292",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. LA UNION",
+     "distancia_m": 0.9,
+     "angulo": 0.6
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "e9956222-e54c-4720-80ca-48b2b2ec8d59": {
+   "nombre": "Jirón Santa Rosa",
+   "tipo": "Jirón",
+   "clave": "SANTA ROSA",
+   "textos": 1,
+   "texto_documental": "JR. SANTA ROSA",
+   "distancia_min_m": 8.2,
+   "diferencia_angulo_max": 4.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "160294",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. SANTA ROSA",
+     "distancia_m": 8.2,
+     "angulo": 4.3
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "598f361a-e313-4da9-902b-54088c135a78": {
+   "nombre": "Jirón La Verdad",
+   "tipo": "Jirón",
+   "clave": "LA VERDAD",
+   "textos": 1,
+   "texto_documental": "JR. LA VERDAD",
+   "distancia_min_m": 11.8,
+   "diferencia_angulo_max": 0.4,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "160295",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. LA VERDAD",
+     "distancia_m": 11.8,
+     "angulo": 0.4
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "3852db16-0cd5-4b2e-9a10-cafe9165152c": {
+   "nombre": "Avenida Bolognesi",
+   "tipo": "Avenida",
+   "clave": "BOLOGNESI",
+   "textos": 1,
+   "texto_documental": "AV. BOLOGNESI",
+   "distancia_min_m": 12.9,
+   "diferencia_angulo_max": 1.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "160297",
+     "capa": "Nomeclatura Lote",
+     "texto": "AV. BOLOGNESI",
+     "distancia_m": 12.9,
+     "angulo": 1.5
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "8ede134b-4e95-4c54-9ff8-020fcef710d3": {
+   "nombre": "Jirón La Verdad",
+   "tipo": "Jirón",
+   "clave": "LA VERDAD",
+   "textos": 1,
+   "texto_documental": "JR. LA VERDAD",
+   "distancia_min_m": 13.7,
+   "diferencia_angulo_max": 0.4,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "160299",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. LA VERDAD",
+     "distancia_m": 13.7,
+     "angulo": 0.4
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "1685675d-84be-428a-9093-a501edcf0b93": {
+   "nombre": "Jirón José Maria",
+   "tipo": "Jirón",
+   "clave": "JOSE MARIA",
+   "textos": 1,
+   "texto_documental": "JR. JOSÉ MARIA",
+   "distancia_min_m": 5.9,
+   "diferencia_angulo_max": 1.2,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "16029D",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. JOSÉ MARIA",
+     "distancia_m": 5.9,
+     "angulo": 1.2
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "17e7ad28-6d83-4a2a-9d5e-95071045b320": {
+   "nombre": "Calle Amazonas",
+   "tipo": "Calle",
+   "clave": "AMAZONAS",
+   "textos": 1,
+   "texto_documental": "CA. AMAZONAS",
+   "distancia_min_m": 12.6,
+   "diferencia_angulo_max": 3.2,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "16029E",
+     "capa": "Nomeclatura Lote",
+     "texto": "CA. AMAZONAS",
+     "distancia_m": 12.6,
+     "angulo": 3.2
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "95be8f65-4bfc-49c6-ac87-53a685ce942c": {
+   "nombre": "Avenida Bagua",
+   "tipo": "Avenida",
+   "clave": "BAGUA",
+   "textos": 1,
+   "texto_documental": "AV. BAGUA",
+   "distancia_min_m": 2.0,
+   "diferencia_angulo_max": 0.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "1602A1",
+     "capa": "Nomeclatura Lote",
+     "texto": "AV. BAGUA",
+     "distancia_m": 2.0,
+     "angulo": 0.5
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "666de2cc-45f9-4f30-9c40-1ffcb38713cf": {
+   "nombre": "Avenida Bagua",
+   "tipo": "Avenida",
+   "clave": "BAGUA",
+   "textos": 1,
+   "texto_documental": "AV. BAGUA",
+   "distancia_min_m": 6.7,
+   "diferencia_angulo_max": 11.8,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "1602A2",
+     "capa": "Nomeclatura Lote",
+     "texto": "AV. BAGUA",
+     "distancia_m": 6.7,
+     "angulo": 11.8
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "be609dcf-d995-4053-ba23-43ea5719b10a": {
+   "nombre": "Jirón La Union",
+   "tipo": "Jirón",
+   "clave": "LA UNION",
+   "textos": 1,
+   "texto_documental": "JR. LA UNION",
+   "distancia_min_m": 3.2,
+   "diferencia_angulo_max": 9.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "1602A4",
+     "capa": "Nomeclatura Lote",
+     "texto": "JR. LA UNION",
+     "distancia_m": 3.2,
+     "angulo": 9.6
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "e172b841-2a08-4fec-9ae0-ba0050830918": {
+   "nombre": "Jirón Ica",
+   "tipo": "Jirón",
+   "clave": "ICA",
+   "textos": 1,
+   "texto_documental": "JR ICA",
+   "distancia_min_m": 5.0,
+   "diferencia_angulo_max": 4.3,
+   "nivel": "texto",
+   "concordancia_local": 0.74,
+   "pares_locales": 19,
+   "evidencia": [
+    {
+     "handle": "2FC517",
+     "capa": "0",
+     "texto": "JR ICA",
+     "distancia_m": 5.0,
+     "angulo": 4.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "85dd18e4-c14c-41b3-a76e-ab6362c3210f": {
+   "nombre": "Pasaje Miguel Grau",
+   "tipo": "Pasaje",
+   "clave": "MIGUEL GRAU",
+   "textos": 1,
+   "texto_documental": "PASAJE MIGUEL GRAU",
+   "distancia_min_m": 8.4,
+   "diferencia_angulo_max": 5.0,
+   "nivel": "texto",
+   "concordancia_local": 0.73,
+   "pares_locales": 22,
+   "evidencia": [
+    {
+     "handle": "2FC530",
+     "capa": "0",
+     "texto": "PASAJE MIGUEL GRAU",
+     "distancia_m": 8.4,
+     "angulo": 5.0
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "06fdcd09-21ab-41ad-929f-a98842b53739": {
+   "nombre": "Jirón Santa Rosa",
+   "tipo": "Jirón",
+   "clave": "SANTA ROSA",
+   "textos": 1,
+   "texto_documental": "Jr. SANTA ROSA",
+   "distancia_min_m": 3.2,
+   "diferencia_angulo_max": 0.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "36FCF0",
+     "capa": "Nomeclatura Lote",
+     "texto": "Jr. SANTA ROSA",
+     "distancia_m": 3.2,
+     "angulo": 0.5
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "02d62dc8-0260-47c4-b572-bf020299d168": {
+   "nombre": "Avenida Bagua",
+   "tipo": "Avenida",
+   "clave": "BAGUA",
+   "textos": 1,
+   "texto_documental": "Av. BAGUA",
+   "distancia_min_m": 2.6,
+   "diferencia_angulo_max": 2.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "36FD13",
+     "capa": "Nomeclatura Lote",
+     "texto": "Av. BAGUA",
+     "distancia_m": 2.6,
+     "angulo": 2.5
+    }
+   ],
+   "rpu": "respaldado"
+  },
+  "48895a0b-c53a-4af4-8301-4b03116e54b3": {
+   "nombre": "Calle Alfonso Ugarte",
+   "tipo": "Calle",
+   "clave": "ALFONSO UGARTE",
+   "textos": 1,
+   "texto_documental": "Calle ALFONSO UGARTE",
+   "distancia_min_m": 2.7,
+   "diferencia_angulo_max": 0.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "398F09",
+     "capa": "0",
+     "texto": "Calle ALFONSO UGARTE",
+     "distancia_m": 2.7,
+     "angulo": 0.0
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "bedf4fb4-94ca-475d-b16a-925db1955ff7": {
+   "nombre": "Pasaje \"los Cocos\"",
+   "tipo": "Pasaje",
+   "clave": "LOS COCOS",
+   "textos": 1,
+   "texto_documental": "Psje. \"LOS COCOS\"",
+   "distancia_min_m": 7.7,
+   "diferencia_angulo_max": 1.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "432472",
+     "capa": "0",
+     "texto": "Psje. \"LOS COCOS\"",
+     "distancia_m": 7.7,
+     "angulo": 1.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "21200116-8e12-4138-8172-fbc8e15f27b5": {
+   "nombre": "Jirón Oswaldo D. Florian Huayan",
+   "tipo": "Jirón",
+   "clave": "OSWALDO D FLORIAN HUAYAN",
+   "textos": 1,
+   "texto_documental": "Jr. OSWALDO D. FLORIAN HUAYAN",
+   "distancia_min_m": 2.5,
+   "diferencia_angulo_max": 4.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "432475",
+     "capa": "0",
+     "texto": "Jr. OSWALDO D. FLORIAN HUAYAN",
+     "distancia_m": 2.5,
+     "angulo": 4.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "dbb28dc1-a77d-45e8-94a6-1ff6364f61d4": {
+   "nombre": "Avenida Bagua",
+   "tipo": "Avenida",
+   "clave": "BAGUA",
+   "textos": 1,
+   "texto_documental": "Av. BAGUA",
+   "distancia_min_m": 1.1,
+   "diferencia_angulo_max": 1.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "565DE7",
+     "capa": "Nomeclatura Lote",
+     "texto": "Av. BAGUA",
+     "distancia_m": 1.1,
+     "angulo": 1.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "d8cfa8f0-edb4-4043-a986-6659564b090a": {
+   "nombre": "Calle Manco Capac",
+   "tipo": "Calle",
+   "clave": "MANCO CAPAC",
+   "textos": 1,
+   "texto_documental": "Calle MANCO CAPAC",
+   "distancia_min_m": 8.0,
+   "diferencia_angulo_max": 2.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "5A0285",
+     "capa": "Nomeclatura Lote",
+     "texto": "Calle MANCO CAPAC",
+     "distancia_m": 8.0,
+     "angulo": 2.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "c949538d-836d-4e20-99d6-59d4f9a80121": {
+   "nombre": "Jirón Los Cocos",
+   "tipo": "Jirón",
+   "clave": "LOS COCOS",
+   "textos": 3,
+   "texto_documental": "JR. LOS COCOS",
+   "distancia_min_m": 2.3,
+   "diferencia_angulo_max": 7.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "5A029D",
+     "capa": "Nomeclatura Lote",
+     "texto": "Jr. LOS COCOS",
+     "distancia_m": 9.3,
+     "angulo": 3.3
+    },
+    {
+     "handle": "989A2DA8",
+     "capa": "0",
+     "texto": "JR. LOS COCOS",
+     "distancia_m": 5.2,
+     "angulo": 7.7
+    },
+    {
+     "handle": "989A2DB0",
+     "capa": "0",
+     "texto": "JR. LOS COCOS",
+     "distancia_m": 2.3,
+     "angulo": 6.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "efa911c9-937d-4cec-8cf9-0f9823097983": {
+   "nombre": "Jirón Aquiles Vigo",
+   "tipo": "Jirón",
+   "clave": "AQUILES VIGO",
+   "textos": 2,
+   "texto_documental": "JIRON AQUILES VIGO",
+   "distancia_min_m": 0.0,
+   "diferencia_angulo_max": 6.5,
+   "nivel": "texto",
+   "concordancia_local": 0.77,
+   "pares_locales": 13,
+   "evidencia": [
+    {
+     "handle": "5F7CF1",
+     "capa": "0",
+     "texto": "JIRON AQUILES VIGO",
+     "distancia_m": 0.0,
+     "angulo": 6.5
+    },
+    {
+     "handle": "5F7EDA",
+     "capa": "0",
+     "texto": "JIRON AQUILES VIGO",
+     "distancia_m": 0.0,
+     "angulo": 6.5
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "0a548c95-b74a-4c8b-a3e6-c38f76d7c8d0": {
+   "nombre": "Pasaje La Union",
+   "tipo": "Pasaje",
+   "clave": "LA UNION",
+   "textos": 2,
+   "texto_documental": "PASAJE: LA UNION",
+   "distancia_min_m": 0.5,
+   "diferencia_angulo_max": 7.1,
+   "nivel": "texto",
+   "concordancia_local": 0.71,
+   "pares_locales": 7,
+   "evidencia": [
+    {
+     "handle": "80B733",
+     "capa": "0",
+     "texto": "PASAJE: LA UNION",
+     "distancia_m": 0.5,
+     "angulo": 2.2
+    },
+    {
+     "handle": "989A152F",
+     "capa": "0",
+     "texto": "PJE. LA UNION",
+     "distancia_m": 0.8,
+     "angulo": 7.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "91d73223-466c-4d0b-a097-c1e77fdca251": {
+   "nombre": "Jirón Moquegua",
+   "tipo": "Jirón",
+   "clave": "MOQUEGUA",
+   "textos": 1,
+   "texto_documental": "JR MOQUEGUA",
+   "distancia_min_m": 5.5,
+   "diferencia_angulo_max": 3.2,
+   "nivel": "texto",
+   "concordancia_local": 0.74,
+   "pares_locales": 47,
+   "evidencia": [
+    {
+     "handle": "8D1D09",
+     "capa": "SECTOR LA PRIMAVERA I",
+     "texto": "JR MOQUEGUA",
+     "distancia_m": 5.5,
+     "angulo": 3.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "885e7e79-7679-417d-b832-b05449c0dd7c": {
+   "nombre": "Avenida Bagua",
+   "tipo": "Avenida",
+   "clave": "BAGUA",
+   "textos": 1,
+   "texto_documental": "AV. BAGUA",
+   "distancia_min_m": 0.2,
+   "diferencia_angulo_max": 1.3,
+   "nivel": "texto",
+   "concordancia_local": 1.0,
+   "pares_locales": 2,
+   "evidencia": [
+    {
+     "handle": "98994732",
+     "capa": "0",
+     "texto": "AV. BAGUA",
+     "distancia_m": 0.2,
+     "angulo": 1.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "93b28838-c651-45d7-8017-1c419142632f": {
+   "nombre": "Jirón F. Belaunde T",
+   "tipo": "Jirón",
+   "clave": "F BELAUNDE T",
+   "textos": 3,
+   "texto_documental": "JR. F. BELAUNDE T.",
+   "distancia_min_m": 5.0,
+   "diferencia_angulo_max": 2.5,
+   "nivel": "texto",
+   "concordancia_local": 0.6,
+   "pares_locales": 5,
+   "evidencia": [
+    {
+     "handle": "98994852",
+     "capa": "0",
+     "texto": "JR. F. BELAUNDE T.",
+     "distancia_m": 6.6,
+     "angulo": 0.9
+    },
+    {
+     "handle": "9899485A",
+     "capa": "0",
+     "texto": "JR. F. BELAUNDE T.",
+     "distancia_m": 5.0,
+     "angulo": 2.5
+    },
+    {
+     "handle": "98994872",
+     "capa": "0",
+     "texto": "JR. F. BELAUNDE T.",
+     "distancia_m": 5.1,
+     "angulo": 2.5
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "676f2491-019c-49c2-a913-0fb885e3c5fd": {
+   "nombre": "Jirón Violeta Correa",
+   "tipo": "Jirón",
+   "clave": "VIOLETA CORREA",
+   "textos": 3,
+   "texto_documental": "JR. VIOLETA CORREA",
+   "distancia_min_m": 3.7,
+   "diferencia_angulo_max": 7.7,
+   "nivel": "texto",
+   "concordancia_local": 0.5,
+   "pares_locales": 2,
+   "evidencia": [
+    {
+     "handle": "98994882",
+     "capa": "0",
+     "texto": "JR. VIOLETA CORREA",
+     "distancia_m": 3.7,
+     "angulo": 0.7
+    },
+    {
+     "handle": "98994890",
+     "capa": "0",
+     "texto": "JR. VIOLETA CORREA",
+     "distancia_m": 5.9,
+     "angulo": 0.7
+    },
+    {
+     "handle": "98994898",
+     "capa": "0",
+     "texto": "JR. VIOLETA CORREA",
+     "distancia_m": 5.9,
+     "angulo": 7.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "07d22d8b-0f07-4114-add8-6c1d80400725": {
+   "nombre": "Jirón 1º de Setiembre",
+   "tipo": "Jirón",
+   "clave": "1 DE SETIEMBRE",
+   "textos": 1,
+   "texto_documental": "JR. 1º DE SETIEMBRE",
+   "distancia_min_m": 13.8,
+   "diferencia_angulo_max": 0.0,
+   "nivel": "texto",
+   "concordancia_local": 1.0,
+   "pares_locales": 1,
+   "evidencia": [
+    {
+     "handle": "989948A7",
+     "capa": "0",
+     "texto": "JR. 1º DE SETIEMBRE",
+     "distancia_m": 13.8,
+     "angulo": 0.0
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "6c66ca6d-7668-406d-873d-4cdc349e2312": {
+   "nombre": "Avenida Universitaria",
+   "tipo": "Avenida",
+   "clave": "UNIVERSITARIA",
+   "textos": 1,
+   "texto_documental": "AV. UNIVERSITARIA",
+   "distancia_min_m": 2.0,
+   "diferencia_angulo_max": 0.2,
+   "nivel": "texto",
+   "concordancia_local": 0.5,
+   "pares_locales": 2,
+   "evidencia": [
+    {
+     "handle": "98994A27",
+     "capa": "0",
+     "texto": "AV. UNIVERSITARIA",
+     "distancia_m": 2.0,
+     "angulo": 0.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "27ed281f-006b-456a-a4db-a2f302d1df7a": {
+   "nombre": "Avenida Universitaria",
+   "tipo": "Avenida",
+   "clave": "UNIVERSITARIA",
+   "textos": 1,
+   "texto_documental": "AV. UNIVERSITARIA",
+   "distancia_min_m": 1.3,
+   "diferencia_angulo_max": 1.2,
+   "nivel": "texto",
+   "concordancia_local": 1.0,
+   "pares_locales": 1,
+   "evidencia": [
+    {
+     "handle": "98994A2F",
+     "capa": "0",
+     "texto": "AV. UNIVERSITARIA",
+     "distancia_m": 1.3,
+     "angulo": 1.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "be2a4f9f-d10e-494f-bfb9-b494ff08df6b": {
+   "nombre": "Avenida Universitaria",
+   "tipo": "Avenida",
+   "clave": "UNIVERSITARIA",
+   "textos": 1,
+   "texto_documental": "AV. UNIVERSITARIA",
+   "distancia_min_m": 4.5,
+   "diferencia_angulo_max": 3.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "98994A37",
+     "capa": "0",
+     "texto": "AV. UNIVERSITARIA",
+     "distancia_m": 4.5,
+     "angulo": 3.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "e52ada72-76a5-4c71-832e-552bb669c3f6": {
+   "nombre": "Pasaje Agropecuario",
+   "tipo": "Pasaje",
+   "clave": "AGROPECUARIO",
+   "textos": 1,
+   "texto_documental": "PSJE. AGROPECUARIO",
+   "distancia_min_m": 5.5,
+   "diferencia_angulo_max": 0.2,
+   "nivel": "texto",
+   "concordancia_local": 0.5,
+   "pares_locales": 2,
+   "evidencia": [
+    {
+     "handle": "98994A5D",
+     "capa": "0",
+     "texto": "PSJE. AGROPECUARIO",
+     "distancia_m": 5.5,
+     "angulo": 0.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "1755acab-4bdd-4faf-8435-1e245c3e0c45": {
+   "nombre": "Jirón 8 de Octubre",
+   "tipo": "Jirón",
+   "clave": "8 DE OCTUBRE",
+   "textos": 1,
+   "texto_documental": "JR. 8 DE OCTUBRE",
+   "distancia_min_m": 13.9,
+   "diferencia_angulo_max": 3.8,
+   "nivel": "texto",
+   "concordancia_local": 1.0,
+   "pares_locales": 2,
+   "evidencia": [
+    {
+     "handle": "989A0A97",
+     "capa": "0",
+     "texto": "JR. 8 DE OCTUBRE",
+     "distancia_m": 13.9,
+     "angulo": 3.8
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "227b96e3-71f1-47e1-944c-c89889e79684": {
+   "nombre": "Jirón Renom",
+   "tipo": "Jirón",
+   "clave": "RENOM",
+   "textos": 1,
+   "texto_documental": "JR. RENOM",
+   "distancia_min_m": 2.0,
+   "diferencia_angulo_max": 3.2,
+   "nivel": "texto",
+   "concordancia_local": 1.0,
+   "pares_locales": 2,
+   "evidencia": [
+    {
+     "handle": "989A0AFA",
+     "capa": "0",
+     "texto": "JR. RENOM",
+     "distancia_m": 2.0,
+     "angulo": 3.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "6b5ceae7-4c6b-4fc3-b1fb-a0e1540b1b38": {
+   "nombre": "Jirón Los Jasmines",
+   "tipo": "Jirón",
+   "clave": "LOS JASMINES",
+   "textos": 1,
+   "texto_documental": "JR. LOS JASMINES",
+   "distancia_min_m": 1.6,
+   "diferencia_angulo_max": 1.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2870",
+     "capa": "0",
+     "texto": "JR. LOS JASMINES",
+     "distancia_m": 1.6,
+     "angulo": 1.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "3f5c5122-5ed5-46e9-a36c-f81d66d2121f": {
+   "nombre": "Jirón Los Jasmines",
+   "tipo": "Jirón",
+   "clave": "LOS JASMINES",
+   "textos": 1,
+   "texto_documental": "JR. LOS JASMINES",
+   "distancia_min_m": 1.3,
+   "diferencia_angulo_max": 2.2,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A287E",
+     "capa": "0",
+     "texto": "JR. LOS JASMINES",
+     "distancia_m": 1.3,
+     "angulo": 2.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "8fd37ca0-890c-4505-a1da-871624bb0c70": {
+   "nombre": "Jirón Los Jasmines",
+   "tipo": "Jirón",
+   "clave": "LOS JASMINES",
+   "textos": 1,
+   "texto_documental": "JR. LOS JASMINES",
+   "distancia_min_m": 3.1,
+   "diferencia_angulo_max": 1.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2886",
+     "capa": "0",
+     "texto": "JR. LOS JASMINES",
+     "distancia_m": 3.1,
+     "angulo": 1.5
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "24050fdf-56e7-4064-8798-a450122e630c": {
+   "nombre": "Jirón Los Cedros",
+   "tipo": "Jirón",
+   "clave": "LOS CEDROS",
+   "textos": 1,
+   "texto_documental": "JR. LOS CEDROS",
+   "distancia_min_m": 3.1,
+   "diferencia_angulo_max": 0.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2896",
+     "capa": "0",
+     "texto": "JR. LOS CEDROS",
+     "distancia_m": 3.1,
+     "angulo": 0.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "f49a7eb9-40ef-4830-abb7-51cb505e9c0f": {
+   "nombre": "Jirón Los Cedros",
+   "tipo": "Jirón",
+   "clave": "LOS CEDROS",
+   "textos": 1,
+   "texto_documental": "JR. LOS CEDROS",
+   "distancia_min_m": 0.0,
+   "diferencia_angulo_max": 0.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A289E",
+     "capa": "0",
+     "texto": "JR. LOS CEDROS",
+     "distancia_m": 0.0,
+     "angulo": 0.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "c7337a4b-4a61-4d20-a474-281fdf81e76d": {
+   "nombre": "Jirón Las Cucardas",
+   "tipo": "Jirón",
+   "clave": "LAS CUCARDAS",
+   "textos": 1,
+   "texto_documental": "JR. LAS CUCARDAS",
+   "distancia_min_m": 0.5,
+   "diferencia_angulo_max": 1.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A28BE",
+     "capa": "0",
+     "texto": "JR. LAS CUCARDAS",
+     "distancia_m": 0.5,
+     "angulo": 1.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "1da80621-4d37-4c1d-9199-9c6f89400c23": {
+   "nombre": "Jirón Las Cucardas",
+   "tipo": "Jirón",
+   "clave": "LAS CUCARDAS",
+   "textos": 1,
+   "texto_documental": "JR. LAS CUCARDAS",
+   "distancia_min_m": 3.3,
+   "diferencia_angulo_max": 2.4,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A28C6",
+     "capa": "0",
+     "texto": "JR. LAS CUCARDAS",
+     "distancia_m": 3.3,
+     "angulo": 2.4
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "cfbbc89a-5708-4720-a43b-79f010407f17": {
+   "nombre": "Jirón Los Jasmines",
+   "tipo": "Jirón",
+   "clave": "LOS JASMINES",
+   "textos": 1,
+   "texto_documental": "JR. LOS JASMINES",
+   "distancia_min_m": 3.3,
+   "diferencia_angulo_max": 0.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A28D6",
+     "capa": "0",
+     "texto": "JR. LOS JASMINES",
+     "distancia_m": 3.3,
+     "angulo": 0.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "c23e20ba-3e13-4229-860a-0f492e6a3e2b": {
+   "nombre": "Jirón Las Palmeras",
+   "tipo": "Jirón",
+   "clave": "LAS PALMERAS",
+   "textos": 1,
+   "texto_documental": "JR. LAS PALMERAS",
+   "distancia_min_m": 2.8,
+   "diferencia_angulo_max": 0.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A28DE",
+     "capa": "0",
+     "texto": "JR. LAS PALMERAS",
+     "distancia_m": 2.8,
+     "angulo": 0.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "49779999-edfc-4930-87d2-d1a55b0d4190": {
+   "nombre": "Jirón Las Palmeras",
+   "tipo": "Jirón",
+   "clave": "LAS PALMERAS",
+   "textos": 1,
+   "texto_documental": "JR. LAS PALMERAS",
+   "distancia_min_m": 3.7,
+   "diferencia_angulo_max": 5.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A28F6",
+     "capa": "0",
+     "texto": "JR. LAS PALMERAS",
+     "distancia_m": 3.7,
+     "angulo": 5.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "1eb557df-6519-4130-a8d6-7a58060d9fc0": {
+   "nombre": "Jirón Hilda Saavedra",
+   "tipo": "Jirón",
+   "clave": "HILDA SAAVEDRA",
+   "textos": 2,
+   "texto_documental": "JR. HILDA SAAVEDRA",
+   "distancia_min_m": 1.3,
+   "diferencia_angulo_max": 1.4,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A291E",
+     "capa": "0",
+     "texto": "JR. HILDA SAAVEDRA",
+     "distancia_m": 2.7,
+     "angulo": 1.4
+    },
+    {
+     "handle": "989A292C",
+     "capa": "0",
+     "texto": "JR. HILDA SAAVEDRA",
+     "distancia_m": 1.3,
+     "angulo": 0.9
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "f4c7f650-ff21-4095-8032-591223491069": {
+   "nombre": "Calle Sanchez Cerro",
+   "tipo": "Calle",
+   "clave": "SANCHEZ CERRO",
+   "textos": 1,
+   "texto_documental": "CALLE SANCHEZ CERRO",
+   "distancia_min_m": 1.4,
+   "diferencia_angulo_max": 1.8,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2A89",
+     "capa": "0",
+     "texto": "CALLE SANCHEZ CERRO",
+     "distancia_m": 1.4,
+     "angulo": 1.8
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "3d2b297a-09df-478f-9b5d-0e9e62863a94": {
+   "nombre": "Calle Manco Capac",
+   "tipo": "Calle",
+   "clave": "MANCO CAPAC",
+   "textos": 1,
+   "texto_documental": "CALLE MANCO CAPAC",
+   "distancia_min_m": 5.1,
+   "diferencia_angulo_max": 2.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2AB1",
+     "capa": "0",
+     "texto": "CALLE MANCO CAPAC",
+     "distancia_m": 5.1,
+     "angulo": 2.0
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "50ec03be-1268-4527-bb85-207aeda3affd": {
+   "nombre": "Calle Manco Capac",
+   "tipo": "Calle",
+   "clave": "MANCO CAPAC",
+   "textos": 1,
+   "texto_documental": "CALLE MANCO CAPAC",
+   "distancia_min_m": 6.3,
+   "diferencia_angulo_max": 2.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2AB9",
+     "capa": "0",
+     "texto": "CALLE MANCO CAPAC",
+     "distancia_m": 6.3,
+     "angulo": 2.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "a51ca66a-f495-464c-95cd-37bd71daff80": {
+   "nombre": "Calle Manco Capac",
+   "tipo": "Calle",
+   "clave": "MANCO CAPAC",
+   "textos": 1,
+   "texto_documental": "CALLE MANCO CAPAC",
+   "distancia_min_m": 9.6,
+   "diferencia_angulo_max": 1.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2AC3",
+     "capa": "0",
+     "texto": "CALLE MANCO CAPAC",
+     "distancia_m": 9.6,
+     "angulo": 1.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "0ab1e718-68ce-477c-a543-7d47b364174e": {
+   "nombre": "Calle Manco Capac",
+   "tipo": "Calle",
+   "clave": "MANCO CAPAC",
+   "textos": 1,
+   "texto_documental": "CALLE MANCO CAPAC",
+   "distancia_min_m": 4.5,
+   "diferencia_angulo_max": 1.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2ACB",
+     "capa": "0",
+     "texto": "CALLE MANCO CAPAC",
+     "distancia_m": 4.5,
+     "angulo": 1.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "55d76c12-d8b1-4ef4-9cd3-133dfecd5f61": {
+   "nombre": "Calle Cesar Vallejo",
+   "tipo": "Calle",
+   "clave": "CESAR VALLEJO",
+   "textos": 1,
+   "texto_documental": "CALLE CESAR VALLEJO",
+   "distancia_min_m": 9.9,
+   "diferencia_angulo_max": 0.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2AD3",
+     "capa": "0",
+     "texto": "CALLE CESAR VALLEJO",
+     "distancia_m": 9.9,
+     "angulo": 0.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "c10fcb36-82cd-4c1b-b94a-60ceb29dbea2": {
+   "nombre": "Calle Cesar Vallejo",
+   "tipo": "Calle",
+   "clave": "CESAR VALLEJO",
+   "textos": 1,
+   "texto_documental": "CALLE CESAR VALLEJO",
+   "distancia_min_m": 11.5,
+   "diferencia_angulo_max": 0.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2ADB",
+     "capa": "0",
+     "texto": "CALLE CESAR VALLEJO",
+     "distancia_m": 11.5,
+     "angulo": 0.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "30efe1ee-3952-4e07-8f1a-fb049ce18293": {
+   "nombre": "Calle Cesar Vallejo",
+   "tipo": "Calle",
+   "clave": "CESAR VALLEJO",
+   "textos": 1,
+   "texto_documental": "CALLE CESAR VALLEJO",
+   "distancia_min_m": 12.2,
+   "diferencia_angulo_max": 0.9,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2AE3",
+     "capa": "0",
+     "texto": "CALLE CESAR VALLEJO",
+     "distancia_m": 12.2,
+     "angulo": 0.9
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "7efce89a-ddcc-4a42-bdeb-047df54f6396": {
+   "nombre": "Calle Hoyos Rubio",
+   "tipo": "Calle",
+   "clave": "HOYOS RUBIO",
+   "textos": 1,
+   "texto_documental": "CALLE HOYOS RUBIO",
+   "distancia_min_m": 12.3,
+   "diferencia_angulo_max": 1.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2AF3",
+     "capa": "0",
+     "texto": "CALLE HOYOS RUBIO",
+     "distancia_m": 12.3,
+     "angulo": 1.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "2dc9bf1c-e56d-4d2a-9e8c-4d9032c1af13": {
+   "nombre": "Calle Hoyos Rubio",
+   "tipo": "Calle",
+   "clave": "HOYOS RUBIO",
+   "textos": 1,
+   "texto_documental": "CALLE HOYOS RUBIO",
+   "distancia_min_m": 8.2,
+   "diferencia_angulo_max": 1.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2AFB",
+     "capa": "0",
+     "texto": "CALLE HOYOS RUBIO",
+     "distancia_m": 8.2,
+     "angulo": 1.0
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "e54f07dc-619e-40de-bf1c-40a71e8a1d5e": {
+   "nombre": "Calle Hoyos Rubio",
+   "tipo": "Calle",
+   "clave": "HOYOS RUBIO",
+   "textos": 1,
+   "texto_documental": "CALLE HOYOS RUBIO",
+   "distancia_min_m": 14.9,
+   "diferencia_angulo_max": 2.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2B03",
+     "capa": "0",
+     "texto": "CALLE HOYOS RUBIO",
+     "distancia_m": 14.9,
+     "angulo": 2.0
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "9d37c00b-241b-41c9-bad4-f839c12adc20": {
+   "nombre": "Calle Hoyos Rubio",
+   "tipo": "Calle",
+   "clave": "HOYOS RUBIO",
+   "textos": 1,
+   "texto_documental": "CALLE HOYOS RUBIO",
+   "distancia_min_m": 14.9,
+   "diferencia_angulo_max": 1.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2B0B",
+     "capa": "0",
+     "texto": "CALLE HOYOS RUBIO",
+     "distancia_m": 14.9,
+     "angulo": 1.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "6a07eeed-c381-47b4-9984-2b5624e36223": {
+   "nombre": "Calle Miguel Grau",
+   "tipo": "Calle",
+   "clave": "MIGUEL GRAU",
+   "textos": 1,
+   "texto_documental": "CALLE MIGUEL GRAU",
+   "distancia_min_m": 11.5,
+   "diferencia_angulo_max": 1.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2B39",
+     "capa": "0",
+     "texto": "CALLE MIGUEL GRAU",
+     "distancia_m": 11.5,
+     "angulo": 1.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "8236237b-3c7e-4a2e-890d-a3aef7a1ab7d": {
+   "nombre": "Calle Miguel Grau",
+   "tipo": "Calle",
+   "clave": "MIGUEL GRAU",
+   "textos": 1,
+   "texto_documental": "CALLE MIGUEL GRAU",
+   "distancia_min_m": 10.1,
+   "diferencia_angulo_max": 0.9,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2B49",
+     "capa": "0",
+     "texto": "CALLE MIGUEL GRAU",
+     "distancia_m": 10.1,
+     "angulo": 0.9
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "103a0d98-1c20-4c8e-b8ef-0a3877fced7f": {
+   "nombre": "Calle Tupac Amaru",
+   "tipo": "Calle",
+   "clave": "TUPAC AMARU",
+   "textos": 1,
+   "texto_documental": "CALLE TUPAC AMARU",
+   "distancia_min_m": 12.4,
+   "diferencia_angulo_max": 0.3,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2B60",
+     "capa": "0",
+     "texto": "CALLE TUPAC AMARU",
+     "distancia_m": 12.4,
+     "angulo": 0.3
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "1c89f623-9dd2-4d03-874e-dd3ea2ae8f6e": {
+   "nombre": "Calle Tupac Amaru",
+   "tipo": "Calle",
+   "clave": "TUPAC AMARU",
+   "textos": 1,
+   "texto_documental": "CALLE TUPAC AMARU",
+   "distancia_min_m": 11.5,
+   "diferencia_angulo_max": 1.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2B68",
+     "capa": "0",
+     "texto": "CALLE TUPAC AMARU",
+     "distancia_m": 11.5,
+     "angulo": 1.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "e85b986f-4a94-462b-af0e-82ad40fcd97f": {
+   "nombre": "Calle Tupac Amaru",
+   "tipo": "Calle",
+   "clave": "TUPAC AMARU",
+   "textos": 1,
+   "texto_documental": "CALLE TUPAC AMARU",
+   "distancia_min_m": 14.6,
+   "diferencia_angulo_max": 2.2,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2B70",
+     "capa": "0",
+     "texto": "CALLE TUPAC AMARU",
+     "distancia_m": 14.6,
+     "angulo": 2.2
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "bc1a5d99-12ca-4528-a0ad-aa490272c386": {
+   "nombre": "Avenida Los Libertadores",
+   "tipo": "Avenida",
+   "clave": "LOS LIBERTADORES",
+   "textos": 2,
+   "texto_documental": "AV. LOS LIBERTADORES",
+   "distancia_min_m": 5.9,
+   "diferencia_angulo_max": 1.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C46",
+     "capa": "0",
+     "texto": "AV. LOS LIBERTADORES",
+     "distancia_m": 9.2,
+     "angulo": 1.6
+    },
+    {
+     "handle": "989A2C4E",
+     "capa": "0",
+     "texto": "AV. LOS LIBERTADORES",
+     "distancia_m": 5.9,
+     "angulo": 1.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "9c6190d4-22c8-4dc5-b25b-97e05a739907": {
+   "nombre": "Avenida Los Libertadores",
+   "tipo": "Avenida",
+   "clave": "LOS LIBERTADORES",
+   "textos": 1,
+   "texto_documental": "AV. LOS LIBERTADORES",
+   "distancia_min_m": 4.9,
+   "diferencia_angulo_max": 0.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C56",
+     "capa": "0",
+     "texto": "AV. LOS LIBERTADORES",
+     "distancia_m": 4.9,
+     "angulo": 0.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "77dc7150-563e-4dd1-a839-463ac955b078": {
+   "nombre": "Avenida Los Libertadores",
+   "tipo": "Avenida",
+   "clave": "LOS LIBERTADORES",
+   "textos": 1,
+   "texto_documental": "AV. LOS LIBERTADORES",
+   "distancia_min_m": 8.2,
+   "diferencia_angulo_max": 0.9,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C5E",
+     "capa": "0",
+     "texto": "AV. LOS LIBERTADORES",
+     "distancia_m": 8.2,
+     "angulo": 0.9
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "5ed48bbd-1e4e-4c69-ba35-01c65ceb95ec": {
+   "nombre": "Avenida Los Libertadores",
+   "tipo": "Avenida",
+   "clave": "LOS LIBERTADORES",
+   "textos": 1,
+   "texto_documental": "AV. LOS LIBERTADORES",
+   "distancia_min_m": 5.2,
+   "diferencia_angulo_max": 0.8,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C66",
+     "capa": "0",
+     "texto": "AV. LOS LIBERTADORES",
+     "distancia_m": 5.2,
+     "angulo": 0.8
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "74703ed0-587a-4b52-b1bd-8d1c01640f3c": {
+   "nombre": "Avenida Los Libertadores",
+   "tipo": "Avenida",
+   "clave": "LOS LIBERTADORES",
+   "textos": 1,
+   "texto_documental": "AV. LOS LIBERTADORES",
+   "distancia_min_m": 6.7,
+   "diferencia_angulo_max": 0.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C6E",
+     "capa": "0",
+     "texto": "AV. LOS LIBERTADORES",
+     "distancia_m": 6.7,
+     "angulo": 0.5
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "9945fafc-7b59-47e0-b49b-82d2588da9cc": {
+   "nombre": "Avenida Los Libertadores",
+   "tipo": "Avenida",
+   "clave": "LOS LIBERTADORES",
+   "textos": 1,
+   "texto_documental": "AV. LOS LIBERTADORES",
+   "distancia_min_m": 9.2,
+   "diferencia_angulo_max": 0.8,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C76",
+     "capa": "0",
+     "texto": "AV. LOS LIBERTADORES",
+     "distancia_m": 9.2,
+     "angulo": 0.8
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "ff5aa844-8090-4d8b-a9f4-4e6f3f7eaac3": {
+   "nombre": "Calle Alfonso Ugarte",
+   "tipo": "Calle",
+   "clave": "ALFONSO UGARTE",
+   "textos": 1,
+   "texto_documental": "CALLE ALFONSO UGARTE",
+   "distancia_min_m": 2.7,
+   "diferencia_angulo_max": 0.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C7E",
+     "capa": "0",
+     "texto": "CALLE ALFONSO UGARTE",
+     "distancia_m": 2.7,
+     "angulo": 0.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "d22638d8-e774-48cc-accf-7b67aeb833af": {
+   "nombre": "Calle Alfonso Ugarte",
+   "tipo": "Calle",
+   "clave": "ALFONSO UGARTE",
+   "textos": 1,
+   "texto_documental": "CALLE ALFONSO UGARTE",
+   "distancia_min_m": 5.3,
+   "diferencia_angulo_max": 2.4,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C86",
+     "capa": "0",
+     "texto": "CALLE ALFONSO UGARTE",
+     "distancia_m": 5.3,
+     "angulo": 2.4
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "a28dc390-7db9-4fbf-90b0-fbef1814ae62": {
+   "nombre": "Calle Alfonso Ugarte",
+   "tipo": "Calle",
+   "clave": "ALFONSO UGARTE",
+   "textos": 1,
+   "texto_documental": "CALLE ALFONSO UGARTE",
+   "distancia_min_m": 10.5,
+   "diferencia_angulo_max": 1.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2C9E",
+     "capa": "0",
+     "texto": "CALLE ALFONSO UGARTE",
+     "distancia_m": 10.5,
+     "angulo": 1.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "b9b05e77-66aa-4ac4-acb3-b5051a1276b7": {
+   "nombre": "Calle Francisco Bolognesi",
+   "tipo": "Calle",
+   "clave": "FRANCISCO BOLOGNESI",
+   "textos": 1,
+   "texto_documental": "CALLE FRANCISCO BOLOGNESI",
+   "distancia_min_m": 1.7,
+   "diferencia_angulo_max": 3.7,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2CA6",
+     "capa": "0",
+     "texto": "CALLE FRANCISCO BOLOGNESI",
+     "distancia_m": 1.7,
+     "angulo": 3.7
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "4a16ef6e-4747-4377-8492-41e3ac96b64e": {
+   "nombre": "Calle Francisco Bolognesi",
+   "tipo": "Calle",
+   "clave": "FRANCISCO BOLOGNESI",
+   "textos": 1,
+   "texto_documental": "CALLE FRANCISCO BOLOGNESI",
+   "distancia_min_m": 4.2,
+   "diferencia_angulo_max": 2.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2CAE",
+     "capa": "0",
+     "texto": "CALLE FRANCISCO BOLOGNESI",
+     "distancia_m": 4.2,
+     "angulo": 2.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "f9074176-a0fa-4b0b-b8dd-647c2f9be77f": {
+   "nombre": "Calle Francisco Bolognesi",
+   "tipo": "Calle",
+   "clave": "FRANCISCO BOLOGNESI",
+   "textos": 1,
+   "texto_documental": "CALLE FRANCISCO BOLOGNESI",
+   "distancia_min_m": 2.9,
+   "diferencia_angulo_max": 3.0,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2CC4",
+     "capa": "0",
+     "texto": "CALLE FRANCISCO BOLOGNESI",
+     "distancia_m": 2.9,
+     "angulo": 3.0
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "e71917b9-ae3c-4bd6-abe6-8946f39067f7": {
+   "nombre": "Calle 28 de Julio",
+   "tipo": "Calle",
+   "clave": "28 DE JULIO",
+   "textos": 1,
+   "texto_documental": "CALLE 28 DE JULIO",
+   "distancia_min_m": 4.0,
+   "diferencia_angulo_max": 1.6,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2CEC",
+     "capa": "0",
+     "texto": "CALLE 28 DE JULIO",
+     "distancia_m": 4.0,
+     "angulo": 1.6
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "dc03ad76-78e8-4029-8f37-b5cca00c113d": {
+   "nombre": "Calle 28 de Julio",
+   "tipo": "Calle",
+   "clave": "28 DE JULIO",
+   "textos": 1,
+   "texto_documental": "CALLE 28 DE JULIO",
+   "distancia_min_m": 11.8,
+   "diferencia_angulo_max": 0.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2CF4",
+     "capa": "0",
+     "texto": "CALLE 28 DE JULIO",
+     "distancia_m": 11.8,
+     "angulo": 0.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "7c5e1a9a-5497-4dad-862e-bcce4264510c": {
+   "nombre": "Jirón Velasco Alvarado",
+   "tipo": "Jirón",
+   "clave": "VELASCO ALVARADO",
+   "textos": 1,
+   "texto_documental": "JR. VELASCO ALVARADO",
+   "distancia_min_m": 12.7,
+   "diferencia_angulo_max": 4.1,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2D32",
+     "capa": "0",
+     "texto": "JR. VELASCO ALVARADO",
+     "distancia_m": 12.7,
+     "angulo": 4.1
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "6ac67e54-c0af-49a8-990c-d0ea49103dbf": {
+   "nombre": "Jirón F. Belaunde Terry",
+   "tipo": "Jirón",
+   "clave": "F BELAUNDE TERRY",
+   "textos": 1,
+   "texto_documental": "JR. F. BELAUNDE TERRY",
+   "distancia_min_m": 3.9,
+   "diferencia_angulo_max": 1.5,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2D4A",
+     "capa": "0",
+     "texto": "JR. F. BELAUNDE TERRY",
+     "distancia_m": 3.9,
+     "angulo": 1.5
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "0f6bcff2-297d-48d0-bc14-48d091c386ab": {
+   "nombre": "Jirón Santa Rosa",
+   "tipo": "Jirón",
+   "clave": "SANTA ROSA",
+   "textos": 1,
+   "texto_documental": "JR. SANTA ROSA",
+   "distancia_min_m": 9.5,
+   "diferencia_angulo_max": 1.9,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2D98",
+     "capa": "0",
+     "texto": "JR. SANTA ROSA",
+     "distancia_m": 9.5,
+     "angulo": 1.9
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "cbaf7887-3e6e-4a50-b5fc-231fa1534d8d": {
+   "nombre": "Jirón Santa Rosa",
+   "tipo": "Jirón",
+   "clave": "SANTA ROSA",
+   "textos": 1,
+   "texto_documental": "JR. SANTA ROSA",
+   "distancia_min_m": 7.9,
+   "diferencia_angulo_max": 1.9,
+   "nivel": "texto",
+   "concordancia_local": null,
+   "pares_locales": 0,
+   "evidencia": [
+    {
+     "handle": "989A2DA0",
+     "capa": "0",
+     "texto": "JR. SANTA ROSA",
+     "distancia_m": 7.9,
+     "angulo": 1.9
+    }
+   ],
+   "rpu": "sin_cobertura"
+  },
+  "255f19d1-6b75-4bb7-b572-f894f77061a6": {
+   "nombre": "Jirón La Verdad",
+   "tipo": "Jirón",
+   "clave": "LA VERDAD",
+   "textos": 0,
+   "texto_documental": "JR. LA VERDAD",
+   "nivel": "continuidad",
+   "vecinos": [
+    "598f361a-e313-4da9-902b-54088c135a78",
+    "8ede134b-4e95-4c54-9ff8-020fcef710d3"
+   ],
+   "giro_max": 0.5489107358222327,
+   "rpu": "respaldado"
+  },
+  "29064743-cea2-44ee-9106-611733a8cf11": {
+   "nombre": "Jirón Mezones Muro",
+   "tipo": "Jirón",
+   "clave": "MEZONES MURO",
+   "textos": 0,
+   "texto_documental": "JR. MEZONES MURO",
+   "nivel": "continuidad",
+   "vecinos": [
+    "2ccb6104-8a4e-4171-85fe-dd8b28b0d285",
+    "5113a73a-bacf-4740-9b5c-3a80ffa3fa9e"
+   ],
+   "giro_max": 0.07473805985722493,
+   "rpu": "respaldado"
+  },
+  "47e2a55f-46eb-431b-b380-8567c26ba0fe": {
+   "nombre": "Avenida Bagua",
+   "tipo": "Avenida",
+   "clave": "BAGUA",
+   "textos": 0,
+   "texto_documental": "AV. BAGUA",
+   "nivel": "continuidad",
+   "vecinos": [
+    "885e7e79-7679-417d-b832-b05449c0dd7c",
+    "dbb28dc1-a77d-45e8-94a6-1ff6364f61d4"
+   ],
+   "giro_max": 0.07357909548696284,
+   "rpu": "sin_cobertura"
+  },
+  "532822b4-e43d-4d8a-88e0-8f40698000fe": {
+   "nombre": "Avenida Bolognesi",
+   "tipo": "Avenida",
+   "clave": "BOLOGNESI",
+   "textos": 0,
+   "texto_documental": "AV. BOLOGNESI",
+   "nivel": "continuidad",
+   "vecinos": [
+    "b41b7339-ae89-426a-88a1-e449e80baece",
+    "3852db16-0cd5-4b2e-9a10-cafe9165152c"
+   ],
+   "giro_max": 0.22314530498380236,
+   "rpu": "respaldado"
+  },
+  "67b5228c-7c04-4adc-ab47-08c8ace3f24b": {
+   "nombre": "Calle Miguel Grau",
+   "tipo": "Calle",
+   "clave": "MIGUEL GRAU",
+   "textos": 0,
+   "texto_documental": "CALLE MIGUEL GRAU",
+   "nivel": "continuidad",
+   "vecinos": [
+    "8236237b-3c7e-4a2e-890d-a3aef7a1ab7d",
+    "6a07eeed-c381-47b4-9984-2b5624e36223"
+   ],
+   "giro_max": 5.96235859601731,
+   "rpu": "sin_cobertura"
+  },
+  "759a9300-b0ae-49ea-9074-b78e87828666": {
+   "nombre": "Calle Alfonso Ugarte",
+   "tipo": "Calle",
+   "clave": "ALFONSO UGARTE",
+   "textos": 0,
+   "texto_documental": "CALLE ALFONSO UGARTE",
+   "nivel": "continuidad",
+   "vecinos": [
+    "a28dc390-7db9-4fbf-90b0-fbef1814ae62",
+    "48895a0b-c53a-4af4-8301-4b03116e54b3"
+   ],
+   "giro_max": 3.463523009986943,
+   "rpu": "sin_cobertura"
+  },
+  "7aa3749f-e85f-4c87-aef2-7b388fbe72cc": {
+   "nombre": "Jirón Los Cedros",
+   "tipo": "Jirón",
+   "clave": "LOS CEDROS",
+   "textos": 0,
+   "texto_documental": "JR. LOS CEDROS",
+   "nivel": "continuidad",
+   "vecinos": [
+    "f49a7eb9-40ef-4830-abb7-51cb505e9c0f",
+    "24050fdf-56e7-4064-8798-a450122e630c"
+   ],
+   "giro_max": 2.4911427549487826,
+   "rpu": "sin_cobertura"
+  },
+  "97239753-8ab5-4188-862a-e8b1463162a3": {
+   "nombre": "Calle Tupac Amaru",
+   "tipo": "Calle",
+   "clave": "TUPAC AMARU",
+   "textos": 0,
+   "texto_documental": "CALLE TUPAC AMARU",
+   "nivel": "continuidad",
+   "vecinos": [
+    "e85b986f-4a94-462b-af0e-82ad40fcd97f",
+    "1c89f623-9dd2-4d03-874e-dd3ea2ae8f6e"
+   ],
+   "giro_max": 12.899781180277301,
+   "rpu": "sin_cobertura"
+  },
+  "cfa82c85-a22d-4e1d-a507-b661325eb15b": {
+   "nombre": "Jirón La Union",
+   "tipo": "Jirón",
+   "clave": "LA UNION",
+   "textos": 0,
+   "texto_documental": "JR. LA UNION",
+   "nivel": "continuidad",
+   "vecinos": [
+    "2eb73f1a-e493-48e6-9489-710841b8da39",
+    "0747b509-b297-49a6-b932-bbf6829dbc97"
+   ],
+   "giro_max": 12.686363686872113,
+   "rpu": "respaldado"
+  },
+  "f36bce94-6afd-43a5-a33a-141332d56f27": {
+   "nombre": "Calle Amazonas",
+   "tipo": "Calle",
+   "clave": "AMAZONAS",
+   "textos": 0,
+   "texto_documental": "CA. AMAZONAS",
+   "nivel": "continuidad",
+   "vecinos": [
+    "2076a4ea-94b4-4ced-ab90-17107f9a5f77",
+    "17e7ad28-6d83-4a2a-9d5e-95071045b320"
+   ],
+   "giro_max": 5.527739805862325,
+   "rpu": "respaldado"
+  },
+  "ff510944-3d21-4c99-896b-ac63fef44958": {
+   "nombre": "Jirón Maslucan",
+   "tipo": "Jirón",
+   "clave": "MASLUCAN",
+   "textos": 0,
+   "texto_documental": "JR. MASLUCAN",
+   "nivel": "continuidad",
+   "vecinos": [
+    "6ed20e4a-8b76-4ac5-a409-ee7d9ca968ce",
+    "48b6192a-4402-4445-b82f-d8720bb48c53"
+   ],
+   "giro_max": 7.934334876244975,
+   "rpu": "respaldado"
+  }
+ },
+ "ambiguos_detalle": {
+  "7be7b508-e3b9-4fa2-9f6b-712333154017": {
+   "motivo": "textos de calles distintas respaldan el mismo tramo",
+   "candidatos": {
+    "Pasaje Mexico": 1,
+    "Pasaje Japon": 1
+   },
+   "textos": [
+    "Psje. MEXICO",
+    "Psje. JAPON"
+   ]
+  },
+  "08c4d339-c178-4898-8e1a-e299a3a51da1": {
+   "motivo": "dos grafías empatan entre los textos",
+   "candidatos": {
+    "Jirón Rosa Margot Goñas Culque": 1,
+    "Jirón Rosa Margot Goñas Culqui": 1
+   },
+   "textos": [
+    "Jr. ROSA MARGOT GOÑAS CULQUE",
+    "Jr. ROSA MARGOT GOÑAS CULQUI"
+   ]
+  }
+ },
+ "retenidos_detalle": {
+  "d971a453-1c25-4654-a221-b88aa9bbed8f": {
+   "nombre_documental": "Jirón Las Ortencias",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.59,
+   "pares_locales": 39
+  },
+  "5f78f207-6d24-4daa-a6cf-057e48938e40": {
+   "nombre_documental": "Jirón Julio Muñoz",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.5,
+   "pares_locales": 14
+  },
+  "06b0057b-f94b-4e2f-888e-d29e2cfd1753": {
+   "nombre_documental": "Jirón Barrantes Lingan",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.42,
+   "pares_locales": 12
+  },
+  "b250df77-e813-4415-aefa-630222df73d3": {
+   "nombre_documental": "Jirón Comercio",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.56,
+   "pares_locales": 9
+  },
+  "bd20b1a4-d56d-43fa-8537-eef71cadaf0b": {
+   "nombre_documental": "Jirón Miguel Grau",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.5,
+   "pares_locales": 4
+  },
+  "2b6bc1b4-2082-44fc-ab55-16aa5efbc43d": {
+   "nombre_documental": "Jirón Violeta Correa",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.4,
+   "pares_locales": 5
+  },
+  "d3a85f1c-e145-4fc7-85e4-1ca2d1a030e4": {
+   "nombre_documental": "Jirón Sargento Lores",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.5,
+   "pares_locales": 4
+  },
+  "e6ca4b5b-e69e-4480-ade8-347abcf0f8a6": {
+   "nombre_documental": "Jirón Sargento Lores",
+   "motivo": "zona donde el DWG discrepa de los nombres de Overture",
+   "concordancia_local": 0.4,
+   "pares_locales": 5
+  },
+  "13c6c301-9fbe-4537-9e3a-f6336fb7f4e2": {
+   "nombre_documental": "Jirón Barrantes Lingan",
+   "motivo": "lotes o manzanas cercanos citan otras calles colindantes y no esta",
+   "concordancia_local": 0.71
+  }
+ },
+ "sin_correspondencia_ids": [
+  "00571475-7a4e-4c54-b842-c6ab15dd0adf",
+  "00fabbee-4ca6-4d14-8c8e-8b85d93b1d2f",
+  "011f8d9a-6242-4abb-9b68-8290634dec3d",
+  "012173f2-fc04-42f8-8450-9d3cf0eeb78a",
+  "01392258-62bd-44ff-819b-302f97451d48",
+  "033c54c3-77d7-485f-a87a-966b0a351f35",
+  "038ca9f4-a17c-48fc-a51b-4e20b46ec0f2",
+  "03b5ea8b-f297-411b-925a-7965edc471b3",
+  "03c4cca8-de00-444c-a6a4-785ff6ec33bd",
+  "03d3ea51-0d22-4087-97f5-9698025a5a81",
+  "048143c8-0c8d-49d0-80ad-0e70bc0fc1f4",
+  "04d9a49b-7428-4d73-9a5a-448b4a7646db",
+  "04fd5df1-e0c5-463b-b394-d8d075fa0bfa",
+  "05ab628a-b436-41e6-bac4-7aa9da0abad5",
+  "05d32c08-3d39-4166-ac6d-e21c7bd2ddb8",
+  "06ff5ada-bc12-48bc-932c-3925afb49d28",
+  "072ba387-7d33-4495-b718-51de09004500",
+  "07e654bc-c12e-47e6-ab3c-dfd7139b12ba",
+  "08a978a6-b53c-4d85-92d3-5903a61cdc7b",
+  "08d8b686-1d12-4481-88e8-57f9d9b20ef5",
+  "0a1b3a22-96dd-400b-a491-91127127cfaa",
+  "0ae9bff0-5b84-4839-a2a3-7f04507916f4",
+  "0af95f5c-5e84-4ebd-8b4d-dad90b3dc7bd",
+  "0b822882-7ac2-4242-83ef-39f2578729f2",
+  "0ba21be7-e697-4c29-8927-a2870e8a8180",
+  "0baf9e58-318b-4da9-a43e-56f93f4801af",
+  "0c3d4ca3-ec48-41b5-b1f0-231d33b25202",
+  "0c42d8b1-15d5-413b-9ebd-5faa111d5212",
+  "0c64f7aa-6ee7-4e78-ba35-9a2e484844f6",
+  "0c65eb20-937c-4676-afaa-30042e8c7eab",
+  "0d580dd3-106e-418f-9e7c-136d08accee3",
+  "0db1014d-9912-404f-9483-a73f55c49bac",
+  "0dd31074-ffad-46b7-9a03-5700787b1f1a",
+  "0e50bbec-963d-4748-881e-234cda093810",
+  "0eb92891-4eda-40f1-8622-78051b846a91",
+  "0ece5b24-887c-45a7-97e4-7ed032cce4af",
+  "0edab423-9715-40f5-ac6e-8f85abc84ca3",
+  "0edf1130-7375-4559-8974-abd905d8d7f7",
+  "0eefc0a2-3fcc-4196-b1bc-81777070d86c",
+  "0f2f7480-0bf1-4ed6-9e42-51e26976a0d8",
+  "0fc1669b-efae-4ab4-a703-e5ee8e19b648",
+  "106745b1-88fe-4f4e-b521-4f0e1de16b0a",
+  "10a56051-4f96-4423-972e-44e22e92a352",
+  "11d3d335-f1fd-4c9d-9e84-377d6b32c27d",
+  "13034b09-19c4-49ed-9083-a322049ab8bf",
+  "13767092-84a3-4828-aa23-1b4dea792985",
+  "1471098d-7034-49c5-bf98-fef592b81916",
+  "14b43775-e9ea-4af7-a05b-40e8d3685075",
+  "152b2ed3-b142-4658-bac7-0d6d7909c120",
+  "154745e3-6e3d-4332-a58a-9caafbed4569",
+  "15b96954-be00-4472-b66b-d2c7e3c34198",
+  "16b45a71-517c-41eb-a220-1337b80e7c83",
+  "1771c748-e1c8-4911-92da-54848ffddb61",
+  "192fec1b-ff5d-4e34-920d-8bd24c378181",
+  "193a7321-e3d6-478d-bb72-8ad11d1ec4ca",
+  "19a089c6-71f6-41d1-a5c0-f3ec87098de3",
+  "19e9b791-17c2-44c6-8096-ec35c0322270",
+  "1a0668a1-b826-486d-a87d-7473633bdb85",
+  "1a616453-c41b-483c-9fb1-17e150875cc1",
+  "1a6d41b0-3ca4-4110-b17c-a71bd53be276",
+  "1a89c96b-cd3e-4b5c-8a8e-1a26b8a03af7",
+  "1ba3e6a7-b12a-44e4-ace8-097ea9e245d7",
+  "1c010c3a-a402-45d5-b1a4-733fb7dc8b94",
+  "1cecc6e1-dc91-4bad-b53e-77ef9bea0aec",
+  "1ded2518-9305-4d9a-9d88-e0e8750131ab",
+  "1e5f7b77-3472-45be-ae08-15d3ecd13616",
+  "1ef9eaeb-4181-45b3-8ab6-e3cd1a452e77",
+  "1f1b6518-1419-4d95-9cae-2942bd566612",
+  "1f3205d4-b113-4761-ad8f-a0222f34bda2",
+  "1f77e1e5-e057-428b-b533-6acb43d1ba4c",
+  "1f9098e7-45b3-46f7-802f-04a8d0eb2977",
+  "1fe5b409-7d24-4e94-9682-5b092e577ba6",
+  "206e47da-b433-4e2d-b31b-c56f352ba6a2",
+  "20bd9637-1b48-48f1-a3af-e8d94f882d24",
+  "2121646f-da87-4e3c-8c83-37c554d050a6",
+  "21c3cb5e-af65-4520-b3be-a9a8c8a2bb25",
+  "21e0da04-bd5a-4989-97bd-b324c576b6f6",
+  "22fde387-d759-48eb-bbbf-4736e3f8ba7a",
+  "23fc0131-1089-4967-a3ed-c36364c588a7",
+  "242cfd95-f1b8-42c2-ace6-c313b74cd948",
+  "24c125f2-7bd8-4ec0-8c7c-790c33e8d5dc",
+  "24cde84d-6a6b-42c4-9fb5-e44bcd6d34dd",
+  "24d645fc-3fe5-43fa-8def-a45db46c4680",
+  "25af71bd-5818-4e4c-8b4e-b96d41373d69",
+  "2610574a-1bb8-4280-8ffe-5b676b2b872f",
+  "261f97de-8157-4687-8d78-97ac2bee853c",
+  "266f7dd6-8272-4ab8-a031-cbd1e921b560",
+  "2846a28e-7d4b-4917-9ea5-499cc3381464",
+  "294b29b2-48b3-45a2-9629-8b65045ecd20",
+  "2a3d9505-566e-4ed7-8cb5-c5d7e1d90e40",
+  "2a612419-8e84-49d2-af2d-14102a7bad09",
+  "2b62c79a-0081-4aaa-a47d-2801571d7911",
+  "2b829ca6-24df-4c71-9d05-69d9f8ff6f22",
+  "2b8ac120-8fa8-40c9-b95a-4d2cc0bd42ad",
+  "2b961259-eb90-416c-a56b-46a1461c54b8",
+  "2c365945-3e72-41e3-aa2d-f438134a445f",
+  "2c49190b-3426-4e3e-a950-124d37a6d77b",
+  "2d048e37-2569-47db-b081-40ed69aee13b",
+  "2daa1376-0316-472a-82b3-50bf1bfbe002",
+  "2e547b74-b48f-43a2-be68-62ed53b77d44",
+  "2e5630ee-e6f7-4810-83ca-ccccbe414d8a",
+  "2eb2fbe7-4a43-4749-87fb-598926af4be1",
+  "2eb72c26-0120-4d15-814b-d1ba46759d95",
+  "301a190f-0c1c-4dcc-b5ad-357915dac143",
+  "30662dca-578b-4fbf-a30c-d52933ed9bd8",
+  "30a40d1e-46a3-4f2e-9cfc-926f14ee80bd",
+  "310a0e9b-0310-4128-bcbb-f891261e536c",
+  "31c4ec63-ca2a-4e77-b1e8-df2120cfbb4a",
+  "323b1432-3a7b-4e46-a0cb-a4a61906179d",
+  "32878b3b-27f2-4809-996e-421bc9f77045",
+  "3292d2ae-294c-4124-be3f-b976f3731ec3",
+  "3303fb06-34ea-4777-b646-1e8d00180edf",
+  "33519937-6c15-4ced-b280-e61a7ef3363a",
+  "35254a18-65b4-4df3-8a14-6d158b53f7d6",
+  "358d9d50-73c8-4909-b14a-22125ec2cc45",
+  "3659a98f-947c-4c1f-8dc7-b1cf8ba9ea22",
+  "366ee1d0-509f-443d-b5aa-18d2ed50ef12",
+  "36ba0b29-8fdb-4e38-8677-7a832537d2f0",
+  "375c98b2-9656-4ece-aaf2-e3ebf6092b89",
+  "383d36d6-5592-4084-9c1a-4c7e12b9d923",
+  "385adf89-eb3a-487f-aabf-ff49f269463d",
+  "3934cb15-0143-4d2d-a7e8-3bee4219e99d",
+  "3a518c30-9190-4e03-a63c-313e2490f74d",
+  "3ac54823-2fc4-4d11-896a-e2f303e068ff",
+  "3b7be85c-a191-40a0-819b-a07807a54c82",
+  "3d03267a-371d-49f7-af62-628a29b1e972",
+  "3d0e8b96-f520-46cb-afb9-b891cf40b088",
+  "3d8fe9ad-5d6c-42b3-8efc-102b6739ef5f",
+  "3e4504bc-b2ce-441b-8708-731d452fb2e7",
+  "3ea20cb4-70b8-4b0d-b51c-ef7fe886b14f",
+  "3ee98f35-1bf4-40ef-b74d-585fb4c436ce",
+  "3f09abfe-5cbd-4079-8b9a-c03ddb698b05",
+  "3fa430c0-2cce-4f81-8352-f6800b45d461",
+  "4018c6a3-831b-46dc-b47a-685e35e553c8",
+  "40abad6b-b145-4851-ab3c-898d3b5e67aa",
+  "40f1f3c4-631b-440b-8c1c-5311633708e5",
+  "41133f5e-9d3a-4762-8ac2-61e157a8900b",
+  "419bc944-1fae-4aaa-9f3f-ec7b13e25a90",
+  "42aeadf3-d568-4ba0-acbd-cb2efb6f0c39",
+  "4344db15-5c19-4b59-8982-a545bbeaf116",
+  "439a8fb5-cc67-4cf1-8d2e-c0eaa01c734a",
+  "4449ec96-b02b-4f79-b1a5-bc04ba71cc66",
+  "45228f2f-7cad-484d-96a4-e0622126a6e2",
+  "45de21f2-4459-4c2c-a4d8-0d8a578a910b",
+  "45df9511-4718-4fab-afa2-87c764ccdde4",
+  "467a2159-4ba3-4993-87f8-ce5494c17a81",
+  "47081d79-d53d-4b30-ac8b-c186a90de762",
+  "47c563a3-abd7-445c-b03e-7940b0b1ee43",
+  "48d512b6-c550-4a6d-8fa3-a7a423933a2d",
+  "493a7dc0-5a1e-459d-9d74-7c332b2a0075",
+  "4996d0ce-8f88-409f-b5ea-a4f4e848dbf1",
+  "49fb6dec-ee29-46c6-ab5c-bd0675da68bf",
+  "4ae4fb08-7754-45be-9743-1feaeac7a694",
+  "4b54d132-5a7e-41b0-a960-4191cba12da4",
+  "4c90355f-0ca7-48f2-a26f-dc25757879fb",
+  "4ce40f97-5bbd-4313-acfe-16764e391911",
+  "4cf57108-d4cf-4fa6-899f-f66d64c525c8",
+  "4dcc2d22-471d-43c0-96a4-a461e8be8b5f",
+  "4dfb35fb-2f43-4c57-a0f7-78df77f98520",
+  "4e471d23-0503-409b-8d55-3ccce919c8d6",
+  "4e498f68-2517-416f-a775-a7bf7b73636c",
+  "4ea7f39b-d76b-4726-b3e6-91a11b4c1c4c",
+  "4eeab953-4157-4dd0-824f-8665c40d5761",
+  "4f059cd9-bd61-40d2-bd8e-444e1de5beef",
+  "4f0dd32d-784c-4dd7-9358-78ebd6d5f1a9",
+  "4f5a071e-b923-497f-9257-46593f7390da",
+  "4ff9618c-5e48-4eec-9c4b-6ed57efcd547",
+  "50b1a7c5-8086-4db2-b7bf-0b15d5ec6b74",
+  "50b498f3-b86b-4436-af0d-e426d01afdba",
+  "510d432b-2683-4c3b-92be-64b807f5aa22",
+  "51308ead-949b-434b-89b7-535710c8a46d",
+  "5181d868-8bb5-44ab-8d1d-c4a433594fc0",
+  "51d02f5c-1029-40e3-9525-98c5ad8b3089",
+  "51e41f37-36d4-42b0-b144-d453521463a4",
+  "522169e1-6525-4381-916e-d5feef1f9e61",
+  "52320d19-6840-4aea-97a4-b067d1e7eccf",
+  "52a7b280-2b4f-4555-bee7-dec79024ce7a",
+  "547f4a4b-6099-4e19-8c2b-2239a92ba670",
+  "54beba85-0631-402b-987b-3c9a12f44c1d",
+  "54dba224-147d-4586-9713-ef7e28ae9482",
+  "55735b69-0e8f-4281-a346-991a67cd129b",
+  "557c7305-bfd3-48d5-b29f-3fcb0bd69e09",
+  "55df7a43-8e3e-4749-8817-4eccc4c9ac96",
+  "5640879b-e1d5-4e01-a014-d6669aef0e3d",
+  "56bdee1f-4031-432f-a52d-cbf2dde67980",
+  "56f13088-1ad4-4f09-8693-e99acdab5808",
+  "572cd31b-64eb-4424-a4a0-b3fb508aeb07",
+  "5746f8a9-d785-429f-b74b-b55dbb1ab09a",
+  "579e259a-1e01-46ec-abaa-890e459de5c4",
+  "580544a8-46e1-4b69-a914-077d69f4dad4",
+  "583da125-e99e-40ac-8c4a-bf4046f9b608",
+  "58b95792-d359-4084-a0dc-25ea14196519",
+  "58bacb2b-6675-41cf-a98e-4429e211fb97",
+  "58ff87be-7e40-45ac-a95e-e0904233adf9",
+  "59d0c592-ca53-4757-b101-f11de3334ab9",
+  "59eecac3-4007-454b-a959-cb47d801b55f",
+  "5ae2612a-5955-4b42-93db-2bc4f2aab306",
+  "5b2e9d85-ae26-43e3-b687-cad4fd24daeb",
+  "5b993003-d53d-475b-adf2-ded15d9555b2",
+  "5c47d1fc-eec2-4dac-bfae-7cf2d1476749",
+  "5c8800ca-d34a-4d6a-8067-b02cf458fdca",
+  "5c99deb9-5dd2-422a-9301-40bdea4e7061",
+  "5cb6b692-553e-4a7b-b35d-c128f42210c4",
+  "5cdc683c-c51b-430b-bd48-60b2c54d2253",
+  "5d536e2a-6c75-4888-8480-2d1c47307b69",
+  "5dc0aa93-4d52-4fec-93ab-dbd03f16026d",
+  "5de3901a-87a5-4129-b765-2fc82c67b494",
+  "5e3d6653-4fe9-4451-9ee5-c94ea26378e3",
+  "5efe0170-58ba-4390-a35a-cdd7ea33ab56",
+  "5f9d0d96-262e-4ced-adea-b14ac3dcf18b",
+  "6048aed3-9481-4c8c-bac1-7481c8abb667",
+  "60718b2b-3afa-4ea9-bef4-e8a1b68ac658",
+  "6091d0cb-e325-4de3-a70d-36f1422ead1f",
+  "60ac87db-25a4-4049-8e37-1a1b9f61e442",
+  "60e12bf6-c25a-4a79-b93d-dab684fe5392",
+  "61e64a22-0b89-4899-a7cd-bafe56ed41f3",
+  "62487bf5-d9c4-4bff-9b50-2e5356901339",
+  "6258fec3-13e2-4919-a2b8-f063346201ae",
+  "634706dc-3217-4ac5-977d-080d61350169",
+  "63ba6f94-9d4d-464f-a3c4-1ac6ee862128",
+  "63d0e083-b476-462d-9624-81a6ebff092f",
+  "641a1e2e-7f9c-47ed-add7-25176343c8ea",
+  "64485167-f685-443e-8585-c1d4b3ea06af",
+  "645bfb87-45c1-42e9-b2b0-0d4e5e058d5e",
+  "64b322ad-27a6-42a7-85ae-d8c122c4d9d0",
+  "65b0ab25-68c0-423f-8766-7e1006a81be4",
+  "65cc2f66-151c-49ca-837c-d67b42078026",
+  "66ceed51-a59d-4164-804b-288cc3f5bc41",
+  "67a69943-62d8-42a2-bfde-a37b9d45c2fc",
+  "682ab9f4-073a-4874-a24a-a8803cc711f1",
+  "69752155-3aa4-4d96-a700-07b18056152a",
+  "698905c4-6e94-4645-b48e-b0cc4abe7730",
+  "69b9330d-ada3-4477-b1eb-0483e65575e1",
+  "69fd386e-d18f-49e6-93a9-c40c790fa0cd",
+  "6a232d87-6876-4a31-b136-d186d32f492c",
+  "6a5f6630-a82d-4e4a-9ab4-4907c6f4d98a",
+  "6ad41809-79a4-45b4-b6cd-6fa8a1a292b1",
+  "6adbbea0-185d-43e2-9d65-673b51750806",
+  "6b76082d-d24d-4821-8422-1d37aed089e9",
+  "6baadecd-3ff7-40b6-ba79-8996a8ca361c",
+  "6bc37c1a-373c-4bb2-a3e9-10660e7d96b9",
+  "6bf39c0a-d002-4a0b-8b94-e2c452a3c1b9",
+  "6cda375b-3a04-49ad-866b-90e86ee59c53",
+  "6ceb71c7-2743-4d4f-97c2-38c138d86036",
+  "6d78eeb4-5532-45b3-8a5e-3acd1a77b30c",
+  "6d95f9b8-eb39-4b7a-9cf1-102878ecd685",
+  "6e529a54-2122-495c-abbd-98c01726f0b3",
+  "6e9bcfc0-3335-4df3-938f-6d51d1f6511d",
+  "6f171a8f-5c7b-4a49-ad36-5ac1d5ecafba",
+  "6f85fa54-fd92-4033-b8d4-9f1e87df4158",
+  "6ff271d7-d904-4ceb-ba4a-84cf44f1a357",
+  "6ffbdb65-568d-4139-9575-04741a138931",
+  "7013b407-6f0f-4970-9c38-09f9e38935ef",
+  "701cb377-596a-4f6f-b72c-7a8a81514e4d",
+  "70b7d30d-b700-415f-96cd-821f9462cff8",
+  "70f51e0f-390f-4a04-a471-42cfb73144ba",
+  "71113fe6-4ad6-416b-ba15-a306bb81881e",
+  "733c64df-c677-4dbf-bb7f-741a14ba53ba",
+  "74bcf733-d570-410e-a45f-478f1a0171a5",
+  "74d322db-7076-4202-a04c-aab2c0c737f2",
+  "74e591a9-9376-45ca-954b-ebf85ea0cab0",
+  "750b8527-f7fe-469f-bd45-76bb16d83726",
+  "75491474-fc61-4c3a-9c2c-6e94b1ae49d9",
+  "75955961-686d-436f-9154-5a50fb7c8e78",
+  "760b7fb5-b93d-4458-99c9-ad889b12401b",
+  "765cb7e7-e8cd-4c30-a875-f8db6c457b51",
+  "76a6b3f8-b403-4628-b608-39b4d517fa7a",
+  "775a67ec-3775-4fe9-ba6f-47ba427f1813",
+  "776bc6ee-10e1-4996-8db0-f02b8af46327",
+  "777835c1-979d-48a9-893d-bddac7f3cc62",
+  "7830ec34-190c-4c3c-9e50-19423526dd60",
+  "7839a3f7-f302-4a4c-ae52-10229c305b13",
+  "793f3f74-411c-4543-81e0-b3dee8db277d",
+  "794f24a8-ad51-47e8-b795-4b696eee8b3a",
+  "7a868cd8-ccde-473d-ac64-cd802ae48931",
+  "7b1a19b4-e9b5-4c60-b167-4fdd7a2c9a1e",
+  "7b36f7a9-5c68-4008-ab69-8909ae9c22bb",
+  "7b518bb3-f6fb-4323-b5fd-c14491c6a8cc",
+  "7b5995c3-2c2c-4730-88cd-e9141640d573",
+  "7b5b80f9-eb19-41a9-aa6b-3fcaee276e38",
+  "7c0f436b-c226-43b7-a206-23a1568c4257",
+  "7c439a95-9f94-49ee-a9c0-ae2748c81285",
+  "7ce0d6d7-f186-4475-9c5f-183581b0a0a0",
+  "7d08d154-5278-45a0-9562-d4aadbce0d53",
+  "7dbdbad7-defa-4d09-ac95-f96b310b1a53",
+  "7e10476d-26e3-476f-a814-e95f6f9e6675",
+  "7e14d934-a352-4b9b-92aa-88500373ad35",
+  "7e2048a7-5deb-4dfc-9e59-574a793832e4",
+  "7ead498a-d066-44da-858b-891733958081",
+  "7eb87441-c37b-4fc8-b507-d9a712935daf",
+  "7ed7e100-3709-4331-9f68-bf69a54f82fa",
+  "7edcb013-0678-4145-99e2-d5290b70dfaa",
+  "7f0e34d1-9ab6-4f8c-9fa4-7535599f144a",
+  "7f4dc23e-254a-4a61-bd88-5ce0af812545",
+  "7f52c4b5-5f46-440c-9b64-a3895d058d51",
+  "801b496f-38c1-498a-90e6-9987f6412bba",
+  "8048be5e-b4c0-48ca-9040-21379eb29c02",
+  "8054b063-eb1f-43fd-943d-420941f570ee",
+  "80846518-e3c1-4f04-930d-34ca5c5abc9f",
+  "808b9d53-8cc6-4d49-af2b-bba9a3c86e99",
+  "81d95499-4cfe-4e39-b4a3-1d69a288fedc",
+  "822de61b-6fea-44af-904c-cf18e3b42738",
+  "840eaa61-f849-42f6-aa2a-9947d0a740b9",
+  "84a7b2bb-9697-4f98-92d8-5d377c9194db",
+  "85c3baf7-8e78-4e92-9f79-bb55a71ece36",
+  "86a0ca84-8fc4-45e4-935b-abcfab989998",
+  "86a22b6b-827e-4c80-b409-12df3c51f3c2",
+  "873779b9-e101-46a4-87cb-9909f64112c0",
+  "8812a63e-4ca9-48f6-96a0-9efd6d7d4557",
+  "884b6419-ec0c-4fe5-8cc2-b0d95a2d7aa7",
+  "885d3e0b-40f0-4b01-9f38-ad2304572c46",
+  "893e7fb4-2030-405a-8481-4e9f6aa48129",
+  "8ac011f2-a268-46f2-afbf-135017417c9a",
+  "8ac68326-2845-4ca2-99de-d4f330ecec6e",
+  "8b5840f1-a8e2-4607-aba2-3f87daf0e31c",
+  "8b93c876-7ee7-4b26-b46f-9e717b5d559a",
+  "8c554fc8-5798-4c7d-9266-995e972ada28",
+  "8cc65cdf-ca47-42ae-b563-9ad27790e9ff",
+  "8cea6c05-44bd-42bd-a1d1-0dd836caa096",
+  "8cefab4e-11ea-42ef-a6ee-fdd90d76b526",
+  "8eea1231-8d1f-48f9-97b1-1bc90b5c0a5f",
+  "8ef6f841-fb1a-49b8-b44b-1ca55a8c59de",
+  "8f5bfdbd-ad30-4152-aef1-badc7262d3cf",
+  "8f5f3438-bf8c-46ed-922d-9daae4584569",
+  "8f6a163c-df90-4f10-b2a5-b24adc3df085",
+  "8f72be2e-9729-4a75-ac03-81496c95e665",
+  "8fb25868-c2a4-44cf-b4f8-4ce8b3916455",
+  "902867db-ef1d-46b2-a36b-382655fd05f4",
+  "90b59136-e1a6-435c-ac8f-c465859c1e7d",
+  "90b9e66d-2087-44b8-85dd-a63b37dd6bfb",
+  "918236d7-b1fc-491b-a27b-68b02a5ae36b",
+  "92f55c3b-d9a8-4547-b449-e26c2eafaf54",
+  "93116db3-0b81-450a-8a8e-fe973a4d1e4d",
+  "935189e3-9429-4b2f-9931-51435727f0f1",
+  "93a33810-90ef-4101-a88e-abe012ecee3b",
+  "93c330e6-45df-4ce1-8ff4-a334f47dac99",
+  "94075ee5-d53a-438c-b305-431cfe501456",
+  "941bf929-e8c6-437b-8a73-b909d8384988",
+  "942bac57-d41a-49b2-8d48-b2e7afb64806",
+  "957c7128-0f54-48a6-a342-56603bc97640",
+  "95e1d253-79ff-404c-9d85-7b685a0f872f",
+  "961474f7-f944-4602-a37b-c666ba08fca5",
+  "968104f8-e363-4cf9-8656-21c7d2baf3bf",
+  "9684a3ea-93b6-4b97-bf0f-0cdd7340e2d8",
+  "96acc4d2-e8ec-40aa-a1e4-c8bede018c9b",
+  "97022df0-4ddf-42be-a3f1-46701288b8bb",
+  "97176c50-4b6a-4573-87a4-64e08541bdaf",
+  "97335fb8-a34c-40ec-9d1c-4e9ad5948ed0",
+  "973ef274-5624-4a32-ad6c-ba9b8e8e0630",
+  "9837ea91-3e69-446b-a6ef-5fd107dabe22",
+  "98e2b183-d945-4101-bc14-6f5d3af145ab",
+  "999c6215-1b07-406f-b926-9013132f3e28",
+  "99a7d7ff-8451-4022-8300-c8a222d9871d",
+  "9a201530-3a82-4494-849b-51fb4fe7b137",
+  "9a9425c9-c81d-4863-a03a-1df53ddadb60",
+  "9ba83401-fb81-4ee5-baab-17d0c4c50e82",
+  "9bc022b2-5dc1-48cb-bbc4-8fe3b753405a",
+  "9bc6f241-3469-4205-b091-37352ec08011",
+  "9c3f92cd-5222-4c32-927d-922ecfe6bdc4",
+  "9d548db1-5881-4012-aa8e-495a37648ee8",
+  "9d975ff5-538a-4c7e-8b6b-bdf6547efdd8",
+  "9e7dfbe9-4f23-4b8c-b228-ca6c61273103",
+  "9eeb7d1b-bf42-42c9-b596-8120d59cbcdf",
+  "9f30c724-da56-4e45-9e07-c7a2208d6edf",
+  "9f36e8b5-d091-4931-8beb-3ebd01c7fff8",
+  "9f39231f-89f9-4850-8b69-910a4b9a923a",
+  "a031d119-f8a7-419d-8de0-e532af938853",
+  "a04c392e-1cdf-4b03-bdd7-dd948f748078",
+  "a0e1166f-9980-462f-8c0c-ce5b366375a5",
+  "a177ca61-58e8-4b1c-8690-6af8d586734c",
+  "a203f48d-32c7-4919-aeab-4e5eefec5110",
+  "a2787ca5-b487-4e24-9a61-464a4c557a74",
+  "a292ba79-5d37-43f5-9dc6-52db433764cc",
+  "a31240f4-bad3-4629-82f3-5f83d0aca57e",
+  "a31d1776-fd5f-4129-8603-ccc2ffcb1a54",
+  "a3375f5f-8d48-4300-bcb9-7697fb622941",
+  "a3eb84cf-0f1f-425a-8c78-399d5f0028a7",
+  "a4ad6628-89de-4c61-922e-bf8e4755d4cc",
+  "a54b4bed-b727-460a-91f0-7c4a1f40f554",
+  "a5bff52a-ac52-46f1-afb3-0cc75d9ea452",
+  "a5f647eb-0440-4fe0-97d8-9639fa74e0bf",
+  "a64b1338-953c-494a-b7bf-42289527f7d2",
+  "a667753e-265e-4120-ab4c-2b38ce10fde9",
+  "a73608b9-c87b-491c-b4d9-89f32d36ac24",
+  "a7b37684-0ae8-4861-b7b8-79a7aea5b1bd",
+  "a8494113-112b-4da3-8e50-6dffd251e289",
+  "a875fa02-08a4-4e13-9a95-a84c144a704e",
+  "a8eb84b3-bf35-4e62-ad6c-802261a2f13c",
+  "a90967bd-0a1c-4619-87be-8d7d7909a5f7",
+  "a924df51-b9dc-49fd-b493-2bf38891e942",
+  "a9d06f59-0898-4ec9-8ed7-8fd717711801",
+  "aa7f5a49-c6a2-4ecd-9839-75af9d19feb0",
+  "ab711ee5-cfcd-4771-937d-9be60f9481b2",
+  "ac2d8bc2-06a5-4e31-876e-52e417cc5096",
+  "ad978c28-9c2d-4bf2-aece-6f81335243a4",
+  "ade54fc4-0d26-4a21-8bb1-6b057b714f68",
+  "ae58a60e-6405-4dc2-9a16-6501a105ca9f",
+  "aeadf1f2-a25e-415e-a07e-8b7e7e6ffffd",
+  "aeceb38a-b7de-4455-8689-b695a10171a9",
+  "af429ea5-3f36-48e3-8cfe-520e3a9192a6",
+  "afb32d25-27df-44fe-9517-5bd89bebd24f",
+  "b01e0732-43b5-485f-9eec-4ba08e89f6da",
+  "b10ff61b-6ebc-4448-8da3-c2d1f5d6d95f",
+  "b1a8d72d-c08e-4405-aedd-d8e06a532774",
+  "b1b4ee5b-708b-4c71-89a8-0932aeeb0d0e",
+  "b1de766e-b6e1-4c15-97e5-154dd1358f27",
+  "b25e5509-939e-4e71-ac20-b3c986c5a667",
+  "b2abcdbf-8099-4aba-86f8-95ec9023887c",
+  "b38cf031-d69c-456b-ad24-69fdf5fe5a2a",
+  "b3eaeb39-e1a5-4d26-8d58-b7b81fd56924",
+  "b414a9d6-04a8-4877-8f43-a5941e224f0f",
+  "b423f076-18e1-4588-ab3a-ebf4211c164d",
+  "b4c4985b-918d-4cfb-a642-be6bdd1bb12f",
+  "b4fd8f52-c0e1-4dc9-ac51-86dc7801f721",
+  "b535a4a7-d57f-4a5a-86ec-c8a922ada1ee",
+  "b54e96dd-bbaa-4970-8cc1-60dcb43216d3",
+  "b5cbd8a0-aca4-4fb9-bd05-8c96463d9348",
+  "b62998dd-f114-4eac-889a-c96320d2b17b",
+  "b69ecdd1-2f29-48b9-bb98-f3deb3c6dd23",
+  "b6b39ea1-93a0-493d-9600-46e39793677a",
+  "b71da493-b91b-4f7e-bb02-ba2efc317ca5",
+  "b781ad5a-c585-4c7c-906f-9f31dd59169e",
+  "b7ab9301-65e1-45f6-b8bc-591b92abcff1",
+  "b7e4c40c-8708-4dc0-9015-a364e4218302",
+  "b81789a8-d380-4263-9fae-a9205e724e6a",
+  "b831c92b-b326-40ea-b4d7-6db187483e83",
+  "b8facbd0-1e1d-4f35-a175-4144ea7f4bdc",
+  "b9418435-e201-4c98-891b-3bb87d077168",
+  "b9ea908c-c7f2-4d34-b054-d1af06520d17",
+  "ba414ae7-331a-4e3e-9b8f-d62a4deed018",
+  "baa78c75-aa63-48e5-a59f-8b0b81deedac",
+  "babf0b27-c815-43ec-81e1-d2729dc39252",
+  "bb224db7-5991-47f0-92be-4aa509860c46",
+  "bb58ea87-a23e-4c39-a6c6-44c107db1e71",
+  "bc5877b9-0189-41cd-9ae1-dd4047506404",
+  "bc6f298b-634f-4cea-aeeb-8a24f9e770fa",
+  "bcb50123-0008-44a1-b4e1-e7f3eac4d26f",
+  "bd5fcafc-2470-4c42-90c7-f8832ef8ab20",
+  "bd730b77-a324-4845-8638-d3604d82c293",
+  "bdb7801c-b761-4dc7-9a9d-cf6dc36bccb2",
+  "be22532d-82c5-4977-82d2-7958132be911",
+  "be50292c-4859-42d9-b7c6-ba8063aa079c",
+  "bea09147-b989-43b5-bb8a-23211338650f",
+  "bf0cac10-bdf6-4e49-aa63-4d541f6cbf63",
+  "bf220898-57ee-4bcd-bc8b-601a90060d35",
+  "bfa59a1b-7f60-4c3e-ad97-5e22a01d832c",
+  "bfc6547a-134f-427c-84c0-6ddb0ab2bedb",
+  "bfc8cb94-2322-4ade-b812-708cd999473f",
+  "c008c37d-77bc-4ec9-becd-08a46017bc53",
+  "c01e8c47-84ee-4c2b-874c-29f7e55fbe7f",
+  "c12019f7-dd35-45a1-b339-3539aa2543e6",
+  "c1937e64-ae31-4347-8d45-30464a0d4dd6",
+  "c289fc45-6f8a-4218-b23c-da396bb461a6",
+  "c3b14725-95d5-488a-93ff-fe0ceb3843ad",
+  "c4202465-fe93-4b06-805a-6098c4b2fda8",
+  "c42f818c-3b62-4e15-9dd1-abac81195262",
+  "c46023b7-a106-49a6-82fe-396af79789ee",
+  "c4a8cfd5-ac4b-4bea-b65d-36f12b7440d3",
+  "c51de1f8-9704-41b6-a19b-da33d01b9a01",
+  "c5e6b9b8-5b39-4deb-b594-705be256551a",
+  "c647adf3-2a8f-410c-b4de-0ac533266411",
+  "c64fd3a9-1d90-46f2-980b-677fdbd72a93",
+  "c6bfd8a0-8eb5-4ee5-83ae-57e56a5403e0",
+  "c75c193a-8b61-4a0b-826f-6f7caf95006f",
+  "c79aae3c-4c89-4ca5-9959-6d9085baf0e2",
+  "c79be6b3-4eb5-41d3-92de-cc13b0214b9e",
+  "c804d72c-d2d6-4029-996f-57269d83824d",
+  "c85670a6-6d95-4e1b-a384-e8048f6364da",
+  "c87aa32f-ca44-40fe-97b4-76df9ce6e788",
+  "c8b4735d-aead-45cf-8964-3d2857f5180e",
+  "c8ef7b58-e15d-4ed1-bd23-a813b80a275b",
+  "c9173a8a-94c8-4982-9a21-34cc9f9604b4",
+  "c9cd7b26-5ba5-4bd4-bb71-e78ae57249e6",
+  "ca4c73d5-34ba-4691-95a3-12afd95bacdd",
+  "ca696264-7fba-4085-9d24-3dc6454c023f",
+  "cad20202-ae78-4505-a4a1-86c02059f10f",
+  "caf64144-f794-4df4-a57e-b2abec385237",
+  "caf7c691-365e-4525-9bb5-1e9183aac700",
+  "cb06243d-462e-41ad-8890-5ceb8185d640",
+  "cb93a2d0-a723-47ab-9df1-5d01ddb8447f",
+  "cbe2135e-8992-4b70-9f39-e6179b3c74d7",
+  "cc82e392-356c-46d1-ba4f-0f7b2774d918",
+  "cd5b1420-1e4c-4e71-b917-3d2689f1ece3",
+  "ceb49af3-c728-4b20-9b05-1dba6b2a91f9",
+  "cf4189a3-2343-47ab-a119-cd553a2fa19a",
+  "cf4ec407-f3c2-4be3-92f5-8437afd12ee9",
+  "cf68ee07-7657-4a1e-aa73-b9d6c81b22b6",
+  "cf6fca13-1fed-4734-9aca-2834e343e3bc",
+  "cf90b38e-f97d-4300-88ce-59c4d826abcd",
+  "cfc6c6b5-e271-4a7b-81c4-298010eaa571",
+  "cfd068ed-28ae-44bc-a5f6-7ddfc5df8963",
+  "d085c3f8-e0ce-4adf-a39a-013dd10d934f",
+  "d0cafaa1-32b8-4a2f-9a27-44ef5ecca3cf",
+  "d15ab4ba-1bdd-4b62-ab1d-f67935f64bb3",
+  "d18a3b1a-a91e-4de9-a03a-58d4f5473dfe",
+  "d1956ee7-822f-49bd-87a9-d4966375861e",
+  "d1958668-eddf-424c-a538-3e0e6c1f2227",
+  "d1af6c08-278e-4dd4-b4b7-63c158cd5036",
+  "d24c0af3-c86f-42ef-b066-8cd3aeaf1428",
+  "d2a207cb-8ad1-4748-8796-66c8dc5433ae",
+  "d2a9972c-b842-412a-9518-20b3810e5ab4",
+  "d379a8c7-1bb9-4bd0-a704-70bdef3d6bbb",
+  "d3c732f7-3bea-4021-bdcc-445c927a7291",
+  "d44bb15a-ffa8-49dd-b068-88b6be0cf35a",
+  "d4672310-8ef5-4634-a534-61e7da2f5c5d",
+  "d4b25c85-d1b3-46d0-bf90-1f96b264c642",
+  "d5974277-006f-465d-85ce-2535a0b33185",
+  "d69c89e4-0dd5-4743-b756-a01293821430",
+  "d69d51a5-4f63-41b8-ae62-e5c14970ac5f",
+  "d6c59db8-7a99-49b2-828b-0f3e968fa9ea",
+  "d6d586bd-decc-4ddd-850f-868d64f86703",
+  "d7e22325-ff4b-4dc0-bf96-a4853f9aaae7",
+  "d7ef2f50-18e4-4ccc-a02d-295713b94654",
+  "d8aa84c3-ebcd-4a0d-a5f7-f749b8d42add",
+  "dafbb93c-09dd-499b-9450-07d783abeff6",
+  "db1b484a-5468-428c-8366-971c61e8decb",
+  "db53e92f-bc15-4c58-a8d6-08704f049592",
+  "dbf3cb34-f548-41bc-b8b2-33a6e119b2dd",
+  "dc549ec0-d2a5-49d4-bd85-955974b3aac3",
+  "dc7172ba-5185-4091-99e2-d588b8f273bb",
+  "dcc1d600-e1dc-423b-aa91-ba8982f3d44f",
+  "dcf3d0b2-0c5b-4b35-9dc2-0134092ef0f4",
+  "dd0f22db-47ad-4557-9522-d333c6d3cb53",
+  "dd742c4c-6d50-4262-a3ff-f0acaabb092c",
+  "ddb91552-b9ae-45f4-8207-e4a28a5f3d71",
+  "ddc07638-457c-43e5-967a-839c62b15ee9",
+  "de05f505-3a19-4db5-adf9-1c9606670662",
+  "de6da277-4835-4a04-8fd7-ca67c38e1b9c",
+  "df9f96e5-918c-474e-9e21-df65128b184c",
+  "dfc73fb9-8009-4c6d-ac92-092b1a368814",
+  "e065af47-0574-4989-bbe6-62369bc1e6ce",
+  "e08773af-c99b-4787-9a89-8014866a1ccd",
+  "e0a44f47-252d-4464-9fbf-9d5f80ed7036",
+  "e224e782-8ff9-413a-aa81-91b35ce724b7",
+  "e2dc7b40-a7e5-430f-b138-0e8b9d972b4d",
+  "e371ddaf-de89-455c-87de-5a1a06dbbbf9",
+  "e397867c-d173-4a5c-b77f-ca02f03ecdb6",
+  "e3a1fa98-9858-49e8-be37-29abc693ad45",
+  "e3c7fdd7-f007-4fae-86fb-4b5b2ce80b2c",
+  "e3d23850-2f1a-4fe4-a5da-cb641000a059",
+  "e4dd52be-c5c6-4ff1-887d-c32f8674a20a",
+  "e5175216-4b37-4165-a72a-d2b04dc61222",
+  "e5259b3e-a085-47e3-87fd-86cd6865e472",
+  "e551d00c-0bf1-40b0-8951-debbacd8ee82",
+  "e5a72a4a-9646-4e03-9a37-ce3d877233ca",
+  "e5baf85c-dadf-449c-a391-0ac210728332",
+  "e6ab10b3-160c-48f2-af58-1f4ea50d144a",
+  "e6b90b42-afc9-4d72-9319-c856daa9d917",
+  "e6ca44f5-eb5a-45e6-8d22-dfec3fce6e58",
+  "e75c7e13-07dd-4ba7-b710-bb9c2940b12a",
+  "e767e0a5-be4d-4a4d-b4dc-491a89e1532b",
+  "e7ded1d5-300c-4840-b733-d8503f8e41e6",
+  "e7eac90f-013b-4072-b511-cfdf1dfd5a3d",
+  "e85c3074-09e5-4f94-b45c-1266b684e452",
+  "e860ce33-8c77-423a-9a1f-26d6e9460d3e",
+  "e8c42d73-a6be-491c-b123-7e40b976a2b5",
+  "e8d6f3ba-234e-4b3a-a8bd-3231dc6b53ab",
+  "e91447f1-3f8f-40b0-832a-6e5453a86a81",
+  "e9ba649a-84d8-40b3-aa29-f00fb9cfe0e6",
+  "e9faaa7a-7694-43c7-b0e5-f6a51cd0012c",
+  "ea1637f7-a6f6-4574-9b8d-709f604d8062",
+  "ea5bd886-0148-45f8-bc1c-e9c7851e8a9f",
+  "eaad29ab-6a8e-445e-be93-0d8bf672a427",
+  "eacc5d67-a9dc-438c-8d85-d2b3af35d058",
+  "eafebac4-2298-4e13-acae-34640a5d70f9",
+  "eb5aa411-9ce6-4794-aa01-63887d2ea295",
+  "ebccbada-938a-4a52-a080-f396118447a9",
+  "ebeac3a5-3e35-44a7-92de-9ce11da5fdcf",
+  "ebff5c96-e2b9-496d-aafc-b032fde197cf",
+  "ec05f3a0-45d3-4ad8-86d7-eab207713067",
+  "ec1436e1-5d50-4866-a0dc-aa490deaee62",
+  "ec902414-c39e-4209-ae12-6777ce56ab22",
+  "ecacc7c6-b636-4d5c-bd5e-ee5342d81627",
+  "ecd2e9c5-8499-4d28-8ed8-22523feed74b",
+  "ecd42951-8ee4-4b23-bd47-ba35a3f2f1a4",
+  "ee04fdba-d100-41e8-b12a-b0d8b236faf7",
+  "ee3152b7-6ce4-40af-9ea7-640b7b9a6a7b",
+  "ee45782a-7525-408e-a11d-6535a8ef5a63",
+  "ef1b4d00-dc1a-4af1-9112-83ff8d9cc596",
+  "ef725896-e724-46c4-95b7-8f7228b973f3",
+  "efd9ee21-ca4e-45ec-993a-3699a29ff321",
+  "effb5b9f-c0f2-43f0-92cf-04e4ee46b9f8",
+  "f012e521-d167-41aa-9fc4-99e788a11110",
+  "f0369ec8-7096-4230-82fc-765d158cfcb8",
+  "f130f28a-e2e9-4765-80b9-63f87f66c941",
+  "f141e0a5-e83e-4abe-84d2-2335d7471582",
+  "f1471eaa-417d-41a0-b980-c1d9dcc0834e",
+  "f18c223e-f6bd-41ca-bb5e-2ebd9328b3c0",
+  "f1d0b751-7036-4812-83a3-2f8e065401b3",
+  "f1e877a3-c3f6-4826-a620-7c5413b99f7e",
+  "f29ccc7c-ca3d-44fe-9f5f-199d1dfa52f0",
+  "f2ba5f60-1201-4c73-872a-339b5a13224c",
+  "f3f8354d-4d08-49c3-82af-975383fea5b5",
+  "f465b552-7b77-4f02-8460-7736c851fde0",
+  "f483fbed-7171-4cff-b47e-0baeafadb15c",
+  "f4a35c82-0724-494d-a71f-e0643963fcbb",
+  "f50def94-1e95-43ef-8620-54ebda671bef",
+  "f5121951-5c7b-4d12-9b1b-e0470e480502",
+  "f55a2c07-b473-4e37-a0ee-f246191d2812",
+  "f663baef-e4b5-4686-ba68-769169222b14",
+  "f6861922-6d11-4ea8-bbb1-0b0c8184311b",
+  "f6fe0e34-b612-4618-bb54-d674ed5dfcb4",
+  "f703a994-578e-44ae-8bec-9aa0fb2da127",
+  "f78f3e30-2f93-4dce-994e-78aa1fa99c5d",
+  "f90db7e1-4cd7-4388-b1dc-489f16812a9a",
+  "f9ac787d-894b-4ca0-a889-cfbe4b37c5ae",
+  "f9af196f-9251-4509-9c0a-57991fb1f369",
+  "fa895753-466a-43c5-864c-31c8a809b7b3",
+  "facf467d-e244-45cf-a5b9-dc6daab9137c",
+  "fb083015-b84b-41d6-9a07-9c4e5e3633e2",
+  "fb241f06-85c4-4021-997f-2881d8029921",
+  "fcbf39f2-ebb0-4bb8-969d-1bb5095aec2e",
+  "fcf135be-76e8-4815-80c9-a9cf6c8cd0e6",
+  "fd2f99a2-e17f-4a21-9a89-905618590b01",
+  "fd6db519-841a-4199-b721-9968c133b6c4",
+  "fea1a4ed-9d96-4cf4-ba88-517ae40b1a80",
+  "ff390709-6bac-4ca5-9fa7-c61304d0e340"
+ ]
+}

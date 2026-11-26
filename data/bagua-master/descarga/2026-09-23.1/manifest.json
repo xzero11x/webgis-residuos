@@ -1,0 +1,246 @@
+{
+  "modulo": "BAGUA MASTER",
+  "version_overture": "2026-09-23.1",
+  "esquema_overture": "v2.0.0",
+  "atribucion": "Overture Maps Foundation, overturemaps.org",
+  "extraccion_utc": "2026-10-18T02:59:28+00:00",
+  "duckdb": "1.5.6",
+  "extensiones": {
+    "httpfs": "4bc690d",
+    "spatial": "04270fe"
+  },
+  "descarga_bbox": [
+    -78.585,
+    -5.7,
+    -78.48,
+    -5.59
+  ],
+  "ventana_urbana": [
+    -78.575,
+    -5.69,
+    -78.49,
+    -5.6
+  ],
+  "referencia_administrativa": {
+    "nota": "Localidad «Bagua» de Overture (theme divisions). Procede de OpenStreetMap (ODbL). Es una referencia de división administrativa de Overture; no es un límite oficial del Gobierno Local.",
+    "id": "2458e1c5-a844-4fb5-961c-475af6dcafca",
+    "nombre": "Bagua",
+    "region": "PE-AMA",
+    "bbox": [
+      -78.56689453125,
+      -5.6865997314453125,
+      -78.46434783935547,
+      -5.481766223907471
+    ],
+    "licencia": "ODbL-1.0"
+  },
+  "conjuntos": [
+    {
+      "nombre": "transportation_segment",
+      "tema": "transportation",
+      "tipo": "segment",
+      "archivo": "transportation_segment.parquet",
+      "bytes": 235232,
+      "sha256": "1f2bc78631a371569ec6ca0517555678d0e40ca4635f7c517793d4dfe36611dd",
+      "sha256_previo_coincide": null,
+      "filas": 1679,
+      "ids_unicos": 1679,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {
+        "LINESTRING": 1679
+      },
+      "fuentes_primarias": [
+        {
+          "dataset": "OpenStreetMap",
+          "licencia": "ODbL-1.0",
+          "elementos": 1667
+        },
+        {
+          "dataset": "TomTom",
+          "licencia": "ODbL-1.0",
+          "elementos": 12
+        }
+      ]
+    },
+    {
+      "nombre": "transportation_connector",
+      "tema": "transportation",
+      "tipo": "connector",
+      "archivo": "transportation_connector.parquet",
+      "bytes": 61554,
+      "sha256": "62c0e7efce08df18032fe765929649fe8c8c73f82501fb6f00f67600085ee84d",
+      "sha256_previo_coincide": null,
+      "filas": 1152,
+      "ids_unicos": 1152,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {
+        "POINT": 1152
+      },
+      "fuentes_primarias": [
+        {
+          "dataset": "OpenStreetMap",
+          "licencia": "ODbL-1.0",
+          "elementos": 1152
+        }
+      ]
+    },
+    {
+      "nombre": "buildings_building",
+      "tema": "buildings",
+      "tipo": "building",
+      "archivo": "buildings_building.parquet",
+      "bytes": 1366491,
+      "sha256": "f48e303f01a49d9755b3d026fb9ecf9d08af03f1589731c2901f0e057a648621",
+      "sha256_previo_coincide": null,
+      "filas": 14357,
+      "ids_unicos": 14357,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {
+        "MULTIPOLYGON": 1,
+        "POLYGON": 14356
+      },
+      "fuentes_primarias": [
+        {
+          "dataset": "Google Open Buildings",
+          "licencia": null,
+          "elementos": 11980
+        },
+        {
+          "dataset": "Microsoft ML Buildings",
+          "licencia": "ODbL-1.0",
+          "elementos": 2047
+        },
+        {
+          "dataset": "OpenStreetMap",
+          "licencia": "ODbL-1.0",
+          "elementos": 330
+        }
+      ]
+    },
+    {
+      "nombre": "buildings_building_part",
+      "tema": "buildings",
+      "tipo": "building_part",
+      "archivo": "buildings_building_part.parquet",
+      "bytes": 1254,
+      "sha256": "b58bb450abaf5a16d88ecb938e684b9c79469eda98f61aa1fe03d53ee21356cf",
+      "sha256_previo_coincide": null,
+      "filas": 0,
+      "ids_unicos": 0,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {},
+      "fuentes_primarias": []
+    },
+    {
+      "nombre": "base_land_use",
+      "tema": "base",
+      "tipo": "land_use",
+      "archivo": "base_land_use.parquet",
+      "bytes": 15239,
+      "sha256": "9d4ea0d82c265b9d0244246f87cd99f6cc9602ab0c1fe4808c4220b3c7eda8b4",
+      "sha256_previo_coincide": null,
+      "filas": 33,
+      "ids_unicos": 33,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {
+        "POLYGON": 33
+      },
+      "fuentes_primarias": [
+        {
+          "dataset": "OpenStreetMap",
+          "licencia": "ODbL-1.0",
+          "elementos": 33
+        }
+      ]
+    },
+    {
+      "nombre": "base_water",
+      "tema": "base",
+      "tipo": "water",
+      "archivo": "base_water.parquet",
+      "bytes": 21485,
+      "sha256": "e8f966cfe2a4e9b0207d8d89d8484260dd2442f8fda77e8d6ce86a68ff4af277",
+      "sha256_previo_coincide": null,
+      "filas": 4,
+      "ids_unicos": 4,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {
+        "LINESTRING": 2,
+        "POLYGON": 2
+      },
+      "fuentes_primarias": [
+        {
+          "dataset": "OpenStreetMap",
+          "licencia": "ODbL-1.0",
+          "elementos": 4
+        }
+      ]
+    },
+    {
+      "nombre": "base_land",
+      "tema": "base",
+      "tipo": "land",
+      "archivo": "base_land.parquet",
+      "bytes": 8213,
+      "sha256": "e147dfd109cea725350d3892740a7208bf3beb01985492bbe7d20abf7b74e41c",
+      "sha256_previo_coincide": null,
+      "filas": 2,
+      "ids_unicos": 2,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {
+        "LINESTRING": 1,
+        "POLYGON": 1
+      },
+      "fuentes_primarias": [
+        {
+          "dataset": "OpenStreetMap",
+          "licencia": "ODbL-1.0",
+          "elementos": 2
+        }
+      ]
+    },
+    {
+      "nombre": "places_place",
+      "tema": "places",
+      "tipo": "place",
+      "archivo": "places_place.parquet",
+      "bytes": 40802,
+      "sha256": "4979bb1fb016422e5a6fb5b3b5e048682ad672ef7c3297dddf8f748174364551",
+      "sha256_previo_coincide": null,
+      "filas": 198,
+      "ids_unicos": 198,
+      "geometria_nula": 0,
+      "geometria_vacia": 0,
+      "geometria_invalida": 0,
+      "tipos_geometria": {
+        "POINT": 198
+      },
+      "fuentes_primarias": [
+        {
+          "dataset": "meta",
+          "licencia": "CDLA-Permissive-2.0",
+          "elementos": 188
+        },
+        {
+          "dataset": "Foursquare",
+          "licencia": "Apache-2.0",
+          "elementos": 10
+        }
+      ]
+    }
+  ]
+}

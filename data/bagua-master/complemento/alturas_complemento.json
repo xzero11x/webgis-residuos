@@ -1,0 +1,39 @@
+{
+  "huellas": 6545,
+  "con_altura_satelital": 2354,
+  "sin_altura": 4191,
+  "metodo": "mediana-cuadricula-2m-presencia-0.7-cobertura-0.5-v1",
+  "recortes": [
+    {
+      "recorte": "recorte-3b307c3bf56d.tif",
+      "huellas_dentro": 178,
+      "con_altura": 9
+    },
+    {
+      "recorte": "recorte-3b47575cf299.tif",
+      "huellas_dentro": 4914,
+      "con_altura": 1588
+    },
+    {
+      "recorte": "recorte-4f07d56bd539.tif",
+      "huellas_dentro": 535,
+      "con_altura": 268
+    },
+    {
+      "recorte": "recorte-b1edf57f9e85.tif",
+      "huellas_dentro": 367,
+      "con_altura": 196
+    },
+    {
+      "recorte": "recorte-cbebac4dbef8.tif",
+      "huellas_dentro": 1049,
+      "con_altura": 317
+    },
+    {
+      "recorte": "recorte-e51a2fe9b54e.tif",
+      "huellas_dentro": 5013,
+      "con_altura": 1656
+    }
+  ],
+  "sha256": "ba2f4cbdf79a8af0c7e0e4f5efdc3ed7107918b1a10e9a6f4c7e2338979d55e0"
+}

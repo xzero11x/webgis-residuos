@@ -1,0 +1,97 @@
+{
+  "paquete": "elementos.json.gz",
+  "paquete_sha256": "87e7e458b2c30329024b8acbd812df36eb47aafce0f25956e5037536069aaf3d",
+  "manifiesto_sha256": "09fec27ac1f0851e82059b11a62589e5fcbd7a546e7c853c9bdc9e2ee05dda5c",
+  "capas_teselas": {
+    "red_vial": {
+      "archivo": "red_vial.geojsonl",
+      "sha256": "039fcefcb297e7ff3f27af1cd2cc82aac7a79f24edbc681166df5f1c3d1f99bd",
+      "elementos": 1679
+    },
+    "conectores": {
+      "archivo": "conectores.geojsonl",
+      "sha256": "932be3fa30a6dfe995e518cb5303379d305d00a8148560520176b51382d91256",
+      "elementos": 1152
+    },
+    "edificios": {
+      "archivo": "edificios.geojsonl",
+      "sha256": "0850d6884fc58ba9a45bdac423e865e79db2e84dd8a0a8ed92bbda240213f8c9",
+      "elementos": 14357
+    },
+    "partes_edificio": {
+      "archivo": "partes_edificio.geojsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elementos": 0
+    },
+    "usos_suelo": {
+      "archivo": "usos_suelo.geojsonl",
+      "sha256": "d547537fac14182415e2b7cf4cd6d457bc2e5906780d5590663d32b8c4fdd989",
+      "elementos": 33
+    },
+    "agua": {
+      "archivo": "agua.geojsonl",
+      "sha256": "20f79b07a34cd50c439704120ebb94bb2d0d69eabc88445818dac3b988f2e218",
+      "elementos": 4
+    },
+    "terreno": {
+      "archivo": "terreno.geojsonl",
+      "sha256": "5287ed8014c753d77c2e9cb8d4a67458adfd864babc5190fdcd8e3fc05a8c68b",
+      "elementos": 2
+    },
+    "lugares": {
+      "archivo": "lugares.geojsonl",
+      "sha256": "1fa6966e80a6c1723d6d3cbb9f0341ce0816a5676bf7a202869e06f5e70ee36b",
+      "elementos": 198
+    }
+  },
+  "inventario": [
+    {
+      "conjunto": "transportation_segment",
+      "tabla": "red_vial",
+      "elementos_con_geometria": 1679,
+      "invalidos": 0
+    },
+    {
+      "conjunto": "transportation_connector",
+      "tabla": "conector",
+      "elementos_con_geometria": 1152,
+      "invalidos": 0
+    },
+    {
+      "conjunto": "buildings_building",
+      "tabla": "edificio",
+      "elementos_con_geometria": 14357,
+      "invalidos": 0
+    },
+    {
+      "conjunto": "buildings_building_part",
+      "tabla": "parte_edificio",
+      "elementos_con_geometria": 0,
+      "invalidos": 0
+    },
+    {
+      "conjunto": "base_land_use",
+      "tabla": "uso_suelo",
+      "elementos_con_geometria": 33,
+      "invalidos": 0
+    },
+    {
+      "conjunto": "base_water",
+      "tabla": "agua",
+      "elementos_con_geometria": 4,
+      "invalidos": 0
+    },
+    {
+      "conjunto": "base_land",
+      "tabla": "terreno",
+      "elementos_con_geometria": 2,
+      "invalidos": 0
+    },
+    {
+      "conjunto": "places_place",
+      "tabla": "lugar",
+      "elementos_con_geometria": 198,
+      "invalidos": 0
+    }
+  ]
+}

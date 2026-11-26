@@ -1,0 +1,108 @@
+{
+  "generado_utc": "2026-11-22T03:22:41+00:00",
+  "base_overture": {
+    "version": "2026-09-23.1",
+    "huellas": 14357
+  },
+  "bbox": [
+    -78.585,
+    -5.7,
+    -78.48,
+    -5.59
+  ],
+  "criterios": {
+    "solape_maximo_candidata": 0.25,
+    "cubierta_maxima_aceptada": 0.5,
+    "area_m2": [
+      15.0,
+      5000.0
+    ],
+    "iou_rectangulo": 0.9,
+    "tolerancia_simplificacion_m": 0.25,
+    "crs_metrico": "EPSG:32717"
+  },
+  "embudo_por_fuente": {
+    "osm": {
+      "leidas": 330,
+      "descartadas_por_agua": 0,
+      "duplicadas_de_fuentes_previas": 330,
+      "duplicadas_en_la_misma_fuente": 0,
+      "aceptadas": 0,
+      "invalidas": 0,
+      "archivo": "osm_buildings.json",
+      "sha256": "22fd510bfcb48765554d2f457d8476a502237f224a32a39b6c735d9c0ad249d7",
+      "osm_base": "2026-11-22T00:07:06Z"
+    },
+    "google_ob_raw": {
+      "leidas": 20733,
+      "descartadas_por_area": 1676,
+      "descartadas_por_agua": 1,
+      "duplicadas_de_fuentes_previas": 13875,
+      "duplicadas_en_la_misma_fuente": 0,
+      "aceptadas": 5181,
+      "invalidas": 0,
+      "archivo": "google_91b_buildings.csv.gz",
+      "sha256": "9d7bf42d51c6e550f0464a2725e07f2e20d29e70de6b6a2ee514158e4be9d87a"
+    },
+    "ms_buildings": {
+      "leidas": 8860,
+      "descartadas_por_area": 8,
+      "descartadas_por_agua": 1,
+      "duplicadas_de_fuentes_previas": 8705,
+      "duplicadas_en_la_misma_fuente": 0,
+      "aceptadas": 146,
+      "invalidas": 0,
+      "archivos": [
+        {
+          "archivo": "ms_210010222.csv.gz",
+          "sha256": "7e3fcda93a75cbd748685d808b43191b965a74a0d2c63ae202c1b8cab349d7ec"
+        },
+        {
+          "archivo": "ms_210012000.csv.gz",
+          "sha256": "b042b4cfe35b27fb2d9d9c3a84632f46a2ea5c7d2642b65432bdbb3f4096b272"
+        }
+      ]
+    },
+    "google_presencia": {
+      "leidas": 2793,
+      "descartadas_por_area": 0,
+      "descartadas_por_agua": 0,
+      "duplicadas_de_fuentes_previas": 1063,
+      "duplicadas_en_la_misma_fuente": 512,
+      "aceptadas": 1218,
+      "invalidas": 0,
+      "archivo": "presencia_google.geojsonl",
+      "sha256": "4371df296e8168bf4088da057796fbe9c4bfa5566139bf58b4aaad868d9792c4"
+    }
+  },
+  "aceptadas_por_fuente": {
+    "osm": 0,
+    "google_ob_raw": 5181,
+    "ms_buildings": 146,
+    "google_presencia": 1218
+  },
+  "total_complemento": 6545,
+  "total_con_overture": 20902,
+  "control_cobertura": {
+    "solo_overture": {
+      "lotes_cad": 6475,
+      "lotes_con_huella": 5600,
+      "lotes_con_huella_pct": 86.5,
+      "zonas_m2": 1442493,
+      "zonas_cubiertas_m2": 327752,
+      "zonas_cubiertas_pct": 22.72
+    },
+    "con_complemento": {
+      "lotes_cad": 6475,
+      "lotes_con_huella": 6272,
+      "lotes_con_huella_pct": 96.9,
+      "zonas_m2": 1442493,
+      "zonas_cubiertas_m2": 476345,
+      "zonas_cubiertas_pct": 33.02
+    }
+  },
+  "salida": {
+    "archivo": "edificios_complemento.geojsonl",
+    "sha256": "560f828aa9b9b76fb7992cf5042d10e6aefa7a14349792b019b648ea5a917f37"
+  }
+}

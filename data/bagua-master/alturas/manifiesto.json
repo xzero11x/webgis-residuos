@@ -1,0 +1,59 @@
+{
+  "fuente": "Google Open Buildings 2.5D Temporal v1",
+  "fecha": "2023-06-30",
+  "licencia": "CC BY 4.0",
+  "metodo": "mediana-cuadricula-2m-presencia-0.7-cobertura-0.5-v1",
+  "resolucion_efectiva_m": 4,
+  "cuadricula_m": 2,
+  "umbral_presencia": 0.7,
+  "cobertura_minima": 0.5,
+  "muestras_minimas": 4,
+  "edificios": 14357,
+  "con_altura": 1997,
+  "sin_altura": 12360,
+  "percentiles_altura_m": [
+    4.5,
+    5.5,
+    8.5
+  ],
+  "huellas_sha256": "27201fd30535f7213052284b077935666a2a3c709e72cd133e80f342e79806fb",
+  "teselas": [
+    {
+      "url": "https://storage.googleapis.com/open-buildings-temporal-data/v1/geotiffs/91b44_2023_06_30/tile_QcPb2F5pA8o.tif",
+      "sha256_recorte": "426e2acbf0763068d483c59a2d30b7cbbf2f8936bd59cb4a26537d07df6571df",
+      "candidatos": 1484,
+      "huellas": 9967
+    },
+    {
+      "url": "https://storage.googleapis.com/open-buildings-temporal-data/v1/geotiffs/91b44_2023_06_30/tile__x0oHRlP-Kc.tif",
+      "sha256_recorte": "68c43196c54eaf13a0604140baf9b61a569077262e5486e907aa981db635f45a",
+      "candidatos": 2,
+      "huellas": 465
+    },
+    {
+      "url": "https://storage.googleapis.com/open-buildings-temporal-data/v1/geotiffs/91b44_2023_06_30/tile_gu65Zct4-4s.tif",
+      "sha256_recorte": "93bbb2401732784b6674563205772ed18eea8f45922fe054824ea79f128d29ac",
+      "candidatos": 181,
+      "huellas": 2731
+    },
+    {
+      "url": "https://storage.googleapis.com/open-buildings-temporal-data/v1/geotiffs/91b44_2023_06_30/tile_lbPY6Tyg60Q.tif",
+      "sha256_recorte": "83d9fb3ffea052f1740c4f7427ef71eb31f5a854fd9f30819189f386b6f84c27",
+      "candidatos": 107,
+      "huellas": 1135
+    },
+    {
+      "url": "https://storage.googleapis.com/open-buildings-temporal-data/v1/geotiffs/91b5c_2023_06_30/tile_-8wxNHym3_A.tif",
+      "sha256_recorte": "96c03a930479fd19addbb593d6fd41148470242e6703ff9a00cedb6d8e2ac5f7",
+      "candidatos": 168,
+      "huellas": 1491
+    },
+    {
+      "url": "https://storage.googleapis.com/open-buildings-temporal-data/v1/geotiffs/91b5c_2023_06_30/tile_TkZxF0cWtkY.tif",
+      "sha256_recorte": "0961f52796897b444c8ba1612cd4e70c8d58ea3b74291c57e26c53739543c2f9",
+      "candidatos": 1500,
+      "huellas": 9966
+    }
+  ],
+  "aviso": "Alturas satelitales estimadas de 2023; alineación y precisión local no verificadas en campo. No equivalen a pisos ni datos catastrales."
+}

@@ -8,8 +8,8 @@ artifacts/
 data/cad/converted/
 data/cad/extracted/
 data/cad/tools/
-rustas/
-rutas/
+/rustas/
+/rutas/
 .env
 .env.*
 !.env.example

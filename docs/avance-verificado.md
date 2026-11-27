@@ -38,9 +38,10 @@ Rama `feat/operacion-servicio`.
 - [x] Simulación (solo local/test): 224 recorridos con 3 055 registros del chofer desde el piloto,
       642 tickets de balanza (≈ 350 t por mes), 5 avisos, 15 socios recicladores; no pisa rutas
       registradas de verdad.
-- [x] Pruebas: 187 unitarias; nueva E2E `bagua-operacion-diaria` (9 aprobadas en escritorio y móvil,
-      5 omitidas por diseño). Probado a mano en el navegador: chofer (salida, paso, llegada, corte de
-      señal y reenvío), cierre de octubre, resumen para el concejo, carga y reversión del padrón,
+- [x] Pruebas: 187 unitarias; nueva E2E `bagua-operacion-diaria`. E2E completo contra `:8080` con
+      imágenes reconstruidas, en escritorio, tableta y móvil: 137 aprobadas, 0 fallos (181 omitidas
+      por diseño). Probado a mano en el navegador: chofer (salida, paso, llegada, corte de señal y
+      reenvío), cierre de octubre, resumen para el concejo, carga y reversión del padrón,
       inscripción en campo con sticker.
 - [ ] Pendiente con la Gerencia: validar los supuestos críticos (horarios, pesaje, padrón vigente),
       ubicación real del relleno y vehículos con su tara; separar el servidor de demostración del real.

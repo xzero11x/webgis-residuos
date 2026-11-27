@@ -14,6 +14,7 @@ import '@/features/gestion/gestion.css';
 import { SessionGate } from './session';
 import { ResultadosOperacion } from './resultados-operacion';
 import { CierreMes } from '@/features/cierre/cierre';
+import { ImportarPadron } from '@/features/padron/importar-padron';
 import '@/features/operacion/supervisor.css';
 import { useEnvironment } from './use-session';
 
@@ -283,7 +284,8 @@ function Resultados({ user }: { user: User }) {
 const adminViews = [
   { id: 'usuarios', label: 'Cuentas', admin: true },
   { id: 'catalogos', label: 'Catálogos', admin: true },
-  { id: 'importaciones', label: 'Importaciones', admin: true },
+  { id: 'padron', label: 'Cargar padrón', admin: true },
+  { id: 'importaciones', label: 'Importar predios', admin: true },
   { id: 'auditoria', label: 'Auditoría', admin: true },
   { id: 'password', label: 'Mi contraseña', admin: false },
 ] as const;
@@ -325,6 +327,8 @@ function Administration({ user }: { user: User }) {
           <Users />
         ) : current.id === 'catalogos' ? (
           <Catalogs />
+        ) : current.id === 'padron' ? (
+          <ImportarPadron />
         ) : current.id === 'importaciones' ? (
           <Imports />
         ) : current.id === 'auditoria' ? (

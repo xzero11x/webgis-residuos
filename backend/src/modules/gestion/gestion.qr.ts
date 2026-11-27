@@ -29,7 +29,7 @@ const KIND_BY_CODE: Record<string, 'organicos' | 'reciclables'> = Object.fromEnt
   Object.entries(SELECTIVE).flatMap(([kind, v]) => v.codes.map((c) => [c, kind])),
 ) as Record<string, 'organicos' | 'reciclables'>;
 
-async function createCode(c: PoolClient, predioId: string, user: User) {
+export async function createCode(c: PoolClient, predioId: string, user: User) {
   for (let attempt = 0; attempt < 5; attempt++) {
     const value = newCode();
     const row = (

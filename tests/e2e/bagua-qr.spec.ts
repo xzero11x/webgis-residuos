@@ -6,7 +6,17 @@ import { requireFixtureTarget } from './helpers/fixture-target';
 // visita en un toque; el expediente reemplaza un sticker perdido; la hoja de stickers se imprime.
 test.use({ trace: 'off', screenshot: 'off', actionTimeout: 15000 });
 
-const DAY = '2026-11-20';
+// Día de demostración: el último martes o viernes (días de orgánicos) hasta el «hoy» de la
+// simulación, que deja ese recorrido en curso con participantes por visitar.
+const DAY = (() => {
+  const file = 'data/bagua-master/simulacion/resumen.json';
+  const hoy = existsSync(file)
+    ? (JSON.parse(readFileSync(file, 'utf8')) as { hoy?: string }).hoy
+    : undefined;
+  const d = new Date(`${hoy ?? new Date().toISOString().slice(0, 10)}T12:00:00Z`);
+  while (![2, 5].includes(d.getUTCDay())) d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+})();
 
 function credentials() {
   const file = 'artifacts/accesos-locales/registro-bagua.txt';

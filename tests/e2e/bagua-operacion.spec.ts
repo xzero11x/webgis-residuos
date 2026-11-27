@@ -9,6 +9,18 @@ test.use({ trace: 'off', screenshot: 'off', actionTimeout: 15000 });
 
 const PLAZA = { lon: -78.5316, lat: -5.6389 };
 
+// Último miércoles o sábado (días de reciclables) hasta el «hoy» de la simulación, que deja ese
+// recorrido en curso con participantes por visitar.
+function recyclingDay() {
+  const file = 'data/bagua-master/simulacion/resumen.json';
+  const hoy = existsSync(file)
+    ? (JSON.parse(readFileSync(file, 'utf8')) as { hoy?: string }).hoy
+    : undefined;
+  const d = new Date(`${hoy ?? new Date().toISOString().slice(0, 10)}T12:00:00Z`);
+  while (![3, 6].includes(d.getUTCDay())) d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+
 function credentials() {
   const file = 'artifacts/accesos-locales/registro-bagua.txt';
   if (!existsSync(file)) return null;
@@ -100,7 +112,7 @@ test.describe('Operación del servicio de residuos', () => {
     await signIn(page);
     await page.goto('/bagua-master/campo');
     await page.getByRole('button', { name: 'Reciclables', exact: true }).click();
-    await page.getByLabel('Fecha del recorrido').fill('2026-11-21');
+    await page.getByLabel('Fecha del recorrido').fill(recyclingDay());
     const list = page.getByTestId('cp-lista');
     await expect(list).toBeVisible();
     const pending = list

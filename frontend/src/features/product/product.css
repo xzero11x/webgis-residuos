@@ -1188,6 +1188,20 @@ a.pr-row:focus-visible {
   margin: 0;
   color: var(--muted-foreground);
 }
+.pr-welcome-hoy {
+  display: grid;
+  gap: 2px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--status-verified-bg);
+  color: var(--status-verified-fg);
+  text-decoration: none;
+  font-size: 13px;
+}
+.pr-welcome-hoy:hover {
+  filter: brightness(0.97);
+}
 .pr-welcome ul {
   display: grid;
   gap: 2px;

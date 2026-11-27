@@ -184,7 +184,7 @@ def stamp(day, minutes, seconds=0):
     return t.strftime('%Y-%m-%d %H:%M:%S') + '-05'
 
 
-def simulate(rng, progs, points, destinations, hoy, now_min, feriados, uid, lonlat):
+def simulate(rng, progs, points, destinations, hoy, now_min, feriados, uid, lonlat, inicio):
     """Ejecuciones, eventos y tickets. `destinations`: {'relleno': (x, y), 'planta': ..., 'acopio': ...}."""
     pts = defaultdict(list)
     for p in points:
@@ -246,6 +246,35 @@ def simulate(rng, progs, points, destinations, hoy, now_min, feriados, uid, lonl
         plist = pts[prog['id']]
         if not plist:
             continue
+        # Antes del piloto el chofer no registraba la ruta, pero la balanza del relleno ya pesaba cada
+        # viaje: esos tickets existen (sin ejecución asociada) y la oficina los registra igual.
+        if destino == 'relleno' and inicio < start:
+            for n in range((start - inicio).days):
+                day = inicio + dt.timedelta(n)
+                if day.isoweekday() not in prog['dias'] or day in feriados or day in suspended[prog['id']]:
+                    continue
+                r = random.Random(f"{prog['id']}|{day}|balanza")
+                if r.random() < 0.012:
+                    continue
+                vehiculo = prog['vehiculo']
+                if prog['id'] == 'PRG-2026-CONV' and day < CAMBIO_2026:
+                    vehiculo = 'Compactadora EGW-781 · 15 m³'
+                t_kg = tara.get(placa(vehiculo), 9500)
+                trips = VIAJES.get(prog['id'], 2 if (prog['id'] == 'PRG-1001-CONV' and day.isoweekday() == 1 and r.random() < 0.5) else 1)
+                factor = (1.15 if day.isoweekday() == 1 else 1.0) * (1.25 if (day - dt.timedelta(1)) in feriados else 1.0)
+                factor *= (0.93 if day.month == 7 else 1.0) * r.lognormvariate(0, 0.11)
+                neto = NETO_KG.get(prog['id'], 3000) * factor
+                shares = [1.0] if trips == 1 else [0.56, 0.44]
+                end = plist[-1]['min'] + r.uniform(0, 25) + r.uniform(*VIAJE_MIN['relleno'])
+                for k in range(trips):
+                    if r.random() < 0.004:
+                        continue
+                    hora = end + k * r.uniform(70, 95) + r.uniform(4, 11)
+                    net = round(neto * shares[k] / 10) * 10
+                    pesajes.append({'id': uid('pesaje', prog['id'], day, k), 'ejecucion': None, 'fecha': day,
+                                    'hora': f'{int(hora // 60) % 24:02d}:{int(hora % 60):02d}', 'ticket': '',
+                                    'vehiculo': vehiculo, 'bruto': t_kg + net, 'tara': t_kg,
+                                    'creado': stamp(day + dt.timedelta(days=1), 9 * 60 + r.randint(0, 150))})
         days = [start + dt.timedelta(n) for n in range((hoy - start).days + 1)]
         days = [d for d in days if d.isoweekday() in prog['dias'] and d not in feriados and d not in suspended[prog['id']]]
         if prog['id'] == 'PRG-2026-CONV':
@@ -350,6 +379,9 @@ def simulate(rng, progs, points, destinations, hoy, now_min, feriados, uid, lonl
                                     'ticket': f'RS-{ticket_no:06d}', 'vehiculo': vehiculo,
                                     'bruto': t_kg + net, 'tara': t_kg,
                                     'creado': stamp(reg_day, 9 * 60 + r.randint(0, 150))})
+    # Numeración de la balanza en orden de llegada.
+    for n, w in enumerate(sorted(pesajes, key=lambda w: (w['fecha'], w['hora'], w['id'])), start=1):
+        w['ticket'] = f'RS-{38900 + n:06d}'
     cambios = [{'id': uid('cambio', 'PRG-2026-CONV', CAMBIO_2026), 'prog': 'PRG-2026-CONV',
                 'anterior': {'vehiculo': 'Compactadora EGW-781 · 15 m³', 'vehiculoPlaca': 'EGW-781'},
                 'nuevo': {'vehiculo': 'Volquete EGX-115 · 12 m³', 'vehiculoPlaca': 'EGX-115'},

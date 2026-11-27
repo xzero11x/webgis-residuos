@@ -36,6 +36,12 @@ const baguaMasterRoutes: RouteObject[] = baguaMasterEnabled
         errorElement: pageError,
       },
       {
+        // Resumen del mes para el concejo: página imprimible, fuera de la carcasa.
+        path: '/bagua-master/concejo/:mes',
+        lazy: space(() => import('@/features/cierre/concejo'), 'ConcejoPage'),
+        errorElement: pageError,
+      },
+      {
         // Enlace anterior; la gestión ya no es una pantalla aparte.
         path: '/bagua-master/gestion',
         lazy: () => import('@/features/gestion/gestion-page'),

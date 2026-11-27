@@ -1,0 +1,347 @@
+/* Cierre del mes (ci-*) y resumen para el concejo (cj-*). */
+
+.ci {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.ci-meses ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.ci-meses button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  color: inherit;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.ci-meses button:hover {
+  background: var(--surface-subtle);
+}
+.ci-meses button[aria-pressed='true'] {
+  border-color: var(--border-strong);
+  background: var(--surface-subtle);
+  font-weight: 600;
+}
+.ci-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted-foreground);
+  text-transform: none;
+  font-weight: 400;
+}
+.ci-estado.is-cerrado {
+  color: #15803d;
+}
+.ci-estado.is-abierto {
+  color: var(--status-review-fg);
+}
+.ci-estado svg,
+.ci-anual svg,
+.ci-pendientes svg {
+  display: inline-block;
+  flex: none;
+}
+.ci-anual {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--status-verified-fg);
+}
+.ci-detalle {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.ci-cabecera {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ci-cabecera h2 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+.ci-cabecera p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  max-width: 60ch;
+}
+.ci-obs {
+  font-style: italic;
+}
+.ci-acciones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.ci-cifras {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ci-cifras > div {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border-left: 1px solid var(--border);
+}
+.ci-cifras > div:first-child {
+  border-left: 0;
+}
+.ci-cifras span,
+.ci-cifras small {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.ci-cifras strong {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.ci-pendientes h3,
+.ci-cerrar h3,
+.ci-sub {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+.ci-pendientes > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ci-pendientes > ul > li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+.ci-pendientes > ul > li > div {
+  display: grid;
+  gap: 2px;
+}
+.ci-pendientes > ul > li span {
+  color: var(--muted-foreground);
+}
+.ci-pendientes li.is-ok svg {
+  color: #15803d;
+}
+.ci-pendientes li.is-importante {
+  border-color: var(--status-error-bg);
+  background: color-mix(in srgb, var(--status-error-bg) 40%, transparent);
+}
+.ci-pendientes li.is-importante svg {
+  color: var(--status-error-fg);
+}
+.ci-pendientes li.is-revisar {
+  border-color: var(--status-review-border);
+  background: color-mix(in srgb, var(--status-review-bg) 50%, transparent);
+}
+.ci-pendientes li.is-revisar svg {
+  color: var(--status-review-fg);
+}
+.ci-pendientes details summary {
+  cursor: pointer;
+  color: var(--status-verified-fg);
+}
+.ci-pendientes details ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  columns: 2;
+  font-size: 12px;
+}
+.ci-dos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.ci-cerrar {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px dashed var(--border-strong);
+}
+.ci-cerrar p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted-foreground);
+}
+.ci-cerrar button {
+  justify-self: start;
+}
+@media (max-width: 900px) {
+  .ci {
+    grid-template-columns: 1fr;
+  }
+  .ci-meses ul {
+    display: flex;
+    overflow-x: auto;
+    gap: 6px;
+  }
+  .ci-meses button {
+    white-space: nowrap;
+  }
+  .ci-cifras {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ci-cifras > div:nth-child(3) {
+    border-left: 0;
+  }
+  .ci-cifras > div:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+  .ci-dos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------- resumen para el concejo */
+.cj {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  color: #171717;
+  background: #fff;
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.cj-cargando {
+  padding: 32px;
+}
+.cj-demo {
+  margin: 0 0 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #ede9fe;
+  color: #5b21b6;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+.cj-imprimir {
+  float: right;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d4d4d4;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.cj-cabecera {
+  border-bottom: 2px solid #171717;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+.cj-cabecera p {
+  margin: 0;
+  font-size: 12px;
+  color: #525252;
+}
+.cj-cabecera h1 {
+  margin: 6px 0;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+}
+.cj h2 {
+  font-size: 15px;
+  margin: 24px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cj-cifras {
+  width: 100%;
+  border-collapse: collapse;
+}
+.cj-cifras th,
+.cj-cifras td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: left;
+}
+.cj-cifras th {
+  font-weight: 500;
+}
+.cj-cifras td:nth-child(2) {
+  font-size: 20px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cj-cifras td:nth-child(3) {
+  color: #525252;
+  font-size: 12px;
+}
+.cj-texto {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+}
+.cj-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.cj-tabla th,
+.cj-tabla td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: left;
+}
+.cj-tabla th {
+  font-weight: 500;
+  color: #525252;
+}
+.cj-pie {
+  margin-top: 28px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e5e5;
+  font-size: 11px;
+  color: #737373;
+}
+@media print {
+  .cj-imprimir {
+    display: none;
+  }
+  .cj {
+    padding: 0;
+    min-height: 0;
+  }
+  @page {
+    margin: 16mm;
+  }
+}

@@ -13,6 +13,8 @@ import { ActivityComposer } from '@/features/bagua-master/components/activity-co
 import '@/features/gestion/gestion.css';
 import { SessionGate } from './session';
 import { ResultadosOperacion } from './resultados-operacion';
+import { CierreMes } from '@/features/cierre/cierre';
+import '@/features/operacion/supervisor.css';
 import { useEnvironment } from './use-session';
 
 function Space({
@@ -230,23 +232,51 @@ export function ServiciosPage() {
 }
 
 export function ResultadosPage() {
+  return <SessionGate>{(user: User) => <Resultados user={user} />}</SessionGate>;
+}
+
+function Resultados({ user }: { user: User }) {
+  const [params, setParams] = useSearchParams();
+  const view = params.get('vista') === 'cierre' ? 'cierre' : 'programas';
   return (
-    <SessionGate>
-      {(user: User) => (
-        <Space
-          eyebrow="Resultados"
-          title="Análisis de resultados"
-          lead="Participación en los programas selectivos, kilos recolectados, valorización y padrón. Cada cifra sale de registros que puedes abrir; lo que falta registrar no se estima."
-        >
+    <Space
+      eyebrow="Resultados"
+      title="Análisis de resultados"
+      lead="Participación en los programas selectivos, toneladas recolectadas y pesadas, valorización y padrón. Cada cifra sale de registros que puedes abrir; lo que falta registrar no se estima. El cierre del mes congela las cifras y genera los reportes oficiales."
+    >
+      <div className="pr-toolbar">
+        <div className="pr-segmented" role="group" aria-label="Secciones de resultados">
+          <button
+            type="button"
+            aria-pressed={view === 'programas'}
+            onClick={() => setParams({ vista: 'programas' })}
+          >
+            Programas selectivos
+          </button>
+          <button
+            type="button"
+            aria-pressed={view === 'cierre'}
+            onClick={() => setParams({ vista: 'cierre' })}
+          >
+            Cierre del mes y reportes
+          </button>
+        </div>
+      </div>
+      {view === 'cierre' ? (
+        <section className="pr-card pr-card-pad">
+          <CierreMes user={user} />
+        </section>
+      ) : (
+        <>
           <section className="pr-card pr-card-pad">
             <ResultadosOperacion user={user} />
           </section>
           <section className="pr-card pr-card-pad" style={{ marginTop: 20 }}>
             <Reports user={user} />
           </section>
-        </Space>
+        </>
       )}
-    </SessionGate>
+    </Space>
   );
 }
 

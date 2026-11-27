@@ -713,7 +713,7 @@ def main():
     kinds = {'disposicion_final': 'relleno', 'planta_organicos': 'planta', 'centro_acopio': 'acopio'}
     destinations = {kinds[i['tipo']]: TO_UTM.transform(i['lon'], i['lat']) for i in infra if i['tipo'] in kinds}
     ejecuciones, eventos, pesajes, avisos, cambios = ejec.simulate(
-        random.Random(SEED + 11), progs, puntos, destinations, HOY, AHORA_MIN, FERIADOS, uid, lonlat)
+        random.Random(SEED + 11), progs, puntos, destinations, HOY, AHORA_MIN, FERIADOS, uid, lonlat, INICIO)
     for e in ejecuciones:
         e['conductor'] = user_id[e['conductor']]
     balanza_id = user_id[ejec.BALANZA[0]]

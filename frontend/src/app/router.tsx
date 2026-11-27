@@ -94,6 +94,11 @@ const baguaMasterRoutes: RouteObject[] = baguaMasterEnabled
             errorElement: pageError,
           },
           {
+            path: 'ayuda',
+            lazy: space(() => import('@/features/ayuda/ayuda'), 'AyudaPage'),
+            errorElement: pageError,
+          },
+          {
             path: 'operacion',
             lazy: space(() => import('@/features/operacion/operacion-page'), 'OperacionPage'),
             errorElement: pageError,

@@ -15,6 +15,7 @@ import { SessionGate } from './session';
 import { ResultadosOperacion } from './resultados-operacion';
 import { CierreMes } from '@/features/cierre/cierre';
 import { ImportarPadron } from '@/features/padron/importar-padron';
+import { Recicladores } from '@/features/recicladores/recicladores';
 import '@/features/operacion/supervisor.css';
 import { useEnvironment } from './use-session';
 
@@ -224,6 +225,9 @@ export function ServiciosPage() {
             {user.rol !== 'consulta' && <QuickDelivery />}
             <section className="pr-card pr-card-pad" aria-labelledby="h-op">
               <ServiceOperation user={user} />
+            </section>
+            <section className="pr-card pr-card-pad">
+              <Recicladores user={user} />
             </section>
           </div>
         </Space>

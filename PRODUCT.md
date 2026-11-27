@@ -17,11 +17,20 @@ selectiva, y obtiene sin trabajo extra los datos que debe reportar.
 ## Usuarios
 
 - **Gerente:** ver el estado del servicio, decidir y reportar.
-- **Técnico del área:** mantiene rutas, horarios, padrón y actores.
+- **Supervisor:** cada mañana, qué rutas salieron, cuáles van atrasadas y qué falta.
+- **Técnico del área:** mantiene rutas, horarios, avisos, padrón, pesaje y actores.
+- **Chofer:** marca su ruta en el celular con tres botones.
 - **Promotor o reciclador de campo:** empadrona y registra visitas desde el celular.
 - **Atención al vecino:** responde en segundos qué día y a qué hora pasa el camión.
 
-## Cuatro pilares unidos por el mapa
+## El ciclo de valor
+
+Planificar (rutas, horarios, padrón) → ejecutar (el chofer marca salida, pasos y llegada; el
+promotor registra la visita; la oficina, el ticket de balanza) → verificar (tablero del día,
+cumplimiento, hora real) → rendir cuentas (cierre del mes, SIGERSOL, padrón MINAM, concejo, horario
+real al vecino) → ajustar (cambio de programación con aviso al vecino, al chofer y al promotor).
+
+## Pilares unidos por el mapa
 
 1. **Servicio:** rutas por tipo (convencional, comercial, orgánicos, reciclables), días, horarios y
    sectores; infraestructura (contenedores, puntos limpios, centro de acopio, planta); «¿cuándo
@@ -31,8 +40,10 @@ selectiva, y obtiene sin trabajo extra los datos que debe reportar.
    03-A a 03-D del MINAM.
 3. **Campo:** empadronar y registrar visitas (entregó, no entregó, ausente; materiales y kilos si se
    pesan) en segundos.
-4. **Resultados:** participación, cobertura y toneladas por mes, material y actor; cada cifra abre
-   los registros que la producen.
+4. **Ejecución de ruta:** salida, paso por los puntos de control y llegada desde el celular del
+   chofer, sin escribir y sin señal; tickets de balanza en la oficina.
+5. **Resultados:** participación, toneladas pesadas, cumplimiento y valorización por mes; cierre
+   del mes, reporte para SIGERSOL y resumen para el concejo; cada cifra abre sus registros.
 
 Un registro, muchas vistas: la visita anotada en campo aparece en el expediente, en la
 participación y en los resultados.
@@ -42,8 +53,11 @@ participación y en los resultados.
 1. Vecino al teléfono: dirección → ruta, día y hora.
 2. Gerente: DNI o código → el mapa va al predio → ficha con personas, servicios, horario y visitas.
 3. Tocar una edificación en el mapa → su ficha y su horario.
-4. Campo: predios de la ruta del día → registrar la visita.
-5. Fin de mes: toneladas por actor → reporte y padrón listos.
+4. Campo: predios de la ruta del día → registrar la visita; vecino nuevo → inscribirlo con su sticker.
+5. Chofer: Salí → Pasé por aquí → Llegué al relleno.
+6. Supervisor: Operación › Hoy → alertas → recorrido punto por punto.
+7. Fin de mes: pendientes → cierre → reporte SIGERSOL y resumen para el concejo.
+8. Llega el Excel del padrón: cargar → corregir lo marcado → confirmar.
 
 ## Fuera del alcance por ahora
 

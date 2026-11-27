@@ -8,6 +8,7 @@ import {
   ClipboardList,
   FolderOpen,
   KeyRound,
+  LifeBuoy,
   LogOut,
   Map as MapIcon,
   MapPinned,
@@ -129,6 +130,11 @@ function UserMenu() {
                 </Menu.Item>
               )}
               <Menu.Item asChild className="pr-menu-item">
+                <Link to="/bagua-master/ayuda">
+                  <LifeBuoy size={15} /> Ayuda y manual
+                </Link>
+              </Menu.Item>
+              <Menu.Item asChild className="pr-menu-item">
                 <Link to="/sistema">
                   <MapPinned size={15} /> Estado del sistema
                 </Link>
@@ -174,6 +180,7 @@ function MainRegion({ isMap, children }: { isMap: boolean; children: ReactNode }
 
 const titles: [string, string][] = [
   ['/bagua-master/operacion', 'Operación'],
+  ['/bagua-master/ayuda', 'Ayuda'],
   ['/bagua-master/campo/ruta', 'Ruta del vehículo'],
   ['/bagua-master/expedientes', 'Expedientes'],
   ['/bagua-master/servicios', 'Servicios'],

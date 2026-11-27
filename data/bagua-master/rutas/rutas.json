@@ -99220,7 +99220,7 @@
       },
       "horario_estado": "Sin horario ni frecuencia operativos validados",
       "longitud_trazos_m": 7436.8,
-      "nombre": "La Primavera · trazo CAD",
+      "nombre": "Ruta La Primavera",
       "nota": "Trazo cian y leyenda La Primavera presentes. Servicio y vigencia por confirmar; CRS explícito.",
       "procedencia": {
         "flechas": [
@@ -106570,7 +106570,7 @@
       },
       "horario_estado": "Sin horario ni frecuencia operativos validados",
       "longitud_trazos_m": 7389.8,
-      "nombre": "Capa RUTAS · identificación pendiente",
+      "nombre": "Ruta comercial · mercado y paradero",
       "nota": "Existen rótulos RUTA 1007, pero no una asociación inequívoca a todos estos trazos. No se asigna ese código automáticamente.",
       "procedencia": {
         "flechas": [],
@@ -113594,7 +113594,7 @@
       },
       "horario_estado": "Sin horario ni frecuencia operativos validados",
       "longitud_trazos_m": 7949.7,
-      "nombre": "Ruta orgánica · por confirmar",
+      "nombre": "Ruta de orgánicos",
       "nota": "CRS explícito en GEODATA. Servicio deducido del nombre del archivo; el plano conserva rótulos heredados. Requiere confirmar clasificación.",
       "procedencia": {
         "flechas": [],

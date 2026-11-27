@@ -70,7 +70,9 @@ test.describe('Operación del servicio de residuos', () => {
     const map = page.getByTestId('bagua-master-map');
     await expect(map).toHaveAttribute('data-idle', 'true', { timeout: 60_000 });
     await expect(page.getByTestId('bm-info')).toContainText('Recolección aquí');
-    await expect(page.getByTestId('bm-horario').first()).toContainText(/pasa aprox\. \d{2}:\d{2}/);
+    await expect(page.getByTestId('bm-horario').first()).toContainText(
+      /pasa (aprox\.|habitualmente a las) \d{2}:\d{2}/,
+    );
     await page.goto('/bagua-master?explorar=rutas');
     await page.getByTestId('bm-ruta-MUN-1001').click();
     await expect(page.getByTestId('bm-ruta-programas')).toContainText('Convencional');

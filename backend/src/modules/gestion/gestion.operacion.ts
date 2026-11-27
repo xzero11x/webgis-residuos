@@ -3,6 +3,7 @@ import type { Pool } from 'pg';
 import { z } from 'zod';
 import { AppError } from '../../shared/app-error.js';
 import { audit, transaction } from './gestion.repository.js';
+import { assertOpenPeriod } from './gestion.periodo.js';
 import type { User } from './gestion.schema.js';
 
 // Operación del servicio de residuos: horario de recolección de un predio, recorrido de campo del
@@ -112,10 +113,21 @@ export function createOperationRouter(
     const schedule = found.punto
       ? (
           await pool.query(
-            `SELECT programacion_id AS id,ruta_codigo AS ruta,ruta_nombre AS "rutaNombre",color,servicio,nombre,dias,
-                    to_char(hora_inicio,'HH24:MI') AS "horaInicio",to_char(hora_fin,'HH24:MI') AS "horaFin",turno,
-                    operador,to_char(hora_estimada,'HH24:MI') AS "horaEstimada",base
-             FROM bagua_master.recoleccion_en_punto($1)`,
+            `SELECT x.programacion_id AS id,x.ruta_codigo AS ruta,x.ruta_nombre AS "rutaNombre",x.color,x.servicio,x.nombre,x.dias,
+                    to_char(x.hora_inicio,'HH24:MI') AS "horaInicio",to_char(x.hora_fin,'HH24:MI') AS "horaFin",x.turno,
+                    x.operador,to_char(x.hora_estimada,'HH24:MI') AS "horaEstimada",x.base,
+                    CASE WHEN a.recorridos >= 3 THEN to_char(('2000-01-01'::timestamp + make_interval(secs =>
+                      round(extract(epoch FROM x.hora_estimada + make_interval(mins => a.minutos)) / 300) * 300))::time,'HH24:MI') END AS "horaHabitual",
+                    coalesce(a.recorridos,0) AS recorridos,
+                    (SELECT coalesce(json_agg(json_build_object('id',v.id,'tipo',v.tipo,'titulo',v.titulo,'mensaje',v.mensaje,
+                        'desde',v.desde,'hasta',v.hasta) ORDER BY v.desde),'[]')
+                       FROM bagua_master.aviso_servicio v
+                      WHERE NOT v.retirado AND v.hasta >= (now() AT TIME ZONE 'America/Lima')::date
+                        AND v.desde <= (now() AT TIME ZONE 'America/Lima')::date + 14
+                        AND (cardinality(v.programaciones)=0 OR x.programacion_id=ANY(v.programaciones))) AS avisos
+             FROM bagua_master.recoleccion_en_punto($1) x
+             LEFT JOIN LATERAL bagua_master.atraso_habitual(x.programacion_id, $1) a ON true
+             ORDER BY x.servicio,x.hora_estimada`,
             [found.punto],
           )
         ).rows
@@ -216,6 +228,7 @@ export function createOperationRouter(
       .rows[0];
     if (existing) return res.status(200).json({ id: existing.id, repetida: true });
     const created = await transaction(pool, async (c) => {
+      await assertOpenPeriod(c, d.fecha);
       const part = (
         await c.query(
           `SELECT a.id,a.predio_id,a.desde::text,a.hasta::text,p.archivado FROM gestion.participacion a
@@ -297,6 +310,9 @@ export function createOperationRouter(
       .parse(req.body);
     const user = res.locals.user as User;
     await transaction(pool, async (c) => {
+      const current = (await c.query('SELECT fecha::text FROM gestion.visita WHERE id=$1', [id]))
+        .rows[0];
+      if (current) await assertOpenPeriod(c, current.fecha);
       const visit = (
         await c.query(
           `UPDATE gestion.visita v SET anulada=true,motivo_anulacion=$2 FROM gestion.participacion a
@@ -512,6 +528,7 @@ export function createOperationRouter(
     if (d.fecha > limaToday())
       throw new AppError(400, 'INVALID_DATE', 'No se registran comprobantes con fecha futura.');
     const row = await transaction(pool, async (c) => {
+      await assertOpenPeriod(c, d.fecha);
       const actor = (await c.query('SELECT id,vigente FROM gestion.actor WHERE id=$1', [d.actorId]))
         .rows[0];
       if (!actor?.vigente)

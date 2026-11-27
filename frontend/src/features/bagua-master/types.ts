@@ -228,6 +228,20 @@ export interface ServiceAtPoint {
   distanciaM?: number;
   horaEstimada: string | null;
   base: 'plano' | 'recorrido';
+  /** Hora a la que el vehículo pasa de verdad (mediana de los últimos recorridos registrados). */
+  horaHabitual?: string | null;
+  recorridos?: number;
+  avisos?: ServiceNotice[];
+}
+
+/** Aviso del servicio: suspensión, cambio de horario o informativo. */
+export interface ServiceNotice {
+  id: string;
+  tipo: 'suspension' | 'cambio_horario' | 'informativo';
+  titulo: string;
+  mensaje: string;
+  desde: string;
+  hasta: string;
 }
 
 /** Programación de una ruta. */

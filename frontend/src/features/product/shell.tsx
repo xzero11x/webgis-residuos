@@ -14,6 +14,7 @@ import {
   Moon,
   Settings2,
   Sun,
+  Truck,
 } from 'lucide-react';
 import { env } from '@/config/env';
 import { management } from '@/features/gestion/api';
@@ -25,6 +26,7 @@ import './product.css';
 
 const spaces = [
   { to: '/bagua-master', end: true, label: 'Explorar', icon: MapIcon },
+  { to: '/bagua-master/operacion', end: false, label: 'Operación', icon: Truck },
   { to: '/bagua-master/expedientes', end: false, label: 'Expedientes', icon: FolderOpen },
   { to: '/bagua-master/servicios', end: false, label: 'Servicios', icon: ClipboardList },
   { to: '/bagua-master/campo', end: false, label: 'Campo', icon: ClipboardCheck },
@@ -171,6 +173,8 @@ function MainRegion({ isMap, children }: { isMap: boolean; children: ReactNode }
 }
 
 const titles: [string, string][] = [
+  ['/bagua-master/operacion', 'Operación'],
+  ['/bagua-master/campo/ruta', 'Ruta del vehículo'],
   ['/bagua-master/expedientes', 'Expedientes'],
   ['/bagua-master/servicios', 'Servicios'],
   ['/bagua-master/campo', 'Campo'],

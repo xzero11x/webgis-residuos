@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Check, Clock3, QrCode as QrIcon, ScanLine, Search, UserX, X } from 'lucide-react';
+import { Check, Clock3, QrCode as QrIcon, ScanLine, Search, Truck, UserX, X } from 'lucide-react';
 import { management, type User } from '@/features/gestion/api';
 import { formatDays } from '@/features/bagua-master/components/service-format';
 import { SessionGate } from './session';
@@ -167,6 +167,13 @@ function Campo({ user }: { user: User }) {
             </button>
             <Link to="/bagua-master/campo/etiquetas" className="cp-stickers">
               <QrIcon size={15} aria-hidden="true" /> Stickers
+            </Link>
+            <Link
+              to="/bagua-master/campo/ruta"
+              className="cp-stickers"
+              data-testid="cp-ruta-vehiculo"
+            >
+              <Truck size={15} aria-hidden="true" /> Ruta del vehículo
             </Link>
           </div>
           {query.data?.programas.map((p) => (

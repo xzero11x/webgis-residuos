@@ -17,6 +17,7 @@ import datetime as dt
 import io
 import json
 import math
+import os
 import random
 import subprocess
 import uuid
@@ -29,6 +30,8 @@ from pyproj import Transformer
 from shapely import STRtree
 from shapely.geometry import LineString, MultiLineString, Point, shape
 
+import simular_ejecucion as ejec
+
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / 'data/bagua-master'
 OUT = DATA / 'simulacion'
@@ -39,10 +42,14 @@ SEED = 20261122
 SOURCE = 'SINTETICO-LOCAL-V1'
 EVIDENCIA = 'Simulación realista Bagua v1 · datos sintéticos para demostración; no es información municipal.'
 INICIO = dt.date(2026, 5, 4)
-HOY = dt.date(2026, 11, 21)  # último día con visitas registradas
+# «Hoy» es el día en que corre la simulación (hora de Lima); se puede fijar con SIM_HOY y SIM_AHORA.
+_LIMA_NOW = dt.datetime.now(dt.timezone(dt.timedelta(hours=-5)))
+HOY = dt.date.fromisoformat(os.environ['SIM_HOY']) if os.environ.get('SIM_HOY') else _LIMA_NOW.date()
+AHORA_MIN = (int(os.environ['SIM_AHORA'][:2]) * 60 + int(os.environ['SIM_AHORA'][3:5]) if os.environ.get('SIM_AHORA')
+             else _LIMA_NOW.hour * 60 + _LIMA_NOW.minute)
 FERIADOS = {dt.date(2026, 6, 7), dt.date(2026, 6, 29), dt.date(2026, 7, 23), dt.date(2026, 7, 28),
             dt.date(2026, 7, 29), dt.date(2026, 8, 6), dt.date(2026, 8, 30), dt.date(2026, 10, 8),
-            dt.date(2026, 11, 1)}
+            dt.date(2026, 11, 1), dt.date(2026, 12, 8), dt.date(2026, 12, 9), dt.date(2026, 12, 25)}
 RUTAS_TIEMPO = ['MUN-1001', 'MUN-2001', 'MUN-2002', 'CAD-PRIMAVERA', 'CAD-RUTAS']
 QR_DESDE = dt.date(2026, 9, 1)  # entrega de stickers QR a los inscritos
 CROCKFORD = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'
@@ -354,7 +361,7 @@ def programming(anchors):
          [2, 4, 6], (14 * 60, 17 * 60 + 30), ['Tomaque', 'Brujo Pata', 'Las Casuarinas'],
          'Volquete EGX-115 · 12 m³', 'Municipalidad Provincial de Bagua'),
         ('PRG-PRIM-CONV', 'CAD-PRIMAVERA', 'convencional', 'Recolección convencional · La Primavera', [2, 5], wprim,
-         ['La Primavera', 'Rey Florián'], 'Compactadora EGW-781 · 15 m³', 'Municipalidad Provincial de Bagua'),
+         ['La Primavera', 'Rey Florián'], 'Compactadora EGW-782 · 15 m³', 'Municipalidad Provincial de Bagua'),
         ('PRG-RUTAS-COM', 'CAD-RUTAS', 'comercial', 'Recolección comercial nocturna · mercado y paradero',
          [1, 2, 3, 4, 5, 6], (20 * 60, 23 * 60), ['Cercado', 'Centro América'], 'Compactadora EGW-782 · 15 m³',
          'Municipalidad Provincial de Bagua'),
@@ -574,7 +581,9 @@ def main():
                   ('promotor.cubas', 'Wilmer Cubas Rojas · reciclador asociado'),
                   ('promotor.huaman', 'Gladys Huamán Torres · recicladora asociada'),
                   ('promotor.delgado', 'Nilton Delgado Saldaña · reciclador asociado')]
-    users = [{'id': uid('usuario', u), 'usuario': u, 'nombre': n} for u, n in promotores]
+    choferes = sorted(set(ejec.CONDUCTORES.values())) + [ejec.BALANZA]
+    users = [{'id': uid('usuario', u), 'usuario': u, 'nombre': n} for u, n in promotores + choferes]
+    user_id = {u['usuario']: u['id'] for u in users}
     responsable = {'MUN-ORGANICA': [users[0]['id'], users[1]['id']], 'MUN-1001': [users[2]['id']],
                    'MUN-2001': [users[3]['id']], 'MUN-2002': [users[4]['id'], users[2]['id']]}
 
@@ -699,18 +708,36 @@ def main():
     # ---- infraestructura
     infra = build_infrastructure(rng, streets, candidates, urban)
 
+    print('Ejecución de rutas y pesaje ...', flush=True)
+    puntos = ejec.control_points(progs, routes, anchors, streets, TO_UTM.transform)
+    kinds = {'disposicion_final': 'relleno', 'planta_organicos': 'planta', 'centro_acopio': 'acopio'}
+    destinations = {kinds[i['tipo']]: TO_UTM.transform(i['lon'], i['lat']) for i in infra if i['tipo'] in kinds}
+    ejecuciones, eventos, pesajes, avisos, cambios = ejec.simulate(
+        random.Random(SEED + 11), progs, puntos, destinations, HOY, AHORA_MIN, FERIADOS, uid, lonlat)
+    for e in ejecuciones:
+        e['conductor'] = user_id[e['conductor']]
+    balanza_id = user_id[ejec.BALANZA[0]]
+    print(f'  {len(puntos)} puntos de control, {len(ejecuciones)} ejecuciones, {len(eventos)} eventos, '
+          f'{len(pesajes)} tickets ({round(sum(p["bruto"] - p["tara"] for p in pesajes) / 1000)} t), {len(avisos)} avisos',
+          flush=True)
+    operacion = {'puntos': puntos, 'ejecuciones': ejecuciones, 'eventos': eventos, 'pesajes': pesajes,
+                 'avisos': avisos, 'cambios': cambios, 'balanza': balanza_id}
+
     summary = {
         'predios': len(predios), 'personas': len(personas), 'vinculos': len(vinculos),
         'participaciones': len(participaciones), 'visitas': len(visitas), 'entregas': len(entregas),
         'valorizaciones': len(valorizaciones), 'infraestructura': len(infra), 'programaciones': len(progs),
         'tiempos_de_paso': len(anchors), 'codigos_qr': len(codigos_qr),
         'kg_registrados': round(sum(e['cantidad'] or 0 for e in entregas)),
+        'puntos_control': len(puntos), 'ejecuciones': len(ejecuciones), 'eventos_ruta': len(eventos),
+        'tickets_balanza': len(pesajes), 't_pesadas': round(sum(p['bruto'] - p['tara'] for p in pesajes) / 1000, 1),
+        'hoy': HOY.isoformat(),
     }
     (OUT / 'resumen.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf8')
     print(json.dumps(summary, ensure_ascii=False), flush=True)
     load(admin_id, fuente_id, version_overture, predios, personas, vinculos, enlaces, asignaciones, servicios,
          materiales, participaciones, users, visitas, entregas, actores, valorizaciones, infra, progs, anchors,
-         codigos_qr)
+         codigos_qr, operacion)
 
 
 def build_infrastructure(rng, streets, candidates, urban):
@@ -773,6 +800,22 @@ def build_infrastructure(rng, streets, candidates, urban):
         add('planta_organicos', 'Planta municipal de compostaje',
             'Pilas de compostaje y área de maduración; recibe los orgánicos segregados y la poda.',
             'Lunes a sábado · 07:00–15:00', ['Residuos orgánicos', 'Residuos de áreas verdes'], best[1])
+    # Relleno sanitario: fuera de la ciudad, junto a una vía, lejos de las viviendas.
+    far = None
+    for line in streets.lines:
+        for x, y in line.coords:
+            p = Point(x, y)
+            d = p.distance(center)
+            if not 3000 <= d <= 9000 or len(built.query(p, predicate='dwithin', distance=300)):
+                continue
+            score = -abs(d - 5200) + (p.y - center.y) * 0.3
+            if far is None or score > far[0]:
+                far = (score, p)
+    if far is None:
+        far = (0, max((Point(x, y) for line in streets.lines for x, y in line.coords), key=lambda p: p.distance(center)))
+    add('disposicion_final', 'Relleno sanitario de Bagua',
+        'Celdas de disposición final, balanza de pesaje y poza de lixiviados. Recibe la recolección convencional.',
+        'Todos los días · 06:00–23:30', [], far[1])
     return items
 
 
@@ -794,7 +837,7 @@ def pg_array(values, kind='text'):
 
 def load(admin_id, fuente_id, version_overture, predios, personas, vinculos, enlaces, asignaciones, servicios,
          materiales, participaciones, users, visitas, entregas, actores, valorizaciones, infra, progs, anchors,
-         codigos_qr):
+         codigos_qr, operacion):
     print('Cargando en la base (una transacción) ...', flush=True)
     sim_predios = f"(SELECT id FROM gestion.predio WHERE fuente_id='{fuente_id}' AND codigo LIKE 'BG-%')"
     sim_parts = f'(SELECT id FROM gestion.participacion WHERE predio_id IN {sim_predios})'
@@ -815,6 +858,12 @@ def load(admin_id, fuente_id, version_overture, predios, personas, vinculos, enl
         f"DELETE FROM gestion.persona WHERE fuente_id='{fuente_id}' AND codigo LIKE 'BG-PER-%';",
         "DELETE FROM gestion.valorizacion WHERE actor_id IN (SELECT id FROM gestion.actor WHERE codigo LIKE 'SIM-%');",
         "DELETE FROM gestion.actor WHERE codigo LIKE 'SIM-%';",
+        "DELETE FROM gestion.pesaje WHERE registrado_por IN (SELECT id FROM gestion.usuario WHERE usuario='tecnico.balanza') OR ejecucion_id IN (SELECT e.id FROM gestion.ruta_ejecucion e JOIN gestion.usuario u ON u.id=e.conductor_id WHERE u.usuario LIKE 'conductor.%');",
+        "DELETE FROM gestion.ruta_evento WHERE ejecucion_id IN (SELECT e.id FROM gestion.ruta_ejecucion e JOIN gestion.usuario u ON u.id=e.conductor_id WHERE u.usuario LIKE 'conductor.%');",
+        "DELETE FROM gestion.ruta_ejecucion WHERE id IN (SELECT e.id FROM gestion.ruta_ejecucion e JOIN gestion.usuario u ON u.id=e.conductor_id WHERE u.usuario LIKE 'conductor.%');",
+        "DELETE FROM bagua_master.ruta_programacion_cambio WHERE origen='simulacion';",
+        "DELETE FROM bagua_master.aviso_servicio WHERE origen='simulacion';",
+        'DELETE FROM bagua_master.ruta_punto_control;',
         'DELETE FROM bagua_master.ruta_programacion;',
         'DELETE FROM bagua_master.infraestructura;',
         'DELETE FROM bagua_master.ruta_hora_paso;',
@@ -894,12 +943,56 @@ def load(admin_id, fuente_id, version_overture, predios, personas, vinculos, enl
                       [(a['id'], a['ruta'], hhmm(a['min']), a['dist'], *lonlat(a['x'], a['y'])) for a in anchors]),
             "INSERT INTO bagua_master.ruta_hora_paso(id,ruta_codigo,hora,distancia_trazo_m,fuente_archivo,geom) "
             "SELECT DISTINCT ON (id) id,ruta,hora::time,dist,'RUTAS CON TIEMPO.dwg',ST_SetSRID(ST_MakePoint(lon,lat),4326) FROM sim_hora;",
+            "UPDATE bagua_master.ruta_programacion SET vehiculo_placa=substring(vehiculo from '([A-Z]{3}-[0-9]{3}|MF-[0-9]{2})');",
+            *operation_blocks(operacion, admin_id),
             'COMMIT;',
             "SELECT 'predios', count(*) FROM gestion.predio WHERE codigo LIKE 'BG-%';",
+            "SELECT 'ejecuciones', count(*) FROM gestion.ruta_ejecucion;",
+            "SELECT 'tickets', count(*), round(sum(peso_neto_kg)/1000) FROM gestion.pesaje;",
             "SELECT 'visitas', count(*) FROM gestion.visita;",
             "SELECT 'entregas con visita', count(*) FROM gestion.entrega WHERE visita_id IS NOT NULL;",
             "SELECT 'valorizaciones', count(*) FROM gestion.valorizacion;"]
     print(psql(sql, ''.join(blocks) + '\n'.join(tail) + '\n'))
+
+
+def operation_blocks(op, admin_id):
+    vehiculos = ['INSERT INTO gestion.vehiculo(placa,descripcion,tipo,capacidad_m3,tara_kg,anio) VALUES ' + ','.join(
+        f"('{v[0]}','{v[1]}','{v[2]}',{v[3]},{v[4]},{v[5]})" for v in ejec.VEHICULOS)
+        + ' ON CONFLICT(placa) DO UPDATE SET descripcion=excluded.descripcion,tipo=excluded.tipo,'
+          'capacidad_m3=excluded.capacidad_m3,tara_kg=excluded.tara_kg,anio=excluded.anio,activo=true;']
+    return vehiculos + [
+        'CREATE TEMP TABLE sim_pc (id text, prog text, orden int, nombre text, hora text, base text, lon float8, lat float8) ON COMMIT DROP;',
+        csv_block('sim_pc', ['id', 'prog', 'orden', 'nombre', 'hora', 'base', 'lon', 'lat'],
+                  [(p['id'], p['prog'], p['orden'], p['nombre'], hhmm(p['min'] % 1440), p['base'], *lonlat(p['x'], p['y']))
+                   for p in op['puntos']]),
+        'INSERT INTO bagua_master.ruta_punto_control(id,programacion_id,orden,nombre,hora_programada,base,geom) '
+        'SELECT id,prog,orden,nombre,hora::time,base,ST_SetSRID(ST_MakePoint(lon,lat),4326) FROM sim_pc;',
+        csv_block('gestion.ruta_ejecucion', ['id', 'programacion_id', 'ruta_codigo', 'servicio', 'fecha', 'vehiculo',
+                                             'conductor_id', 'estado', 'motivo_interrupcion', 'clave', 'creado_en'],
+                  [(e['id'], e['prog'], e['ruta'], e['servicio'], e['fecha'], e['vehiculo'], e['conductor'], e['estado'],
+                    e['motivo'], e['clave'], e['creado']) for e in op['ejecuciones']]),
+        'CREATE TEMP TABLE sim_ev (id uuid, ejecucion uuid, tipo text, momento timestamptz, punto text, destino text,'
+        ' lon float8, lat float8, precision real, clave uuid, registrado timestamptz) ON COMMIT DROP;',
+        csv_block('sim_ev', ['id', 'ejecucion', 'tipo', 'momento', 'punto', 'destino', 'lon', 'lat', 'precision', 'clave', 'registrado'],
+                  [(e['id'], e['ejecucion'], e['tipo'], e['momento'], e['punto'], e['destino'], e['lon'], e['lat'],
+                    e['precision'], e['clave'], e['registrado']) for e in op['eventos']]),
+        'INSERT INTO gestion.ruta_evento(id,ejecucion_id,tipo,momento,punto_id,destino,geom,precision_m,clave,registrado_en) '
+        'SELECT id,ejecucion,tipo,momento,punto,destino,CASE WHEN lon IS NULL THEN NULL ELSE ST_SetSRID(ST_MakePoint(lon,lat),4326) END,'
+        'precision,clave,registrado FROM sim_ev;',
+        csv_block('gestion.pesaje', ['id', 'ejecucion_id', 'destino', 'fecha', 'hora', 'ticket', 'vehiculo', 'peso_bruto_kg',
+                                     'tara_kg', 'registrado_por', 'creado_en'],
+                  [(w['id'], w['ejecucion'], 'relleno', w['fecha'], w['hora'], w['ticket'], w['vehiculo'], w['bruto'], w['tara'],
+                    op['balanza'], w['creado']) for w in op['pesajes']]),
+        csv_block('bagua_master.aviso_servicio', ['id', 'tipo', 'titulo', 'mensaje', 'programaciones', 'desde', 'hasta',
+                                                  'origen', 'publicado_por', 'creado_en'],
+                  [(a['id'], a['tipo'], a['titulo'], a['mensaje'], pg_array(a['progs']), a['desde'], a['hasta'], 'simulacion',
+                    admin_id, f"{a['creado']} 10:00:00-05") for a in op['avisos']]),
+        csv_block('bagua_master.ruta_programacion_cambio', ['id', 'programacion_id', 'anterior', 'nuevo', 'motivo', 'desde',
+                                                            'origen', 'usuario_id', 'creado_en'],
+                  [(c['id'], c['prog'], json.dumps(c['anterior'], ensure_ascii=False), json.dumps(c['nuevo'], ensure_ascii=False),
+                    c['motivo'], c['desde'], 'simulacion', admin_id, f"{c['desde'] - dt.timedelta(days=3)} 11:00:00-05")
+                   for c in op['cambios']]),
+    ]
 
 
 if __name__ == '__main__':

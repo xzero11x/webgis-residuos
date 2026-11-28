@@ -36,6 +36,12 @@ const baguaMasterRoutes: RouteObject[] = baguaMasterEnabled
         errorElement: pageError,
       },
       {
+        // Resumen del mes para el concejo: página imprimible, fuera de la carcasa.
+        path: '/bagua-master/concejo/:mes',
+        lazy: space(() => import('@/features/cierre/concejo'), 'ConcejoPage'),
+        errorElement: pageError,
+      },
+      {
         // Enlace anterior; la gestión ya no es una pantalla aparte.
         path: '/bagua-master/gestion',
         lazy: () => import('@/features/gestion/gestion-page'),
@@ -80,6 +86,21 @@ const baguaMasterRoutes: RouteObject[] = baguaMasterEnabled
           {
             path: 'campo',
             lazy: space(() => import('@/features/product/campo'), 'CampoPage'),
+            errorElement: pageError,
+          },
+          {
+            path: 'campo/ruta',
+            lazy: space(() => import('@/features/operacion/chofer'), 'ChoferPage'),
+            errorElement: pageError,
+          },
+          {
+            path: 'ayuda',
+            lazy: space(() => import('@/features/ayuda/ayuda'), 'AyudaPage'),
+            errorElement: pageError,
+          },
+          {
+            path: 'operacion',
+            lazy: space(() => import('@/features/operacion/operacion-page'), 'OperacionPage'),
             errorElement: pageError,
           },
           {

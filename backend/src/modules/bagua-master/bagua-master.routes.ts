@@ -107,6 +107,12 @@ export function createBaguaMasterRouter(repository: BaguaMasterRepository, dataD
     res.setHeader('Cache-Control', 'public, max-age=300');
     res.json(data);
   });
+  // Avisos vigentes y próximos (dos semanas): suspensiones, cambios de horario e informativos.
+  router.get('/servicio/avisos', async (_req, res) => {
+    const data = await repository.serviceNotices();
+    res.setHeader('Cache-Control', 'public, max-age=120');
+    res.json(data);
+  });
   router.get('/servicio/consulta', async (req, res) => {
     const { lon, lat } = z
       .object({

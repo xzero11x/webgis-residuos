@@ -3,12 +3,18 @@
   "personas": 1370,
   "vinculos": 1475,
   "participaciones": 900,
-  "visitas": 25243,
-  "entregas": 26410,
+  "visitas": 26094,
+  "entregas": 27246,
   "valorizaciones": 90,
-  "infraestructura": 24,
+  "infraestructura": 25,
   "programaciones": 10,
   "tiempos_de_paso": 406,
   "codigos_qr": 728,
-  "kg_registrados": 48384
+  "kg_registrados": 49693,
+  "puntos_control": 142,
+  "ejecuciones": 224,
+  "eventos_ruta": 3055,
+  "tickets_balanza": 642,
+  "t_pesadas": 2324.5,
+  "hoy": "2026-11-27"
 }

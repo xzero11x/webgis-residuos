@@ -6,6 +6,46 @@ ver el último corte «Producto visible y recorridos reales». Los cierres técn
 anteriores son evidencia histórica, no sustituyen validación de usabilidad ni
 aceptación municipal. Los registros administrativos de prueba son sintéticos.
 
+## Producto completo con simulación realista · 27/11/2026
+
+Por indicación del gerente, el producto se termina sin esperar la información oficial; lo real se
+carga después sin cambiar la interfaz. Detalle en [operación del servicio](operacion-servicio.md).
+Rama `feat/operacion-servicio`.
+
+- [x] Ejecución de rutas (migración 038): puntos de control con la hora del plano real, pantalla del
+      chofer con tres botones (Salí, Pasé por aquí, Llegué) y registro sin señal; tickets de balanza
+      en la oficina con la tara del vehículo.
+- [x] Tablero diario del supervisor: rutas por estado, alertas (sin salida, atraso, interrumpida, no
+      salió, ticket pendiente), mapa con cada ruta por estado y la última posición, últimos 7 días;
+      cumplimiento por ruta con el recorrido punto por punto.
+- [x] Hora habitual al vecino: la consulta del mapa, el expediente y el sticker QR muestran la hora
+      real (atraso mediano de las últimas 8 semanas en el punto de control más cercano).
+- [x] Avisos y ajustes (039): suspensiones, cambios de horario e informativos que llegan al vecino,
+      al chofer y al promotor; cambios de programación con motivo, historial y aviso automático.
+- [x] Cierre del mes (040): pendientes antes de cerrar, foto de las cifras, bloqueo de registros del
+      mes cerrado y reapertura con motivo; reporte para SIGERSOL (CSV, mes o año) y resumen
+      imprimible para el concejo. Octubre de 2026 cerrado en la demostración.
+- [x] Carga del padrón (041): Excel o CSV leído en el navegador, columnas reconocidas, validación fila
+      por fila, corrección en la tabla, ubicación por vecinos de la misma calle, lote reversible.
+      Probado con un Excel sintético de 42 filas: 3 errores sembrados detectados, corregidos,
+      cargados y revertidos sin dejar rastro.
+- [x] Empadronamiento en campo: vivienda en el mapa, representante, programa, consentimiento (Ley
+      29733), código de padrón y sticker en el acto. Visitas del promotor sin señal.
+- [x] Recicladores (Ley 29419): registro municipal con vigencia, socios con carnet, capacitación,
+      vacunas y EPP; registro de comprobantes de valorización.
+- [x] Ayuda dentro de la aplicación: manual corto por rol y preguntas frecuentes.
+- [x] Nombres de ruta sin avisos de duda (042).
+- [x] Simulación (solo local/test): 224 recorridos con 3 055 registros del chofer desde el piloto,
+      642 tickets de balanza (≈ 350 t por mes), 5 avisos, 15 socios recicladores; no pisa rutas
+      registradas de verdad.
+- [x] Pruebas: 187 unitarias; nueva E2E `bagua-operacion-diaria`. E2E completo contra `:8080` con
+      imágenes reconstruidas, en escritorio, tableta y móvil: 137 aprobadas, 0 fallos (181 omitidas
+      por diseño). Probado a mano en el navegador: chofer (salida, paso, llegada, corte de señal y
+      reenvío), cierre de octubre, resumen para el concejo, carga y reversión del padrón,
+      inscripción en campo con sticker.
+- [ ] Pendiente con la Gerencia: validar los supuestos críticos (horarios, pesaje, padrón vigente),
+      ubicación real del relleno y vehículos con su tara; separar el servidor de demostración del real.
+
 ## Stickers QR del predio · 22/11/2026
 
 Detalle en [operación del servicio](operacion-servicio.md#stickers-qr-del-predio).

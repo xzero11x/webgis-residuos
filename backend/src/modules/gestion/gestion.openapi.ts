@@ -8,6 +8,10 @@ import { deliveryCorrection } from './gestion.delivery-corrections.js';
 import { mapCorrectionAnnul, mapCorrectionInput } from './gestion.map-corrections.js';
 import { valorizationInput, visitInput } from './gestion.operacion.js';
 import { qrBatchInput, qrRevokeInput } from './gestion.qr.js';
+import { eventInput, startInput, weighingInput } from './gestion.ejecucion.js';
+import { noticeInput, scheduleChange } from './gestion.avisos.js';
+import { importInput } from './gestion.padron.js';
+import { actorUpdate, memberInput } from './gestion.recicladores.js';
 import {
   predioInput,
   predioUpdate,
@@ -524,5 +528,117 @@ export const gestionPaths = {
         { in: 'path', name: 'unidad', required: true, schema: { type: 'string', format: 'uuid' } },
       ],
     },
+  },
+
+  // ---------------------------------------------------------------- ejecución de rutas y pesaje
+  '/gestion/ruta/dia': {
+    get: op('Rutas programadas de un día con puntos de control, ejecución y avisos'),
+  },
+  '/gestion/ruta/salida': {
+    post: op(
+      'Salida de la ruta (idempotente por clave; la clave identifica la ejecución sin señal)',
+      startInput,
+    ),
+  },
+  '/gestion/ruta/ejecuciones/{id}/eventos': {
+    post: op(
+      'Paso por un punto de control o llegada al destino; {id} es el id o la clave de la salida',
+      eventInput,
+      true,
+    ),
+  },
+  '/gestion/ruta/ejecuciones/{id}/interrumpir': {
+    post: op(
+      'Interrumpir la ruta con motivo (avería, lluvia, calle bloqueada)',
+      z.object({ motivo: z.string().min(3) }),
+      true,
+    ),
+  },
+  '/gestion/ruta/ejecuciones/{id}/reanudar': {
+    post: op('Reanudar una ruta interrumpida', z.object({}), true),
+  },
+  '/gestion/ruta/ejecuciones/{id}/anular': {
+    post: op(
+      'Anular una ejecución con motivo; solo administración',
+      z.object({ motivo: z.string().min(5) }),
+      true,
+    ),
+  },
+  '/gestion/operacion/dia': {
+    get: op('Tablero del día: rutas por situación, alertas, últimos 7 días, visitas y avisos'),
+  },
+  '/gestion/operacion/ejecuciones': { get: op('Recorridos registrados en un periodo') },
+  '/gestion/operacion/ejecuciones/{id}': {
+    get: op('Recorrido punto por punto con hora programada y real', undefined, true),
+  },
+  '/gestion/operacion/cumplimiento': {
+    get: op('Cumplimiento por programación: programadas, terminadas, puntualidad, toneladas'),
+  },
+  '/gestion/vehiculos': { get: op('Vehículos del servicio con su tara') },
+  '/gestion/pesajes': {
+    get: op('Tickets de balanza y llegadas al relleno sin ticket'),
+    post: op('Registrar un ticket de balanza (bruto, tara y neto)', weighingInput),
+  },
+  '/gestion/pesajes/{id}/anular': {
+    post: op('Anular un ticket con motivo', z.object({ motivo: z.string().min(5) }), true),
+  },
+  // ---------------------------------------------------------------- avisos y programación
+  '/gestion/avisos': {
+    get: op('Avisos del servicio recientes, vigentes y próximos'),
+    post: op('Publicar un aviso al vecino, al chofer y al promotor', noticeInput),
+  },
+  '/gestion/avisos/{id}/retirar': {
+    post: op('Retirar un aviso con motivo', z.object({ motivo: z.string().min(5) }), true),
+  },
+  '/gestion/programaciones': { get: op('Programación de rutas con historial de cambios') },
+  '/gestion/programaciones/{id}': {
+    put: op(
+      'Cambiar días, horario, vehículo o sectores con motivo y aviso opcional; solo administración',
+      scheduleChange,
+      true,
+    ),
+  },
+  // ---------------------------------------------------------------- cierre del mes y reportes
+  '/gestion/periodos': { get: op('Meses con su estado de cierre') },
+  '/gestion/periodos/{mes}': { get: op('Cifras y pendientes del mes (o la foto si está cerrado)') },
+  '/gestion/periodos/{mes}/cerrar': {
+    post: op(
+      'Cerrar el mes; con pendientes importantes exige observaciones',
+      z.object({ observaciones: z.string().max(1000) }),
+    ),
+  },
+  '/gestion/periodos/{mes}/reabrir': {
+    post: op('Reabrir un mes cerrado con motivo', z.object({ motivo: z.string().min(5) })),
+  },
+  '/gestion/periodos/{mes}/concejo': {
+    get: op('Resumen del mes para el concejo, con el mes anterior'),
+  },
+  '/gestion/reportes/sigersol.csv': {
+    get: op('Reporte para SIGERSOL Municipal de uno o varios meses (CSV)'),
+  },
+  // ---------------------------------------------------------------- padrón y empadronamiento
+  '/gestion/padron/importar/validar': {
+    post: op('Validar fila por fila un padrón leído del Excel', importInput),
+  },
+  '/gestion/padron/importar/aplicar': {
+    post: op('Cargar el padrón validado (sin errores)', importInput),
+  },
+  '/gestion/padron/importaciones': { get: op('Lotes de padrón cargados') },
+  '/gestion/padron/importaciones/{id}/revertir': {
+    post: op('Revertir un lote sin visitas', z.object({ motivo: z.string().min(5) }), true),
+  },
+  '/gestion/empadronamiento': {
+    post: op('Empadronar en campo: predio, representante, programa, consentimiento y sticker'),
+  },
+  // ---------------------------------------------------------------- recicladores
+  '/gestion/recicladores/actores': {
+    get: op('Actores de valorización con su formalización y socios'),
+  },
+  '/gestion/recicladores/actores/{id}': {
+    put: op('Actualizar RUC y registro municipal; solo administración', actorUpdate, true),
+  },
+  '/gestion/recicladores/actores/{id}/socios': {
+    get: op('Socios de una asociación (documento enmascarado)', undefined, true),
+    post: op('Registrar un socio reciclador', memberInput, true),
   },
 };

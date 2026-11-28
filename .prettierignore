@@ -21,3 +21,6 @@ VISION_ENTORNO_GEOGRAFICO_INTEGRADO.md
 PLAN_EJECUCION_BAGUA_MASTER_SIN_RENTAS.md
 MISION_CODEX_FINALIZAR_WEBGIS_BAGUA.md
 CRITERIOS_ACEPTACION_CODEX.md
+
+# Datos procesados del mapa (generados por los scripts de bagua-master).
+data/bagua-master

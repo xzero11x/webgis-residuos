@@ -1,0 +1,50 @@
+/* Ayuda y manual corto (ay-*). */
+
+.ay {
+  display: grid;
+  gap: 10px;
+}
+.ay h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.ay-resumen {
+  margin: 0;
+  color: var(--muted-foreground);
+}
+.ay-pasos {
+  margin: 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.ay-pasos a {
+  font-size: 13px;
+  color: var(--status-verified-fg);
+}
+.ay-nota {
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--status-verified-bg);
+  color: var(--status-verified-fg);
+  font-size: 14px;
+}
+.ay-faq {
+  border-top: 1px solid var(--border);
+  padding: 10px 0;
+}
+.ay-faq summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+.ay-faq p {
+  margin: 8px 0 0;
+  color: var(--muted-foreground);
+  line-height: 1.55;
+}
+.ay-roles {
+  flex-wrap: wrap;
+}

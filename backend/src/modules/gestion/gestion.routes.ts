@@ -17,6 +17,11 @@ import { createImportReversalRouter } from './gestion.import-reversal.js';
 import { createMapCorrectionsRouter } from './gestion.map-corrections.js';
 import { createOperationRouter } from './gestion.operacion.js';
 import { createQrRouter } from './gestion.qr.js';
+import { createExecutionRouter } from './gestion.ejecucion.js';
+import { createNoticesRouter } from './gestion.avisos.js';
+import { createClosingRouter } from './gestion.cierre.js';
+import { createPadronRouter } from './gestion.padron.js';
+import { createRecyclersRouter } from './gestion.recicladores.js';
 import { AppError } from '../../shared/app-error.js';
 import { env } from '../../config/env.js';
 import { assertFixtureTarget, fixtureTargetConfigured } from '../../db/fixture-target.js';
@@ -109,6 +114,11 @@ export function createGestionRouter(pool: Pool) {
   router.use(createImportReversalRouter(pool));
   router.use(createOperationRouter(pool, auth));
   router.use(createQrRouter(pool, auth));
+  router.use(createExecutionRouter(pool, auth));
+  router.use(createNoticesRouter(pool, auth));
+  router.use(createClosingRouter(pool, auth));
+  router.use(createPadronRouter(pool, auth));
+  router.use(createRecyclersRouter(pool, auth));
   router.get('/predios/:id', async (req, res) =>
     res.json(await repo.detail(z.uuid().parse(req.params.id), res.locals.user)),
   );

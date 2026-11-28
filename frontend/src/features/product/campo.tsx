@@ -1,13 +1,26 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Check, Clock3, QrCode as QrIcon, ScanLine, Search, UserX, X } from 'lucide-react';
+import {
+  Check,
+  Clock3,
+  CloudOff,
+  QrCode as QrIcon,
+  ScanLine,
+  Search,
+  Truck,
+  UserPlus,
+  UserX,
+  X,
+} from 'lucide-react';
 import { management, type User } from '@/features/gestion/api';
 import { formatDays } from '@/features/bagua-master/components/service-format';
 import { SessionGate } from './session';
 import { DeliveryForm } from './delivery-form';
 import { QrScanner } from '@/features/qr/qr-scanner';
 import { QrVisit } from '@/features/qr/qr-visit';
+import { Empadronar } from '@/features/padron/empadronar';
+import { enqueue, isOffline, useQueue } from '@/lib/cola-envios';
 
 // Recorrido de campo: lista del día por hora estimada de paso y registro de la visita en uno o dos
 // toques (entregó con materiales y kilos, no entregó o ausente). Pensado para el celular.
@@ -65,34 +78,85 @@ function Campo({ user }: { user: User }) {
   const [open, setOpen] = useState<string | null>(null);
   const [params, setParams] = useSearchParams();
   const [scanning, setScanning] = useState(false);
+  const [enrolling, setEnrolling] = useState(false);
+  const send = useCallback((path: string, body: unknown) => management(path, 'POST', body), []);
+  const queue = useQueue(send);
+  const group = `campo:${kind}:${date}`;
+  // Visitas registradas sin señal: se ven como hechas y se envían solas al volver la conexión.
+  const pendingVisits = useMemo(
+    () =>
+      new Map(
+        queue.pendientes
+          .filter((item) => item.grupo === group)
+          .map((item) => {
+            const body = item.body as { participacionId: string; resultado: Result };
+            return [body.participacionId, body.resultado] as const;
+          }),
+      ),
+    [queue.pendientes, group],
+  );
   const qrCode = params.get('qr');
   const qrVia = params.get('via') === 'codigo' ? 'codigo' : 'qr';
   const client = useQueryClient();
   const readOnly = user.rol === 'consulta';
+  const cacheKey = `bagua-campo-${kind}-${date}`;
   const query = useQuery({
     queryKey: ['gestion', 'campo', kind, date],
-    queryFn: ({ signal }) =>
-      management<Route>(
+    queryFn: async ({ signal }) => {
+      const data = await management<Route>(
         `/campo?${new URLSearchParams({ servicio: kind, fecha: date })}`,
         'GET',
         undefined,
         signal,
-      ),
+      );
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+      } catch {
+        /* sin almacenamiento: el recorrido no queda guardado para usarlo sin señal */
+      }
+      return data;
+    },
+    initialData: () => {
+      try {
+        const raw = localStorage.getItem(cacheKey);
+        return raw ? (JSON.parse(raw) as Route) : undefined;
+      } catch {
+        return undefined;
+      }
+    },
     enabled: !readOnly,
     retry: false,
   });
   const save = useMutation({
-    mutationFn: (body: {
+    mutationFn: async (body: {
       participacionId: string;
       resultado: Result;
       entregas: { material: string; cantidad: number | null }[];
-    }) =>
-      management('/visitas', 'POST', {
+    }) => {
+      const full = {
         clave: crypto.randomUUID(),
         fecha: date,
         observaciones: '',
+        origen: 'lista',
         ...body,
-      }),
+      };
+      try {
+        return await management('/visitas', 'POST', full);
+      } catch (error) {
+        if (!isOffline(error)) throw error;
+        const who = query.data?.participantes.find(
+          (p) => p.participacionId === body.participacionId,
+        );
+        enqueue({
+          id: full.clave,
+          grupo: group,
+          path: '/visitas',
+          label: `Visita a ${who?.direccion ?? 'participante'} · ${RESULT_LABEL[body.resultado]}`,
+          body: full,
+        });
+        return null;
+      }
+    },
     onSuccess: () => {
       setOpen(null);
       void client.invalidateQueries({ queryKey: ['gestion', 'campo', kind, date] });
@@ -118,8 +182,10 @@ function Campo({ user }: { user: User }) {
         )
       : people;
   }, [people, filter]);
-  const done = people.filter((p) => p.resultado).length;
-  const delivered = people.filter((p) => p.resultado === 'entrego').length;
+  const done = people.filter((p) => p.resultado || pendingVisits.has(p.participacionId)).length;
+  const delivered = people.filter(
+    (p) => (p.resultado ?? pendingVisits.get(p.participacionId)) === 'entrego',
+  ).length;
 
   if (readOnly)
     return (
@@ -168,7 +234,28 @@ function Campo({ user }: { user: User }) {
             <Link to="/bagua-master/campo/etiquetas" className="cp-stickers">
               <QrIcon size={15} aria-hidden="true" /> Stickers
             </Link>
+            <Link
+              to="/bagua-master/campo/ruta"
+              className="cp-stickers"
+              data-testid="cp-ruta-vehiculo"
+            >
+              <Truck size={15} aria-hidden="true" /> Ruta del vehículo
+            </Link>
+            <button
+              type="button"
+              className="cp-stickers"
+              onClick={() => setEnrolling(true)}
+              data-testid="cp-inscribir"
+            >
+              <UserPlus size={15} aria-hidden="true" /> Inscribir vecino
+            </button>
           </div>
+          {queue.pendientes.length > 0 && (
+            <p className="cp-programa" role="status" data-testid="cp-cola">
+              <CloudOff size={14} aria-hidden="true" /> {queue.pendientes.length} registro(s) sin
+              señal: se enviarán solos al volver la conexión.
+            </p>
+          )}
           {query.data?.programas.map((p) => (
             <p key={p.id} className="cp-programa">
               <Clock3 size={14} aria-hidden="true" /> {p.nombre} · {p.rutaNombre.split(' · ')[0]} ·{' '}
@@ -190,6 +277,7 @@ function Campo({ user }: { user: User }) {
             }}
           />
         )}
+        <Empadronar open={enrolling} onClose={() => setEnrolling(false)} initialKind={kind} />
         {qrCode && (
           <QrVisit
             code={qrCode}
@@ -265,7 +353,13 @@ function Campo({ user }: { user: User }) {
                       </span>
                     </div>
                   </div>
-                  {p.resultado ? (
+                  {!p.resultado && pendingVisits.has(p.participacionId) ? (
+                    <div className="cp-hecho">
+                      <span className="pr-chip is-warn">
+                        {RESULT_LABEL[pendingVisits.get(p.participacionId)!]} · por enviar
+                      </span>
+                    </div>
+                  ) : p.resultado ? (
                     <div className="cp-hecho">
                       <span className={`pr-chip ${p.resultado === 'entrego' ? 'is-violet' : ''}`}>
                         {RESULT_LABEL[p.resultado]}

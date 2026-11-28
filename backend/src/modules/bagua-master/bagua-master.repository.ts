@@ -190,14 +190,38 @@ export function createBaguaMasterRepository(pool: Pool) {
       );
       return { programaciones: result.rows };
     },
+    /** Avisos del servicio vigentes o que empiezan en las próximas dos semanas. */
+    async serviceNotices() {
+      const result = await pool.query(
+        `SELECT id,tipo,titulo,mensaje,programaciones,desde::text,hasta::text FROM bagua_master.aviso_servicio
+         WHERE NOT retirado AND hasta >= (now() AT TIME ZONE 'America/Lima')::date
+           AND desde <= (now() AT TIME ZONE 'America/Lima')::date + 14
+         ORDER BY desde,creado_en`,
+      );
+      return { avisos: result.rows };
+    },
     /** Servicios que pasan por un punto y hora estimada de paso (función bagua_master.recoleccion_en_punto). */
     async serviceAt(lon: number, lat: number) {
+      // La hora habitual suma a la hora estimada el atraso mediano observado en el punto de control
+      // más cercano durante las últimas semanas (solo con al menos 3 recorridos registrados).
       const result = await pool.query(
-        `SELECT programacion_id AS id,ruta_codigo AS ruta,ruta_nombre AS "rutaNombre",color,servicio,nombre,dias,
-                to_char(hora_inicio,'HH24:MI') AS "horaInicio",to_char(hora_fin,'HH24:MI') AS "horaFin",turno,
-                operador,vehiculo,distancia_m::float8 AS "distanciaM",
-                to_char(hora_estimada,'HH24:MI') AS "horaEstimada",base
-         FROM bagua_master.recoleccion_en_punto(ST_SetSRID(ST_MakePoint($1,$2),4326))`,
+        `WITH pt AS (SELECT ST_SetSRID(ST_MakePoint($1,$2),4326) AS g)
+         SELECT x.programacion_id AS id,x.ruta_codigo AS ruta,x.ruta_nombre AS "rutaNombre",x.color,x.servicio,x.nombre,x.dias,
+                to_char(x.hora_inicio,'HH24:MI') AS "horaInicio",to_char(x.hora_fin,'HH24:MI') AS "horaFin",x.turno,
+                x.operador,x.vehiculo,x.distancia_m::float8 AS "distanciaM",
+                to_char(x.hora_estimada,'HH24:MI') AS "horaEstimada",x.base,
+                CASE WHEN a.recorridos >= 3 THEN to_char(('2000-01-01'::timestamp + make_interval(secs =>
+                  round(extract(epoch FROM x.hora_estimada + make_interval(mins => a.minutos)) / 300) * 300))::time,'HH24:MI') END AS "horaHabitual",
+                coalesce(a.recorridos,0) AS recorridos,
+                (SELECT coalesce(json_agg(json_build_object('id',v.id,'tipo',v.tipo,'titulo',v.titulo,'mensaje',v.mensaje,
+                    'desde',v.desde,'hasta',v.hasta) ORDER BY v.desde),'[]')
+                   FROM bagua_master.aviso_servicio v
+                  WHERE NOT v.retirado AND v.hasta >= (now() AT TIME ZONE 'America/Lima')::date
+                    AND v.desde <= (now() AT TIME ZONE 'America/Lima')::date + 14
+                    AND (cardinality(v.programaciones)=0 OR x.programacion_id=ANY(v.programaciones))) AS avisos
+         FROM pt CROSS JOIN LATERAL bagua_master.recoleccion_en_punto(pt.g) x
+         LEFT JOIN LATERAL bagua_master.atraso_habitual(x.programacion_id, pt.g) a ON true
+         ORDER BY x.servicio,x.hora_estimada`,
         [lon, lat],
       );
       return { servicios: result.rows };
